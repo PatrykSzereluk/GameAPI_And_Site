@@ -3,10 +3,14 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GameWebApi.Models.Features.Identity
@@ -15,12 +19,12 @@ namespace GameWebApi.Models.Features.Identity
     {
         private readonly GameDBContext _context;
         private IConfiguration _configuration;
-        private readonly IOptions<ApplicationSettings> _applicationSettings;
+        private readonly ApplicationSettings _applicationSettings;
         public IdentityService(IConfiguration config,
             GameDBContext ctx,
             IOptions<ApplicationSettings> applicationSettings)
         {
-            _applicationSettings = applicationSettings;
+            _applicationSettings = applicationSettings.Value;
             _configuration = config;
             _context = ctx;
         }
@@ -59,15 +63,33 @@ namespace GameWebApi.Models.Features.Identity
 
         public async Task<UserLoginResponse> Login(UserInfo userInfo)
         {
-            var z = _applicationSettings;
 
-            if (userInfo.Login != null && userInfo.Password != null)
+            if (userInfo.Login == null && userInfo.Password == null)
             {
-                var user = await GetUser(userInfo.Login, userInfo.Password);
-                if (user != null)
-                    return new UserLoginResponse{ PlayerId = user.Id, PlayerNickName = user.Nick};
+                return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
             }
-            return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" }; ;
+
+            var user = await GetUser(userInfo.Login, userInfo.Password);
+          
+            if(user == null) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
+
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[] {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var encryptToken = tokenHandler.WriteToken(token);
+
+            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken };
         }
 
         private async Task<PlayerIdentity> GetUser(string login, string password)

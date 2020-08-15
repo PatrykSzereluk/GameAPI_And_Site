@@ -87,6 +87,8 @@ namespace GameWebApi
                 .AllowAnyHeader()
                 .AllowAnyMethod());
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

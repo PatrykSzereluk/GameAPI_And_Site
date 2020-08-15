@@ -27,6 +27,7 @@ namespace GameWebApi.Controllers
             this.identityService = identityService;
         }
 
+        [Route(nameof(Register))]
         [HttpGet]
         public async Task<ActionResult> Register(RegisterRequestModel model)
         {
@@ -47,7 +48,7 @@ namespace GameWebApi.Controllers
             //identityService.Login();
            // return await identityService.Register();
         }
-
+        [Route(nameof(Login))]
         [HttpPost]
        // public async Task<PlayerIdentity> Login(UserInfo userInfo)
         public async Task<UserLoginResponse> Login(UserInfo userInfo)
