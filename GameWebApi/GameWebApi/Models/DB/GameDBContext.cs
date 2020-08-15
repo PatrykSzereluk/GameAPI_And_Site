@@ -1,10 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GameWebApi.Models.DB
 {
     public partial class GameDBContext : DbContext
+    //IdentityDbContext<User>
     {
         public GameDBContext()
         {

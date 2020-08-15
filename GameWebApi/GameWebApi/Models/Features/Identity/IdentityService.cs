@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,9 +14,13 @@ namespace GameWebApi.Models.Features.Identity
     public class IdentityService : IIdentityService
     {
         private readonly GameDBContext _context;
-        public IConfiguration _configuration;
-        public IdentityService(IConfiguration config,GameDBContext ctx)
+        private IConfiguration _configuration;
+        private readonly IOptions<ApplicationSettings> _applicationSettings;
+        public IdentityService(IConfiguration config,
+            GameDBContext ctx,
+            IOptions<ApplicationSettings> applicationSettings)
         {
+            _applicationSettings = applicationSettings;
             _configuration = config;
             _context = ctx;
         }
@@ -38,8 +43,7 @@ namespace GameWebApi.Models.Features.Identity
             var columnNames = reader.GetColumnSchema().Select(t => t.ColumnName).ToList();
 
             var columnNamesd = reader.GetColumnSchema().Select(t => new { Type = t.DataType.FullName, Value = t.ColumnName }).ToList();
-            var z1 = Type.GetType("Int");
-            var z2 = Type.GetType("System.Int32");
+
             var cs = reader.GetColumnSchema();
             while (reader.Read())
             {
@@ -53,14 +57,29 @@ namespace GameWebApi.Models.Features.Identity
             }
         }
 
-        public void Login()
+        public async Task<UserLoginResponse> Login(UserInfo userInfo)
         {
+            var z = _applicationSettings;
 
+            if (userInfo.Login != null && userInfo.Password != null)
+            {
+                var user = await GetUser(userInfo.Login, userInfo.Password);
+                if (user != null)
+                    return new UserLoginResponse{ PlayerId = user.Id, PlayerNickName = user.Nick};
+            }
+            return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" }; ;
         }
+
+        private async Task<PlayerIdentity> GetUser(string login, string password)
+        {
+            return await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Login == login && t.Password == password);
+        }
+
 
         public async Task<IEnumerable<PlayerIdentity>> Register()
         {
-           return await _context.PlayerIdentity.Include(dates => dates.PlayerDates).ToListAsync();
+          // return await _context.PlayerIdentity.Include(dates => dates.PlayerDates).ToListAsync();
+           return await _context.PlayerIdentity.ToListAsync();
         }
     }
 }

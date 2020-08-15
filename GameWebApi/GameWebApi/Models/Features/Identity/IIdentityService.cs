@@ -11,7 +11,7 @@ namespace GameWebApi.Models.Features.Identity
 
         Task<IEnumerable<PlayerIdentity>> Register();
 
-        void Login();
+        Task<UserLoginResponse> Login(UserInfo userInfo);
 
     }
 }
