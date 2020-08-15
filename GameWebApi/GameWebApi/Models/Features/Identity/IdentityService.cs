@@ -1,4 +1,5 @@
 ﻿using GameWebApi.Models.DB;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -98,10 +99,11 @@ namespace GameWebApi.Models.Features.Identity
         }
 
 
-        public async Task<IEnumerable<PlayerIdentity>> Register()
+        public async Task<IEnumerable<PlayerIdentity>> Register(RegisterRequestModel newPlayer)
         {
+           
           // return await _context.PlayerIdentity.Include(dates => dates.PlayerDates).ToListAsync();
-           return await _context.PlayerIdentity.ToListAsync();
+          return await _context.PlayerIdentity.ToListAsync();
         }
     }
 }

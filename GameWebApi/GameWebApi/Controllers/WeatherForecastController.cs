@@ -29,24 +29,9 @@ namespace GameWebApi.Controllers
 
         [Route(nameof(Register))]
         [HttpGet]
-        public async Task<ActionResult> Register(RegisterRequestModel model)
+        public async Task<IEnumerable<PlayerIdentity>> Register(RegisterRequestModel model)
         {
-            var user = new User
-            {
-                Email = model.Email,
-                UserName = model.UserName
-            };
-
-            var result = await this.userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded)
-            {
-                return Ok();
-            }
-
-            return BadRequest(result.Errors);
-            //identityService.Login();
-           // return await identityService.Register();
+            return await identityService.Register(model);
         }
         [Route(nameof(Login))]
         [HttpPost]
