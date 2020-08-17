@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GameWebApi.Managers.Interfaces;
 using GameWebApi.Models.Features.Identity;
 using GameWebApi.Services.Interfaces;
 
@@ -25,13 +26,16 @@ namespace GameWebApi.Services
         private readonly GameDBContext _context;
         private IConfiguration _configuration;
         private readonly ApplicationSettings _applicationSettings;
+        private readonly ISqlManager _sqlManager;
         public IdentityService(IConfiguration config,
             GameDBContext ctx,
-            IOptions<ApplicationSettings> applicationSettings)
+            IOptions<ApplicationSettings> applicationSettings,
+            ISqlManager sqlManager)
         {
             _applicationSettings = applicationSettings.Value;
             _configuration = config;
             _context = ctx;
+            _sqlManager = sqlManager;
         }
 
 
@@ -56,7 +60,7 @@ namespace GameWebApi.Services
             //        var z = ((DataRow)row).ItemArray;
             //    }
             //}
-
+            _sqlManager.ExecuteDataCommand("asd",CommandType.StoredProcedure);
             connection.Open();
             var command = connection.CreateCommand();
             command.CommandType = CommandType.Text;
@@ -83,7 +87,7 @@ namespace GameWebApi.Services
             }
             
 
-            connection.Close();s
+            connection.Close();
         }
 
         public async Task<UserLoginResponse> Login(UserInfo userInfo)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GameWebApi.Managers;
+using GameWebApi.Managers.Interfaces;
 using GameWebApi.Models;
 using GameWebApi.Models.DB;
 using GameWebApi.Models.Features.Identity;
@@ -38,6 +40,7 @@ namespace GameWebApi
             services.AddDbContext<GameDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DBContext")));
             
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<ISqlManager, SqlManager>();
 
             services
                 .AddIdentity<User, IdentityRole>()
