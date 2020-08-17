@@ -21,10 +21,64 @@ namespace GameWebApi.Managers
         {
            return _configuration.GetConnectionString("DBContext");
         }
-        public void ExecuteDataCommand(string command, CommandType commandType, params SqlParameter[] parameters)
+        public async Task<int> ExecuteDataCommand(string command, CommandType commandType, int? timeout = null, params SqlParameter[] parameters)
         {
-            var z = GetSqlConnection();
-            SqlConnection connection = new SqlConnection(GetSqlConnection());
+
+            SqlConnection connection = null;
+
+            try
+            {
+                connection = new SqlConnection(GetSqlConnection());
+                using (var sqlCommand = connection.CreateCommand())
+                {
+                    sqlCommand.CommandText = command;
+                    sqlCommand.CommandType = commandType;
+                    sqlCommand.Parameters.AddRange(parameters);
+                    sqlCommand.CommandTimeout = 3000;
+
+                    if (timeout.HasValue)
+                    {
+                        sqlCommand.CommandTimeout = timeout.Value;
+                    }
+
+                    using (var sqlReader = await sqlCommand.ExecuteReaderAsync())
+                    {
+                        // Add new table
+                        do
+                        {
+                            var columSchema = sqlReader.GetColumnSchema();
+                            if (columSchema == null) throw new Exception("Table schema does not contain data");
+                            var columns = columSchema.Select(t => new { Type = t.DataType.FullName, Value = t.ColumnName }).ToList();
+
+                            while (sqlReader.Read()) // Read the row
+                            {
+                                foreach (var column in columns) // Read single value
+                                {
+                                    var z = sqlReader[column.Value];
+                                }
+                            }
+
+
+                        } while (sqlReader.NextResultAsync().Result); // Get next table
+                    }
+
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                connection?.CloseAsync();
+            }
+
+            return 6;
+
         }
     }
 }

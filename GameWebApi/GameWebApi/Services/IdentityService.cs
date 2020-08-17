@@ -60,7 +60,7 @@ namespace GameWebApi.Services
             //        var z = ((DataRow)row).ItemArray;
             //    }
             //}
-            _sqlManager.ExecuteDataCommand("asd",CommandType.StoredProcedure);
+            _sqlManager.ExecuteDataCommand("SELECT * FROM Common.PlayerIdentity", CommandType.Text);
             connection.Open();
             var command = connection.CreateCommand();
             command.CommandType = CommandType.Text;

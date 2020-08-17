@@ -9,6 +9,7 @@ namespace GameWebApi.Managers.Interfaces
 {
     public interface ISqlManager
     {
-        void ExecuteDataCommand(string command, CommandType commandType, params SqlParameter[] parameters);
+        Task<int> ExecuteDataCommand(string command, CommandType commandType, int? timeout = null,
+            params SqlParameter[] parameters);
     }
 }
