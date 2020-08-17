@@ -29,6 +29,7 @@ namespace GameWebApi.Managers
             try
             {
                 connection = new SqlConnection(GetSqlConnection());
+                await connection.OpenAsync();
                 using (var sqlCommand = connection.CreateCommand())
                 {
                     sqlCommand.CommandText = command;
