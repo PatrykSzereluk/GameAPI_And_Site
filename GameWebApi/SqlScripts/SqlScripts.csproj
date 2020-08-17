@@ -5,11 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CheckUserNick.sql" />
+    <None Remove="DeleteAllForeignKeys.sql" />
+    <None Remove="DropAllTables.sql" />
     <None Remove="RegisterNewUser.sql" />
+    <None Remove="Tables\1.PlayerIdentity.sql" />
+    <None Remove="Tables\2.Salt.sql" />
+    <None Remove="Unninstall.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="RegisterNewUser.sql" />
+    <Compile Include="Tables\1.PlayerIdentity.sql" />
+    <Compile Include="Tables\2.Salt.sql" />
+    <Compile Include="Procedures\Unninstall.sql" />
+    <Compile Include="Procedures\DeleteAllForeignKeys.sql" />
+    <Compile Include="Procedures\DropAllTables.sql" />
+    <Compile Include="Functions\CheckUserNick.sql" />
+    <Compile Include="Procedures\RegisterNewUser.sql" />
   </ItemGroup>
 
 </Project>

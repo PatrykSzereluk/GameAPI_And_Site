@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using GameWebApi.Models;
 using GameWebApi.Models.DB;
 using GameWebApi.Models.Features.Identity;
+using GameWebApi.Services;
+using GameWebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

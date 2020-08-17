@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GameWebApi.Models;
 using GameWebApi.Models.DB;
 using GameWebApi.Models.Features.Identity;
+using GameWebApi.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -37,7 +38,8 @@ namespace GameWebApi.Controllers
         [HttpPost]
        // public async Task<PlayerIdentity> Login(UserInfo userInfo)
         public async Task<UserLoginResponse> Login(UserInfo userInfo)
-        {
+       {
+           identityService.Login1();
              return await identityService.Login(userInfo);
         }
 

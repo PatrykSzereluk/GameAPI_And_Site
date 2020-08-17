@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameWebApi", "GameWebApi\GameWebApi.csproj", "{5578E094-6480-4AE4-96DD-CC91CDDB665C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlScripts", "SqlScripts\SqlScripts.csproj", "{DEFCB74D-22A7-4380-B118-98EAD1DEC2D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScripts", "SqlScripts\SqlScripts.csproj", "{DEFCB74D-22A7-4380-B118-98EAD1DEC2D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Security", "Security\Security.csproj", "{506A309E-91E2-4262-872C-B4E80F0EC160}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DEFCB74D-22A7-4380-B118-98EAD1DEC2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEFCB74D-22A7-4380-B118-98EAD1DEC2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEFCB74D-22A7-4380-B118-98EAD1DEC2D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{506A309E-91E2-4262-872C-B4E80F0EC160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{506A309E-91E2-4262-872C-B4E80F0EC160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{506A309E-91E2-4262-872C-B4E80F0EC160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{506A309E-91E2-4262-872C-B4E80F0EC160}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
