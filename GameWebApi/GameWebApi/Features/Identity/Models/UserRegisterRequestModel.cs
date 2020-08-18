@@ -1,8 +1,8 @@
-﻿namespace GameWebApi.Models.Features.Identity
+﻿namespace GameWebApi.Models.Features.Identity.Models
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class RegisterRequestModel
+    public class UserRegisterRequestModel
     {
         [Required]
         public string Login { get; set; }

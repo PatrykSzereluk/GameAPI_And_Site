@@ -9,6 +9,7 @@ namespace GameWebApi.Models.DB
         public string Login { get; set; }
         public string Password { get; set; }
         public string Nick { get; set; }
+        public string Email { get; set; }
         public string GameToken { get; set; }
 
         public virtual PlayerDates PlayerDates { get; set; }

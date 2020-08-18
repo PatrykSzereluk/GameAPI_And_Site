@@ -3,7 +3,7 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    public class Encrypter
+    public class Encrypter : IEncrypter
     {
         public string Encrypted(string password)
         {

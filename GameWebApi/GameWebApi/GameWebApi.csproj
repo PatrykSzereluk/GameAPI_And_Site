@@ -16,5 +16,9 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Security\Security.csproj" />
+  </ItemGroup>
+
 
 </Project>

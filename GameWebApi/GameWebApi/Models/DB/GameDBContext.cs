@@ -1,12 +1,10 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace GameWebApi.Models.DB
 {
     public partial class GameDBContext : DbContext
-    //IdentityDbContext<User>
     {
         public GameDBContext()
         {
@@ -19,6 +17,16 @@ namespace GameWebApi.Models.DB
 
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
         public virtual DbSet<PlayerIdentity> PlayerIdentity { get; set; }
+        public virtual DbSet<PlayerSalt> PlayerSalt { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=.;Database=GameDB;Trusted_Connection=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,22 +57,43 @@ namespace GameWebApi.Models.DB
             {
                 entity.ToTable("PlayerIdentity", "Common");
 
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.GameToken)
                     .IsRequired()
-                    .HasMaxLength(256)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Login)
                     .IsRequired()
-                    .HasMaxLength(32)
-                    .IsFixedLength();
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Nick)
                     .IsRequired()
-                    .HasMaxLength(32)
-                    .IsFixedLength();
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Password).IsRequired();
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PlayerSalt>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("PlayerSalt", "Common");
+
+                entity.Property(e => e.Salt).IsRequired();
+
+                entity.HasOne(d => d.Player)
+                    .WithMany()
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Salt_PlayerIdentity1");
             });
 
             OnModelCreatingPartial(modelBuilder);

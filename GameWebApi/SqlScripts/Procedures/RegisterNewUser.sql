@@ -16,15 +16,15 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO Common.PlayerIdentity([Login],[Password],[Nick],[Email],[GameToken])
+	INSERT INTO [Common].[PlayerIdentity]([Login],[Password],[Nick],[Email],[GameToken])
 	VALUES (@Login,@Password,@NickName,@Email,replace(newid(), '-', ''))
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)
 
-	--INSERT INTO Common.PlayerDates ([PlayerId],[ModificationDate],[LastPasswordChangeDate],[CreationDate],[BanDate])
-	--VALUES (@CurrentUserId,GETDATE(),GETDATE(),GETDATE(),NULL)
+	INSERT INTO [Common].[PlayerDates] ([PlayerId],[ModificationDate],[LastPasswordChangeDate],[CreationDate],[BanDate])
+	VALUES (@CurrentUserId,GETDATE(),GETDATE(),GETDATE(),NULL)
 
-	INSERT INTO [Common].[Salt] ([PlayerId],[Salt]) VALUES
+	INSERT INTO [Common].[PlayerSalt] ([PlayerId],[Salt]) VALUES
 	(@CurrentUserId,@SaltHash);
 
 

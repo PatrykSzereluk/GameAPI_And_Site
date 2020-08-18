@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Microsoft.Data.SqlClient;
-
-namespace GameWebApi.Services
+﻿namespace GameWebApi.Features.Identity
 {
     using Models.DB;
     using Microsoft.EntityFrameworkCore;
@@ -15,28 +12,35 @@ namespace GameWebApi.Services
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
-    using Models.Features.Identity;
-    using Interfaces;
     using GameWebApi.Sql.Interfaces;
+    using GameWebApi.Models.Features.Identity.Models;
+    using System.Linq;
+    using Microsoft.Data.SqlClient;
+    using Security;
+    using GameWebApi.Helpers;
 
     public class IdentityService : IIdentityService
     {
         private readonly GameDBContext _context;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly ApplicationSettings _applicationSettings;
         private readonly ISqlManager _sqlManager;
+        private readonly IEncrypter _encrypter;
+
         public IdentityService(IConfiguration config,
             GameDBContext ctx,
             IOptions<ApplicationSettings> applicationSettings,
-            ISqlManager sqlManager)
+            ISqlManager sqlManager,
+            IEncrypter encrypter)
         {
             _applicationSettings = applicationSettings.Value;
             _configuration = config;
             _context = ctx;
             _sqlManager = sqlManager;
+            _encrypter = encrypter;
         }
 
-        public async Task<UserLoginResponse> Login(UserInfo userInfo)
+        public async Task<UserLoginResponse> Login(UserLoginRequest userInfo)
         {
 
             if (userInfo.Login == null && userInfo.Password == null)
@@ -44,10 +48,18 @@ namespace GameWebApi.Services
                 return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
             }
 
-            var user = await GetUser(userInfo.Login, userInfo.Password);
-          
-            if(user == null) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
+            var userId = await GetUserIdByLogin(userInfo.Login);
 
+            if(userId == 0) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
+
+            StringBuilder sb = new StringBuilder(_encrypter.Encrypted(userInfo.Password));
+
+            var salt = await GetSalt(userId);
+            sb.Append(salt.Salt);
+
+            var user = await GetUser(userInfo.Login, sb.ToString());
+
+            if(user == null) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
@@ -67,35 +79,50 @@ namespace GameWebApi.Services
             return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken };
         }
 
+        private async Task<int> GetUserIdByLogin(string login)
+        {
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Login == login);
+            return user != null ? user.Id : 0;
+        }
+
+        private async Task<PlayerSalt> GetSalt(int playerId)
+        {
+            return await _context.PlayerSalt.FirstAsync(t => t.PlayerId == playerId);
+        }
+
         private async Task<PlayerIdentity> GetUser(string login, string password)
         {
             return await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Login == login && t.Password == password);
         }
 
-
-        public async Task<RegisterResponseModel> Register(RegisterRequestModel newPlayer)
+        public async Task<UserRegisterResponseModel> Register(UserRegisterRequestModel newPlayer)
         {
-            RegisterResponseModel returnValue = new RegisterResponseModel {IsSuccess = true};
-
-            List<SqlParameter> parameters = new List<SqlParameter>();
-
-            var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
-            var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = newPlayer.Password};
-            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.UserName};
-            var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
-            var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = "Salt1"};
-
-            parameters.Add(loginParam);
-            parameters.Add(passwordParam);
-            parameters.Add(nickNameParam);
-            parameters.Add(emailParam);
-            parameters.Add(saltHashParam);
+            UserRegisterResponseModel returnValue = new UserRegisterResponseModel {IsSuccess = true};
 
             if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName).Result)
             {
                 returnValue.IsSuccess = false;
                 return returnValue;
             }
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+
+            StringBuilder hashPassword = new StringBuilder(_encrypter.Encrypted(newPlayer.Password));
+            string generateString = default;
+            string salt = _encrypter.Encrypted(generateString.GenerateRandomString(40));
+            hashPassword.Append(salt);
+
+            var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
+            var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
+            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.UserName};
+            var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
+            var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = salt};
+
+            parameters.Add(loginParam);
+            parameters.Add(passwordParam);
+            parameters.Add(nickNameParam);
+            parameters.Add(emailParam);
+            parameters.Add(saltHashParam);
 
             var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 

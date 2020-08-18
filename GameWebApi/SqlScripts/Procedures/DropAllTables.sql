@@ -10,14 +10,9 @@ CREATE PROCEDURE [Tools].[DropAllTables]
 AS
 BEGIN
 
-	DROP TABLE [History].[ArchiveStatistics]
-	DROP TABLE [PlayerInfo].[BanInfo]
-	DROP TABLE [PlayerInfo].[PlayerDates]
-	DROP TABLE [PlayerInfo].[PlayerLoginInfo]
-	DROP TABLE [PlayerInfo].[PlayerStats]
-	DROP TABLE [PlayerInfo].[PlayerStatuses]
-	DROP TABLE [PlayerInfo].[Salt]
-	DROP TABLE [TheGame].[Configuration]
+	DROP TABLE [Common].[PlayerDates]
+	DROP TABLE [Common].[Salt]
+	DROP TABLE [Common].[PlayerIdentity]
 
 END
 GO

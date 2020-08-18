@@ -1,6 +1,6 @@
-﻿namespace GameWebApi.Models.Features.Identity
+﻿namespace GameWebApi.Models.Features.Identity.Models
 {
-    public class UserInfo
+    public class UserLoginRequest
     {
         public string Login { get; set; }
         public string Password { get; set; }

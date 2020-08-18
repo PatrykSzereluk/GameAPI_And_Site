@@ -1,21 +1,16 @@
 namespace GameWebApi
 {
     using System.Text;
-    using Models;
     using Models.DB;
-    using Services;
-    using Services.Interfaces;
-    using Sql.Interfaces;
-    using Sql.Managers;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
+    using GameWebApi.Infrastructure;
 
     public class Startup
     {
@@ -29,9 +24,8 @@ namespace GameWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GameDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DBContext")));
-            
-            services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<ISqlManager, SqlManager>();
+
+            services.AddTransientCollection();
 
             var applicationSettingsConfig = Configuration.GetSection("ApplicationSettings");
 
