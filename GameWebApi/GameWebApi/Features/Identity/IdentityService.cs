@@ -99,7 +99,7 @@
         {
             UserRegisterResponseModel returnValue = new UserRegisterResponseModel {IsSuccess = true};
 
-            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName).Result)
+            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName || t.Email == newPlayer.Email).Result)
             {
                 returnValue.IsSuccess = false;
                 return returnValue;
@@ -127,7 +127,7 @@
             var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 
             var id = dataSet.Elements.First().Rows.First().Elements.First();
-
+            returnValue.PlayerId = (int)id;
             return returnValue;
         }
 
