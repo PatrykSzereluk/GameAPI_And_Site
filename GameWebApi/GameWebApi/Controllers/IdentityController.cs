@@ -10,25 +10,26 @@
     public class IdentityController : ApiController
     {
 
-        private readonly IIdentityService identityService;
+        private readonly IIdentityService _identityService;
 
         public IdentityController(IIdentityService identityService)
         {
-            this.identityService = identityService;
+            this._identityService = identityService;
         }
 
         [Route(nameof(Register))]
         [HttpGet]
         public async Task<IEnumerable<PlayerIdentity>> Register(RegisterRequestModel model)
         {
-            return await identityService.Register(model);
+            return await _identityService.Register(model);
         }
         [Route(nameof(Login))]
         [HttpPost]
         public async Task<UserLoginResponse> Login(UserInfo userInfo)
        {
-           identityService.Login1();
-             return await identityService.Login(userInfo);
+           _identityService.Login1();
+
+          return await _identityService.Login(userInfo);
         }
 
 
