@@ -1,9 +1,8 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
-
-namespace Security
+﻿namespace Security
 {
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class Encrypter
     {
         public string Encrypted(string password)
@@ -17,9 +16,7 @@ namespace Security
                 {
                     strBuilderPass.Append(toEncryptData[i].ToString("x2"));
                 }
-
             }
-
             return strBuilderPass.ToString();
         }
     }

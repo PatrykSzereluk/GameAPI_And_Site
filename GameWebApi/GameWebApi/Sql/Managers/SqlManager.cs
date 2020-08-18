@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using GameWebApi.Managers.Interfaces;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-
-namespace GameWebApi.Managers
+﻿namespace GameWebApi.Sql.Managers
 {
+    using System;
+    using System.Data;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Interfaces;
+    using Microsoft.Data.SqlClient;
+    using Microsoft.Extensions.Configuration;
+
     public class SqlManager : ISqlManager
     {
         private readonly IConfiguration _configuration;
@@ -51,11 +50,11 @@ namespace GameWebApi.Managers
                             if (columSchema == null) throw new Exception("Table schema does not contain data");
                             var columns = columSchema.Select(t => new { Type = t.DataType.FullName, Value = t.ColumnName }).ToList();
 
-                            while (sqlReader.Read()) // Read the row
+                            while (sqlReader.ReadAsync().Result) // Read the row
                             {
                                 foreach (var column in columns) // Read single value
                                 {
-                                    var z = sqlReader[column.Value];
+                                    var z = sqlReader.GetFieldValueAsync<object>(sqlReader.GetOrdinal(column.Value));
                                 }
                             }
 

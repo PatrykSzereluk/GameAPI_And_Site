@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GameWebApi.Models.Features.Identity
+﻿namespace GameWebApi.Models.Features.Identity
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class RegisterRequestModel
     {
         [Required]

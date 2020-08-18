@@ -1,30 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GameWebApi.Managers;
-using GameWebApi.Managers.Interfaces;
-using GameWebApi.Models;
-using GameWebApi.Models.DB;
-using GameWebApi.Models.Features.Identity;
-using GameWebApi.Services;
-using GameWebApi.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-
 namespace GameWebApi
 {
+    using System.Text;
+    using Models;
+    using Models.DB;
+    using Services;
+    using Services.Interfaces;
+    using Sql.Interfaces;
+    using Sql.Managers;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.IdentityModel.Tokens;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -34,17 +26,12 @@ namespace GameWebApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<GameDBContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DBContext")));
             
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ISqlManager, SqlManager>();
-
-            services
-                .AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<GameDBContext>();
 
             var applicationSettingsConfig = Configuration.GetSection("ApplicationSettings");
 
@@ -75,7 +62,6 @@ namespace GameWebApi
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -103,12 +89,3 @@ namespace GameWebApi
         }
     }
 }
-
-
-//,
-//  "Jwt": {
-//    "Key": "MySecretKey",
-//    "Issuer": "GameApi",
-//    "Audience": "Gamers",
-//    "Subject": "Data"
-//  }

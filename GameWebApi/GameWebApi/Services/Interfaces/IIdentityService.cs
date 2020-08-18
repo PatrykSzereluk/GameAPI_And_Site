@@ -1,13 +1,10 @@
-﻿using GameWebApi.Models.DB;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GameWebApi.Models.Features.Identity;
-
-namespace GameWebApi.Services.Interfaces
+﻿namespace GameWebApi.Services.Interfaces
 {
+    using Models.DB;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Models.Features.Identity;
+
     public interface IIdentityService
     {
         void Login1();
