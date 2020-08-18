@@ -18,7 +18,6 @@ namespace GameWebApi.Services
     using Models.Features.Identity;
     using Interfaces;
     using GameWebApi.Sql.Interfaces;
-    using Microsoft.EntityFrameworkCore.Internal;
 
     public class IdentityService : IIdentityService
     {
@@ -92,7 +91,7 @@ namespace GameWebApi.Services
             parameters.Add(emailParam);
             parameters.Add(saltHashParam);
 
-            if (_context.PlayerIdentity.Any(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName))
+            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName).Result)
             {
                 returnValue.IsSuccess = false;
                 return returnValue;
