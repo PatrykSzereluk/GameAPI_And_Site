@@ -8,7 +8,7 @@
     public interface IIdentityService
     {
         void Login1();
-        Task<IEnumerable<PlayerIdentity>> Register(RegisterRequestModel newPlayer);
+        Task<bool> Register(RegisterRequestModel newPlayer);
 
         Task<UserLoginResponse> Login(UserInfo userInfo);
 

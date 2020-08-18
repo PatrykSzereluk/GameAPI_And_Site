@@ -19,7 +19,7 @@
 
         [Route(nameof(Register))]
         [HttpGet]
-        public async Task<IEnumerable<PlayerIdentity>> Register(RegisterRequestModel model)
+        public async Task<bool> Register(RegisterRequestModel model)
         {
             return await _identityService.Register(model);
         }

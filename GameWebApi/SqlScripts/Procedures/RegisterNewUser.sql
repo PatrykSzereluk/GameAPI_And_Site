@@ -7,9 +7,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [Common].[RegisterNewPlayer]
-	@Login NVARCHAR(32),
-	@Password NVARCHAR(MAX),
-	@NickName NVARCHAR(32)
+	@Login		  NVARCHAR(32),
+	@Password	  NVARCHAR(MAX),
+	@NickName	  NVARCHAR(32),
+	@Email		  NVARCHAR(64),
+	@SaltHash	  NVARCHAR(MAX)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -19,9 +21,14 @@ BEGIN
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)
 
-	INSERT INTO Common.PlayerDates ([PlayerId],[ModificationDate],[LastPasswordChangeDate],[CreationDate],[BanDate])
-	VALUES (@CurrentUserId,GETDATE(),GETDATE(),GETDATE(),NULL)
+	--INSERT INTO Common.PlayerDates ([PlayerId],[ModificationDate],[LastPasswordChangeDate],[CreationDate],[BanDate])
+	--VALUES (@CurrentUserId,GETDATE(),GETDATE(),GETDATE(),NULL)
 
+	INSERT INTO [Common].[Salt] ([PlayerId],[Salt]) VALUES
+	(@CurrentUserId,@SaltHash);
+
+
+		SELECT @CurrentUserId 
 
 END
 GO
