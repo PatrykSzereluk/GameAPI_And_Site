@@ -9,7 +9,6 @@
 
     public class IdentityController : ApiController
     {
-
         private readonly IIdentityService _identityService;
 
         public IdentityController(IIdentityService identityService)
@@ -19,20 +18,17 @@
 
         [Route(nameof(Register))]
         [HttpGet]
-        public async Task<bool> Register(RegisterRequestModel model)
+        public async Task<RegisterResponseModel> Register(RegisterRequestModel model)
         {
             return await _identityService.Register(model);
         }
+
         [Route(nameof(Login))]
         [HttpPost]
         public async Task<UserLoginResponse> Login(UserInfo userInfo)
-       {
-           _identityService.Login1();
-
-          return await _identityService.Login(userInfo);
+        {
+           return await _identityService.Login(userInfo);
         }
-
-
     }
 }
 

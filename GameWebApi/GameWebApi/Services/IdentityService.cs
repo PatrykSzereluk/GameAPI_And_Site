@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System.Linq;
+using Microsoft.Data.SqlClient;
 
 namespace GameWebApi.Services
 {
@@ -17,6 +18,7 @@ namespace GameWebApi.Services
     using Models.Features.Identity;
     using Interfaces;
     using GameWebApi.Sql.Interfaces;
+    using Microsoft.EntityFrameworkCore.Internal;
 
     public class IdentityService : IIdentityService
     {
@@ -33,11 +35,6 @@ namespace GameWebApi.Services
             _configuration = config;
             _context = ctx;
             _sqlManager = sqlManager;
-        }
-
-
-        public void Login1()
-        {
         }
 
         public async Task<UserLoginResponse> Login(UserInfo userInfo)
@@ -77,15 +74,17 @@ namespace GameWebApi.Services
         }
 
 
-        public async Task<bool> Register(RegisterRequestModel newPlayer)
+        public async Task<RegisterResponseModel> Register(RegisterRequestModel newPlayer)
         {
+            RegisterResponseModel returnValue = new RegisterResponseModel {IsSuccess = true};
+
             List<SqlParameter> parameters = new List<SqlParameter>();
 
-            SqlParameter loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
-            SqlParameter passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = newPlayer.Password};
-            SqlParameter nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.UserName};
-            SqlParameter emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
-            SqlParameter saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = "Salt1"};
+            var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
+            var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = newPlayer.Password};
+            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.UserName};
+            var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
+            var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = "Salt1"};
 
             parameters.Add(loginParam);
             parameters.Add(passwordParam);
@@ -93,12 +92,18 @@ namespace GameWebApi.Services
             parameters.Add(emailParam);
             parameters.Add(saltHashParam);
 
+            if (_context.PlayerIdentity.Any(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName))
+            {
+                returnValue.IsSuccess = false;
+                return returnValue;
+            }
 
+            var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 
-           // var z = _sqlManager.ExecuteDataCommand("exec [Common].[RegisterNewPlayer] @Login, @Password, @NickName, @Email, @SaltHash", CommandType.StoredProcedure,null,parameters.ToArray()).Result;
-            var z = _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray()).Result;
-            return true;
-            //return await _context.PlayerIdentity.ToListAsync();
+            var id = dataSet.Elements.First().Rows.First().Elements.First();
+
+            return returnValue;
         }
+
     }
 }

@@ -16,8 +16,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO Common.PlayerIdentity([Login],[Password],[Nick],[GameToken])
-	VALUES (@Login,@Password,@NickName,replace(newid(), '-', ''))
+	INSERT INTO Common.PlayerIdentity([Login],[Password],[Nick],[Email],[GameToken])
+	VALUES (@Login,@Password,@NickName,@Email,replace(newid(), '-', ''))
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)
 

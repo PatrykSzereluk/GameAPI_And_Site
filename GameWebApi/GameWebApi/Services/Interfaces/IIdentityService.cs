@@ -7,8 +7,7 @@
 
     public interface IIdentityService
     {
-        void Login1();
-        Task<bool> Register(RegisterRequestModel newPlayer);
+        Task<RegisterResponseModel> Register(RegisterRequestModel newPlayer);
 
         Task<UserLoginResponse> Login(UserInfo userInfo);
 
