@@ -76,7 +76,17 @@
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptToken = tokenHandler.WriteToken(token);
 
-            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken };
+            var lastDatePassMod = await GetLastDateModifiedPassword(userId);
+
+            var ask = (DateTime.Today - lastDatePassMod).TotalDays > 90;
+
+            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken, AskAboutChangePassword = ask };
+        }
+
+        private async Task<DateTime> GetLastDateModifiedPassword(int playerId)
+        {
+            var dates = await _context.PlayerDates.FirstOrDefaultAsync(t => t.PlayerId == playerId);
+            return dates.LastPasswordChangeDate;
         }
 
         private async Task<int> GetUserIdByLogin(string login)
