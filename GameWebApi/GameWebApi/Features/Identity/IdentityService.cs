@@ -74,7 +74,17 @@
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptToken = tokenHandler.WriteToken(token);
 
-            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken };
+            var lastDatePassMod = await GetLastDateModifiedPassword(userId);
+
+            var ask = (DateTime.Today - lastDatePassMod).TotalDays > 90;
+
+            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken, AskAboutChangePassword = ask };
+        }
+
+        private async Task<DateTime> GetLastDateModifiedPassword(int playerId)
+        {
+            var dates = await _context.PlayerDates.FirstOrDefaultAsync(t => t.PlayerId == playerId);
+            return dates.LastPasswordChangeDate;
         }
 
         private async Task<int> GetUserIdByLogin(string login)
@@ -97,7 +107,7 @@
         {
             UserRegisterResponseModel returnValue = new UserRegisterResponseModel {IsSuccess = true};
 
-            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName || t.Email == newPlayer.Email).Result)
+            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.NickName || t.Email == newPlayer.Email).Result)
             {
                 returnValue.IsSuccess = false;
                 return returnValue;
@@ -112,7 +122,7 @@
 
             var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
             var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
-            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.UserName};
+            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};
             var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
             var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = salt};
 
@@ -125,6 +135,7 @@
             var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 
             var id = dataSet.Elements.First().Rows.First().Elements.First();
+            returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
             return returnValue;
         }
