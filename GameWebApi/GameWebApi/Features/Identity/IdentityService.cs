@@ -22,19 +22,17 @@
     public class IdentityService : IIdentityService
     {
         private readonly GameDBContext _context;
-        private readonly IConfiguration _configuration;
         private readonly ApplicationSettings _applicationSettings;
         private readonly ISqlManager _sqlManager;
         private readonly IEncrypter _encrypter;
 
-        public IdentityService(IConfiguration config,
+        public IdentityService(
             GameDBContext ctx,
             IOptions<ApplicationSettings> applicationSettings,
             ISqlManager sqlManager,
             IEncrypter encrypter)
         {
             _applicationSettings = applicationSettings.Value;
-            _configuration = config;
             _context = ctx;
             _sqlManager = sqlManager;
             _encrypter = encrypter;
