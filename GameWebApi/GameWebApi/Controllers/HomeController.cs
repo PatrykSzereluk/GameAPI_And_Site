@@ -26,9 +26,9 @@ namespace GameWebApi.Controllers
         }
 
         [Route(nameof(GetInitialData))]
-        public Task<InitialResponseData> GetInitialData(InitialRequestData data)
+        public async Task<InitialResponseData> GetInitialData(InitialRequestData data)
         {
-            throw new NotImplementedException();
+            return await _homeService.GetInitialDate(data);
         }
         
 

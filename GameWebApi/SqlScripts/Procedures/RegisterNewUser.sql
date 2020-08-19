@@ -16,16 +16,50 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO [Common].[PlayerIdentity]([Login],[Password],[Nick],[Email],[GameToken])
-	VALUES (@Login,@Password,@NickName,@Email,replace(newid(), '-', ''))
+	INSERT INTO [Common].[PlayerIdentity](
+		[Login],
+		[Password],
+		[Nick],
+		[Email],
+		[GameToken])
+	VALUES (
+		@Login,
+		@Password,
+		@NickName,
+		@Email,
+		replace(newid(), '-', ''))
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)
 
-	INSERT INTO [Common].[PlayerDates] ([PlayerId],[ModificationDate],[LastPasswordChangeDate],[CreationDate],[BanDate])
-	VALUES (@CurrentUserId,GETDATE(),GETDATE(),GETDATE(),NULL)
+	INSERT INTO [Common].[PlayerDates] (
+		[PlayerId],
+		[ModificationDate],
+		[LastPasswordChangeDate],
+		[CreationDate],[BanDate])
+	VALUES (
+		@CurrentUserId,
+		GETDATE(),
+		GETDATE(),
+		GETDATE(),
+		NULL)
 
-	INSERT INTO [Common].[PlayerSalt] ([PlayerId],[Salt]) VALUES
-	(@CurrentUserId,@SaltHash);
+	INSERT INTO [Common].[PlayerSalt] (
+		[PlayerId],
+		[Salt]) 
+	VALUES(
+		@CurrentUserId,
+		@SaltHash);
+
+	INSERT INTO [Common].[PlayerStatistics] (
+		[PlayerId], 
+		[Kills],
+		[Deaths],
+		[Assists],
+		[GamesPlayed],
+		[GamesWon],
+		[GameLose]) 
+	VALUES 
+	(@CurrentUserId,0,0,0,0,0,0)
 
 
 		SELECT @CurrentUserId 
