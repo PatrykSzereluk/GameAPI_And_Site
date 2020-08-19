@@ -10,6 +10,7 @@ CREATE PROCEDURE [Tools].[DropAllTables]
 AS
 BEGIN
 
+	DROP TABLE [Common].[PlayerStatistics]
 	DROP TABLE [Common].[PlayerDates]
 	DROP TABLE [Common].[Salt]
 	DROP TABLE [Common].[PlayerIdentity]

@@ -7,7 +7,7 @@
         [Required]
         public string Login { get; set; }
         [Required]
-        public string UserName { get; set; }
+        public string NickName { get; set; }
         [Required]
         public string Password { get; set; }
 

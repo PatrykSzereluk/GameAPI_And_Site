@@ -109,7 +109,7 @@
         {
             UserRegisterResponseModel returnValue = new UserRegisterResponseModel {IsSuccess = true};
 
-            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.UserName || t.Email == newPlayer.Email).Result)
+            if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.NickName || t.Email == newPlayer.Email).Result)
             {
                 returnValue.IsSuccess = false;
                 return returnValue;
@@ -124,7 +124,7 @@
 
             var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
             var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
-            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.UserName};
+            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};
             var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
             var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = salt};
 
@@ -137,6 +137,7 @@
             var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 
             var id = dataSet.Elements.First().Rows.First().Elements.First();
+            returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
             return returnValue;
         }

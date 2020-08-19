@@ -6,5 +6,6 @@
         public string Message { get; set; }
         public int StatusCode { get; set; }
         public int PlayerId { get; set; }
+        public string NickName { get; set; }
     }
 }

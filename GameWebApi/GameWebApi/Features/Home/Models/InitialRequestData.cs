@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GameWebApi.Models.DB
+namespace GameWebApi.Features.Home.Models
 {
-    public class ValidationResult
+    public class InitialRequestData : BaseRequestData
     {
-        public bool IsValid { get; set; }
     }
 }

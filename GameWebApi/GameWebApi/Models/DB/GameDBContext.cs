@@ -18,13 +18,14 @@ namespace GameWebApi.Models.DB
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
         public virtual DbSet<PlayerIdentity> PlayerIdentity { get; set; }
         public virtual DbSet<PlayerSalt> PlayerSalt { get; set; }
+        public virtual DbSet<PlayerStatistics> PlayerStatistics { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=GameDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.;Database=Test;Trusted_Connection=True;");
             }
         }
 
@@ -94,6 +95,19 @@ namespace GameWebApi.Models.DB
                     .HasForeignKey(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Salt_PlayerIdentity1");
+            });
+
+            modelBuilder.Entity<PlayerStatistics>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("PlayerStatistics", "Common");
+
+                entity.HasOne(d => d.Player)
+                    .WithMany()
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlayerStatistics_PlayerIdentity");
             });
 
             OnModelCreatingPartial(modelBuilder);
