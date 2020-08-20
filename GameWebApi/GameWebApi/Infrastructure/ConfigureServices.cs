@@ -17,7 +17,8 @@ namespace GameWebApi.Infrastructure
                 .AddTransient<IIdentityService, IdentityService>()
                 .AddTransient<ISqlManager, SqlManager>()
                 .AddTransient<IEncrypter, Encrypter>()
-                .AddTransient<IHomeService, HomeService>();
+                .AddTransient<IHomeService, HomeService>()
+                .AddTransient<IRankingService, RankingService>();
         }
 
 
