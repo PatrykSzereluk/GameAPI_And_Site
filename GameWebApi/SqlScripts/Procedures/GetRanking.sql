@@ -17,16 +17,24 @@ BEGIN
 
 	DECLARE @Sql NVARCHAR(MAX)
 
-	SET @Sql = 'SELECT Nick,
-		   [PS].Kills, 
-		   [PS].Deaths, 
-		   [PS].Assists, 
-		   [PS].GamesPlayed, 
-		   [PS].GamesWon, 
-		   [PS].GameLose 
-	FROM Common.PlayerIdentity [PI]
-	LEFT JOIN Common.PlayerStatistics [PS] ON [PI].ID = [PS].PlayerId
-	ORDER BY [_CATEGORY_] [_ORDER_]'
+	SET @Sql = '
+	WITH DATA AS
+	(
+		SELECT 
+			   ROW_NUMBER() OVER ( ORDER BY [_CATEGORY_] [_ORDER_]) AS ''Place'',
+			   [PI].Nick,
+			   [PS].Kills, 
+			   [PS].Deaths, 
+			   [PS].Assists, 
+			   [PS].GamesPlayed, 
+			   [PS].GamesWon, 
+			   [PS].GameLose 
+		FROM Common.PlayerIdentity [PI]
+		LEFT JOIN Common.PlayerStatistics [PS] ON [PI].ID = [PS].PlayerId
+	)
+	SELECT TOP [_TAKE_] *
+	FROM DATA
+	WHERE Place > [_SKIP_]'
 	
 	IF(@RankingCategory = 2)
 		SET @Sql = REPLACE(@Sql,'[_CATEGORY_]', '[PS].Assists')
@@ -38,12 +46,14 @@ BEGIN
 		SET @Sql = REPLACE(@Sql,'[_ORDER_]', 'DESC')
 	 ELSE
 		SET @Sql = REPLACE(@Sql,'[_ORDER_]', 'ASC')
-
+	
+	SET @Sql = REPLACE(@Sql,'[_TAKE_]', @Take)
+	SET @Sql = REPLACE(@Sql,'[_SKIP_]', @Skip)
 
 	exec sp_executesql @Sql
 
 END
 GO
 
---exec [Web].[GetRanking] 0,0,0,0
+--exec [Web].[GetRanking] 10,40,0,0
 
