@@ -55,5 +55,5 @@ BEGIN
 END
 GO
 
---exec [Web].[GetRanking] 10,40,0,0
+--exec [Web].[GetRanking] 3,3,1,0
 

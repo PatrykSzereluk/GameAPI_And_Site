@@ -1,13 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using GameWebApi.Features.Home;
-using GameWebApi.Features.Home.Models;
-using GameWebApi.Features.Identity;
+﻿
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameWebApi.Controllers
 {
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using GameWebApi.Features.Ranking.Models;
+    using Features.Ranking;
 
     public class RankingController : ApiController
     {
@@ -18,7 +17,12 @@ namespace GameWebApi.Controllers
         {
             this._rankingService = rankingService;
         }
-
+        [Route(nameof(GetUserRanking))]
+        [HttpPost]
+        public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(UserRankingRequestData rankingModel)
+        {
+            return await _rankingService.GetUserRanking(rankingModel);
+        }
 
 
     }

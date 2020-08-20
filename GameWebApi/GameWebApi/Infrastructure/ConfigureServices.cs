@@ -1,13 +1,14 @@
-﻿using GameWebApi.Features.Home;
+﻿
 
 namespace GameWebApi.Infrastructure
 {
-    using GameWebApi.Features.Identity;
-    using GameWebApi.Sql.Interfaces;
-    using GameWebApi.Sql.Managers;
+    using Features.Identity;
+    using Sql.Interfaces;
+    using Sql.Managers;
     using Microsoft.Extensions.DependencyInjection;
     using Security;
-
+    using Features.Home;
+    using Features.Ranking;
     public static class ConfigureServices
     {
 

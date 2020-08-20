@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Features.Identity
+﻿using GameWebApi.Sql.Helpers;
+
+namespace GameWebApi.Features.Identity
 {
     using Models.DB;
     using Microsoft.EntityFrameworkCore;
@@ -120,11 +122,16 @@
             string salt = _encrypter.Encrypted(generateString.GenerateRandomString(40));
             hashPassword.Append(salt);
 
-            var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
-            var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
-            var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};
-            var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
-            var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = salt};
+            //var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
+            var loginParam = newPlayer.Login.ToSqlParameter("Login");
+            var passwordParam = newPlayer.Login.ToSqlParameter("Password");
+            var nickNameParam = newPlayer.Login.ToSqlParameter("NickName");
+            var emailParam = newPlayer.Login.ToSqlParameter("Email");
+            var saltHashParam = newPlayer.Login.ToSqlParameter("SaltHash");
+           // var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
+           // var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};
+           // var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
+           // var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = salt};
 
             parameters.Add(loginParam);
             parameters.Add(passwordParam);
