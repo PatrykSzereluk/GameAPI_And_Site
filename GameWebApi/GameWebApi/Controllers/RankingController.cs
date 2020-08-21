@@ -21,6 +21,7 @@ namespace GameWebApi.Controllers
         [HttpPost]
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(UserRankingRequestData rankingModel)
         {
+            var z = Request;
             return await _rankingService.GetUserRanking(rankingModel);
         }
 
