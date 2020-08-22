@@ -50,7 +50,9 @@ BEGIN
 	SET @Sql = REPLACE(@Sql,'[_TAKE_]', @Take)
 	SET @Sql = REPLACE(@Sql,'[_SKIP_]', @Skip)
 
-	exec sp_executesql @Sql
+	EXEC sp_executesql @Sql
+
+	EXEC [TOOLS].[PrintSqlQuery] @Sql
 
 END
 GO
