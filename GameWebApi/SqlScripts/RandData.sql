@@ -6,16 +6,16 @@ delete from Common.PlayerIdentity
 
 DECLARE @i int = 0
 
-WHILE @i < 46
+WHILE @i < 1000
 BEGIN
     SET @i = @i + 1
 	declare @nick nvarchar(32) = (select 'nick' + cast(@i as nvarchar))
-  exec common.RegisterNewPlayer 'elo2','pass1',@nick,'em1','sa'
+  exec common.RegisterNewPlayer 'elo2','pass1',@nick,'em1','sa', 0
 END
 
-DECLARE @i int = 25
+DECLARE @i int = 0
 
-WHILE @i <= 71
+WHILE @i <= 1000
 BEGIN
     SET @i = @i + 1
 	update Common.PlayerStatistics set

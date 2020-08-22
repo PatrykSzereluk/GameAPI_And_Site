@@ -128,6 +128,7 @@ namespace GameWebApi.Features.Identity
             var nickNameParam = newPlayer.Login.ToSqlParameter("NickName");
             var emailParam = newPlayer.Login.ToSqlParameter("Email");
             var saltHashParam = newPlayer.Login.ToSqlParameter("SaltHash");
+            var retValParam = true.ToSqlParameter("ReturnValue");
            // var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
            // var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};
            // var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
@@ -138,6 +139,7 @@ namespace GameWebApi.Features.Identity
             parameters.Add(nickNameParam);
             parameters.Add(emailParam);
             parameters.Add(saltHashParam);
+            parameters.Add(retValParam);
 
             var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 

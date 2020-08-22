@@ -11,7 +11,8 @@ CREATE PROCEDURE [Common].[RegisterNewPlayer]
 	@Password	  NVARCHAR(MAX),
 	@NickName	  NVARCHAR(32),
 	@Email		  NVARCHAR(64),
-	@SaltHash	  NVARCHAR(MAX)
+	@SaltHash	  NVARCHAR(MAX),
+	@ReturnValue  bit
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -61,7 +62,7 @@ BEGIN
 	VALUES 
 	(@CurrentUserId,0,0,0,0,0,0)
 
-
+	IF(@ReturnValue = 1)
 		SELECT @CurrentUserId 
 
 END
