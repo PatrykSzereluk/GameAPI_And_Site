@@ -15,13 +15,60 @@ namespace GameWebApi.Models.DB
         {
         }
 
+        public virtual DbSet<ClanMembers> ClanMembers { get; set; }
+        public virtual DbSet<Clans> Clans { get; set; }
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
         public virtual DbSet<PlayerIdentity> PlayerIdentity { get; set; }
         public virtual DbSet<PlayerSalt> PlayerSalt { get; set; }
         public virtual DbSet<PlayerStatistics> PlayerStatistics { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=.;Database=GameDB;Trusted_Connection=True;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ClanMembers>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("ClanMembers", "Common");
+
+                entity.Property(e => e.DateOfJoin).HasColumnType("date");
+
+                entity.HasOne(d => d.Clan)
+                    .WithMany()
+                    .HasForeignKey(d => d.ClanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClanMembers_Clans");
+            });
+
+            modelBuilder.Entity<Clans>(entity =>
+            {
+                entity.ToTable("Clans", "Common");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Acronym)
+                    .IsRequired()
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AvatarUrl)
+                    .HasColumnName("AvatarURL")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<PlayerDates>(entity =>
             {
                 entity.HasKey(e => e.PlayerId);
@@ -62,10 +109,12 @@ namespace GameWebApi.Models.DB
 
                 entity.Property(e => e.Login)
                     .IsRequired()
+                    .HasMaxLength(32)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Nick)
                     .IsRequired()
+                    .HasMaxLength(32)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)

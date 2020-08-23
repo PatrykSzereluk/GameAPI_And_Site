@@ -1,6 +1,4 @@
-﻿
-
-namespace GameWebApi.Infrastructure
+﻿namespace GameWebApi.Infrastructure
 {
     using Features.Identity;
     using Sql.Interfaces;
@@ -9,6 +7,9 @@ namespace GameWebApi.Infrastructure
     using Security;
     using Features.Home;
     using Features.Ranking;
+    using GameWebApi.Features.Clan.Models;
+    using GameWebApi.Features.Clan;
+
     public static class ConfigureServices
     {
 
@@ -19,7 +20,8 @@ namespace GameWebApi.Infrastructure
                 .AddTransient<ISqlManager, SqlManager>()
                 .AddTransient<IEncrypter, Encrypter>()
                 .AddTransient<IHomeService, HomeService>()
-                .AddTransient<IRankingService, RankingService>();
+                .AddTransient<IRankingService, RankingService>()
+                .AddTransient<IClanService, ClanService>();
         }
 
 

@@ -10,9 +10,12 @@ CREATE PROCEDURE [Tools].[SelectAll]
 AS
 BEGIN
 
-	EXEC [Tools].[DeleteAllForeignKeys]
-
-	EXEC [Tools].[DropAllTables]
+SELECT * FROM Common.PlayerIdentity
+SELECT * FROM Common.PlayerSalt
+SELECT * FROM Common.PlayerDates
+SELECT * FROM Common.PlayerStatistics
+SELECT * FROM Common.Clans
+SELECT * FROM Common.ClanMembers
 
 END
 GO
