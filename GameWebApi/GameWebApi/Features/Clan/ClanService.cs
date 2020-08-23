@@ -1,8 +1,10 @@
 ﻿namespace GameWebApi.Features.Clan
 {
+    using Core.Enums;
     using GameWebApi.Features.Clan.Models;
     using GameWebApi.Models.DB;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -54,7 +56,44 @@
                 return response;
             }
             await _context.SaveChangesAsync();
+
+            var clanEntity = await _context.Clans.FirstOrDefaultAsync(t => t.Acronym == model.Acronym && t.Name == model.Name);
+
+            var isLeaderValid = await AddClanLeader(model.PlayerId, clanEntity.Id, ClanFunction.Leader);
+
+            response.IsLeaderValid = isLeaderValid;
+
             return response;
+        }
+
+        private async Task<bool> AddClanLeader(int playerId, int clanId, ClanFunction clanFunction)
+        {
+            NewMemberToClanRequestModel model = new NewMemberToClanRequestModel()
+            {
+                PlayerId = playerId,
+                ClanId = clanId,
+                ClanFunction = clanFunction
+            };
+
+            return await AddMemberToClan(model);
+        }
+
+        public async Task<bool> AddMemberToClan(NewMemberToClanRequestModel model)
+        {
+            ClanMembers newMember = new ClanMembers()
+            {
+                PlayerId = model.PlayerId,
+                ClanId = model.ClanId,
+                Function = (byte)model.ClanFunction,
+                DateOfJoin = DateTime.Now
+            };
+
+            var result = await _context.ClanMembers.AddAsync(newMember);
+
+            if (result.State == EntityState.Added)
+                return true;
+
+            return false;
         }
 
         private async Task<bool> CheckName(string name)

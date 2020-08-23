@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameWebApi.Features.Clan.Models
 {
-    public class NewClanRequestModel
+    public class NewClanRequestModel : BaseRequestData
     {
         public string Acronym { get; set; }
         public string Name { get; set; }
