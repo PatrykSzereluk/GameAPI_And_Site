@@ -9,10 +9,20 @@ GO
 CREATE PROCEDURE [Tools].[DropAllTables]
 AS
 BEGIN
+	DELETE FROM [Common].[ClanMembers]
+	DELETE FROM [Common].[Clans]
+	DELETE FROM [Common].[PlayerStatistics]
+	DELETE FROM [Common].[PlayerDates]
+	DELETE FROM [Common].[PlayerSalt]
+	DELETE FROM [Common].[PlayerIdentity]
 
+
+
+	DROP TABLE [Common].[ClanMembers]
+	DROP TABLE [Common].[Clans]	
 	DROP TABLE [Common].[PlayerStatistics]
 	DROP TABLE [Common].[PlayerDates]
-	DROP TABLE [Common].[Salt]
+	DROP TABLE [Common].[PlayerSalt]
 	DROP TABLE [Common].[PlayerIdentity]
 
 END

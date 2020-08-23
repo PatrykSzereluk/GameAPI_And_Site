@@ -11,9 +11,9 @@ GO
 
 CREATE TABLE [Common].[PlayerIdentity](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[Login] [varchar](max) NOT NULL,
+	[Login] [varchar](32) NOT NULL,
 	[Password] [varchar](max) NOT NULL,
-	[Nick] [varchar](max) NOT NULL,
+	[Nick] [varchar](32) NOT NULL,
 	[Email] [varchar](64) NOT NULL,
 	[GameToken] [varchar](max) NOT NULL
 PRIMARY KEY CLUSTERED 
