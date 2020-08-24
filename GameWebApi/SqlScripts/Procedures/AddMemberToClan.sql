@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [Common].[AddMemberToClan]
+CREATE OR ALTER PROCEDURE [Common].[AddMemberToClan]
 	@PlayerId	INT,
 	@ClanId		INT,
 	@Function	TINYINT,
@@ -25,16 +25,21 @@ BEGIN
 	IF(EXISTS(SELECT * FROM Common.Clans WHERE ID = @ClanId))
 		SET @existstClan = 1
 
-	IF(@playerHasClan = 0 OR @existstClan = 0)
-		RETURN
+	IF(@playerHasClan = 1 OR @existstClan = 0)
+		BEGIN
+			SELECT 
+				@playerHasClan AS 'PlayerHasClan',
+				@existstClan AS 'ExistsClan',
+				CAST(0 as bit) AS 'IsSuccess'
+			RETURN
+		END
 
 	INSERT INTO Common.ClanMembers (PlayerId, ClanId, [Function], DateOfJoin)
 	VALUES (@PlayerId, @ClanId, @Function, @DateOfJoin)
 
 	SELECT 
 		@playerHasClan AS 'PlayerHasClan',
-		@existstClan AS 'ExistsClan'
-
+		@existstClan AS 'ExistsClan',
+		CAST(1 as bit) AS 'IsSuccess'
 
 END
-GO

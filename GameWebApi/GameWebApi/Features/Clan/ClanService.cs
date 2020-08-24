@@ -121,10 +121,7 @@ namespace GameWebApi.Features.Clan
 
             var result = await AddMemberToClan(model);
 
-            if (!result.ExistsClan || result.playerHasClan)
-                return false;
-
-            return true;
+            return result.IsSuccess;
         }
 
         public async Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model)
@@ -146,7 +143,8 @@ namespace GameWebApi.Features.Clan
             NewMemberToClanResponseModel response = new NewMemberToClanResponseModel()
             {
                 playerHasClan = Convert.ToBoolean(elements[0]),
-                ExistsClan = Convert.ToBoolean(elements[1])
+                ExistsClan = Convert.ToBoolean(elements[1]),
+                IsSuccess = Convert.ToBoolean(elements[2])
             };
 
             return response;
