@@ -112,6 +112,32 @@ namespace GameWebApi.Features.Clan
             return response;
         }
 
+        private async Task<bool> RemoveAllClanMembers(int clanId, bool forceRemove)
+        {
+            var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == clanId);
+
+            if (clan == null)
+                return false;
+
+            var members = await _context.ClanMembers.Where(t => t.ClanId == clanId && t.Function != 1).ToListAsync();
+
+
+            foreach (var member in members)
+            {
+                var result = _context.ClanMembers.Remove(member);
+
+                if (result.State != EntityState.Deleted)
+                {
+                    return false;
+                }
+            }
+
+            if(forceRemove)
+                await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         private async Task<bool> AddClanLeader(int playerId, int clanId, ClanFunction clanFunction)
         {
             var model = new NewMemberToClanRequestModel()
@@ -178,6 +204,11 @@ namespace GameWebApi.Features.Clan
             var leader = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
 
             if(leader == null)
+                return false;
+
+            var removeMembers = await RemoveAllClanMembers(model.ClanId,false);
+
+            if (!removeMembers)
                 return false;
 
             var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);

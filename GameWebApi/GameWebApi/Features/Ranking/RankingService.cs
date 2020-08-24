@@ -32,8 +32,6 @@
 
             var result = await _sqlManager.ExecuteDataCommand("[Web].[GetRanking]", CommandType.StoredProcedure, null, takeParam,skipParam,rankingCategoryParam,orderParam);
 
-
-
             return await GetUserRankingData(result);
         }
 
