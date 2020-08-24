@@ -8,5 +8,6 @@ namespace GameWebApi.Features.Clan.Models
     public interface IClanService
     {
          Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model);
+         Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model);
     }
 }

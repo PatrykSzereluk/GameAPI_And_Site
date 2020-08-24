@@ -27,7 +27,7 @@ namespace GameWebApi.Models.DB
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=GameDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=.;Database=Test;Trusted_Connection=True;");
             }
         }
 
@@ -46,6 +46,12 @@ namespace GameWebApi.Models.DB
                     .HasForeignKey(d => d.ClanId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClanMembers_Clans");
+
+                entity.HasOne(d => d.Player)
+                    .WithMany()
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClanMembers_PlayerIdentity");
             });
 
             modelBuilder.Entity<Clans>(entity =>

@@ -22,5 +22,11 @@ namespace GameWebApi.Controllers
             return await _clanService.AddNewClan(model);
         }
 
+        [Route(nameof(AddMemberToClan))]
+        public async Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model)
+        {
+            return await _clanService.AddMemberToClan(model);
+        }
+
     }
 }

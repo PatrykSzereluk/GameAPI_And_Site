@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScripts", "SqlScripts\Sq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Security", "Security\Security.csproj", "{506A309E-91E2-4262-872C-B4E80F0EC160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{8336C4BD-62D0-45B6-812B-28DA47A1D966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{8336C4BD-62D0-45B6-812B-28DA47A1D966}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59AD1FAE-608B-4C85-ACB6-93C7C449CF8C}"
+	ProjectSection(SolutionItems) = preProject
+		ReadMe.txt = ReadMe.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

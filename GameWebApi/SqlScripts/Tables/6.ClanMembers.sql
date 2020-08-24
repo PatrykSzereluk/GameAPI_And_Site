@@ -23,4 +23,10 @@ GO
 ALTER TABLE [Common].[ClanMembers] CHECK CONSTRAINT [FK_ClanMembers_Clans]
 GO
 
+ALTER TABLE [Common].[ClanMembers]  WITH CHECK ADD  CONSTRAINT [FK_ClanMembers_PlayerIdentity] FOREIGN KEY([PlayerId])
+REFERENCES [Common].[PlayerIdentity] ([ID])
+GO
+
+ALTER TABLE [Common].[ClanMembers] CHECK CONSTRAINT [FK_ClanMembers_PlayerIdentity]
+GO
 

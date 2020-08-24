@@ -11,5 +11,6 @@ namespace GameWebApi.Models.DB
         public DateTime DateOfJoin { get; set; }
 
         public virtual Clans Clan { get; set; }
+        public virtual PlayerIdentity Player { get; set; }
     }
 }

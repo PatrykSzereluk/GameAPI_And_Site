@@ -23,9 +23,21 @@ namespace GameWebApi.Sql.Helpers
         {
 
             var sqlType = isVarChar ? SqlDbType.VarChar : SqlDbType.NVarChar;
+            object tmpValue = value;
+            if (value == null)
+                tmpValue = DBNull.Value;
 
-            return new SqlParameter(parameterName, sqlType) { Value = value };
+            return new SqlParameter(parameterName, sqlType) { Value = tmpValue };
         }
 
+        public static SqlParameter ToSqlParameter(this byte value, string parameterName)
+        {
+            return new SqlParameter(parameterName, SqlDbType.TinyInt) { Value = value };
+        }
+
+        public static SqlParameter ToSqlParameter(this DateTime value, string parameterName)
+        {
+            return new SqlParameter(parameterName, SqlDbType.Date) { Value = value };
+        }
     }
 }
