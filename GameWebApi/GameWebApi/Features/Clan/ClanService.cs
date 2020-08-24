@@ -25,7 +25,7 @@ namespace GameWebApi.Features.Clan
 
         public async Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model)
         {
-            NewClanResponseModel response = new NewClanResponseModel()
+            var response = new NewClanResponseModel()
             {
                 IsSuccess = true,
                 IsNameValid = true,
@@ -55,12 +55,14 @@ namespace GameWebApi.Features.Clan
                 return response;
             }
 
-            Clans newClan = new Clans();
-            newClan.Acronym = model.Acronym;
-            newClan.Name = model.Name;
-            newClan.Experience = 0;
-            newClan.AvatarId = model.AvatarId;
-            newClan.AvatarUrl = model.AvatarUrl;
+            var newClan = new Clans
+            {
+                Acronym = model.Acronym,
+                Name = model.Name,
+                Experience = 0,
+                AvatarId = model.AvatarId,
+                AvatarUrl = model.AvatarUrl
+            };
 
             var result = await _context.Clans.AddAsync(newClan);
 
@@ -112,7 +114,7 @@ namespace GameWebApi.Features.Clan
 
         private async Task<bool> AddClanLeader(int playerId, int clanId, ClanFunction clanFunction)
         {
-            NewMemberToClanRequestModel model = new NewMemberToClanRequestModel()
+            var model = new NewMemberToClanRequestModel()
             {
                 PlayerId = playerId,
                 ClanId = clanId,
@@ -161,7 +163,7 @@ namespace GameWebApi.Features.Clan
             var elements = result.Elements.First().Rows.First().Elements;
 
 
-            NewMemberToClanResponseModel response = new NewMemberToClanResponseModel()
+            var response = new NewMemberToClanResponseModel()
             {
                 playerHasClan = Convert.ToBoolean(elements[0]),
                 ExistsClan = Convert.ToBoolean(elements[1]),
@@ -170,6 +172,49 @@ namespace GameWebApi.Features.Clan
 
             return response;
         }
+
+        public async Task<bool> RemoveClan(RemoveClanRequestModel model)
+        {
+            var leader = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
+
+            if(leader == null)
+                return false;
+
+            var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);
+
+            if (clan == null)
+                return false;
+
+            var leaderResult = _context.ClanMembers.Remove(leader);
+            var clanResult = _context.Clans.Remove(clan);
+
+            if (leaderResult.State == EntityState.Deleted && clanResult.State == EntityState.Deleted)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> RemoveMember(RemoveUserRequestModel model)
+        {
+            var clanMember = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
+
+            if (clanMember == null)
+                return false;
+
+            var result = _context.ClanMembers.Remove(clanMember);
+
+            if (result.State == EntityState.Deleted)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
 
         private async Task<bool> CheckName(string name)
         {

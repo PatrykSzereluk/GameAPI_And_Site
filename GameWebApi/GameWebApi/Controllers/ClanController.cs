@@ -33,5 +33,18 @@ namespace GameWebApi.Controllers
         {
             return await _clanService.ModifyMemberFunction(model);
         }
+
+
+        [Route(nameof(RemoveMember))]
+        public async Task<bool> RemoveMember(RemoveUserRequestModel model)
+        {
+            return await _clanService.RemoveMember(model);  
+        }
+
+        [Route(nameof(RemoveClan))]
+        public async Task<bool> RemoveClan(RemoveClanRequestModel model)
+        {
+            return await _clanService.RemoveClan(model);
+        }
     }
 }
