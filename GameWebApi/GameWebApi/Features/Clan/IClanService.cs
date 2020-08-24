@@ -9,5 +9,7 @@ namespace GameWebApi.Features.Clan.Models
     {
          Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model);
          Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model);
+
+         Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model);
     }
 }

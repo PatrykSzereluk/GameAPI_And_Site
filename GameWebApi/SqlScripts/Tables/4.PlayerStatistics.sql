@@ -15,7 +15,11 @@ CREATE TABLE [Common].[PlayerStatistics](
 	[Assists] [int] NOT NULL,
 	[GamesPlayed] [int] NOT NULL,
 	[GamesWon] [int] NOT NULL,
-	[GameLose] [int] NOT NULL
+	[GameLose] [int] NOT NULL,
+ CONSTRAINT [PK_PlayerStatistics] PRIMARY KEY CLUSTERED 
+(
+	[PlayerId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 

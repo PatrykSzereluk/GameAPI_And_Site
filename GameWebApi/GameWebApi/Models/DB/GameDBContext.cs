@@ -35,21 +35,23 @@ namespace GameWebApi.Models.DB
         {
             modelBuilder.Entity<ClanMembers>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.PlayerId);
 
                 entity.ToTable("ClanMembers", "Common");
+
+                entity.Property(e => e.PlayerId).ValueGeneratedNever();
 
                 entity.Property(e => e.DateOfJoin).HasColumnType("date");
 
                 entity.HasOne(d => d.Clan)
-                    .WithMany()
+                    .WithMany(p => p.ClanMembers)
                     .HasForeignKey(d => d.ClanId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClanMembers_Clans");
 
                 entity.HasOne(d => d.Player)
-                    .WithMany()
-                    .HasForeignKey(d => d.PlayerId)
+                    .WithOne(p => p.ClanMembers)
+                    .HasForeignKey<ClanMembers>(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClanMembers_PlayerIdentity");
             });
@@ -145,13 +147,15 @@ namespace GameWebApi.Models.DB
 
             modelBuilder.Entity<PlayerStatistics>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.PlayerId);
 
                 entity.ToTable("PlayerStatistics", "Common");
 
+                entity.Property(e => e.PlayerId).ValueGeneratedNever();
+
                 entity.HasOne(d => d.Player)
-                    .WithMany()
-                    .HasForeignKey(d => d.PlayerId)
+                    .WithOne(p => p.PlayerStatistics)
+                    .HasForeignKey<PlayerStatistics>(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PlayerStatistics_PlayerIdentity");
             });

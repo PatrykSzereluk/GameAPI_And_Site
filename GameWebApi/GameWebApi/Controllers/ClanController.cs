@@ -28,5 +28,10 @@ namespace GameWebApi.Controllers
             return await _clanService.AddMemberToClan(model);
         }
 
+        [Route(nameof(ModifyMemberFunction))]
+        public async Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model)
+        {
+            return await _clanService.ModifyMemberFunction(model);
+        }
     }
 }

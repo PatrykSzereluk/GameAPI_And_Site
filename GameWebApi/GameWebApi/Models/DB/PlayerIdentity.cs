@@ -12,6 +12,8 @@ namespace GameWebApi.Models.DB
         public string Email { get; set; }
         public string GameToken { get; set; }
 
+        public virtual ClanMembers ClanMembers { get; set; }
         public virtual PlayerDates PlayerDates { get; set; }
+        public virtual PlayerStatistics PlayerStatistics { get; set; }
     }
 }

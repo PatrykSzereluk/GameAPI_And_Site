@@ -124,6 +124,27 @@ namespace GameWebApi.Features.Clan
             return result.IsSuccess;
         }
 
+        public async Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model)
+        {
+            if (model.ClanFunction == ClanFunction.Leader)
+                return false;
+
+            var clanMember = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+
+            if (clanMember == null)
+                return false;
+
+            clanMember.Function = (byte) model.ClanFunction;
+
+            var result = _context.ClanMembers.Update(clanMember);
+
+            if (result.State == EntityState.Modified)
+                return true;
+
+            return false;
+        }
+
+
         public async Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model)
         {
             var result = await _sqlManager.ExecuteDataCommand("[Common].[AddMemberToClan]",
