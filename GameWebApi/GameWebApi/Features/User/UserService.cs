@@ -13,7 +13,6 @@ namespace GameWebApi.Features.User
         public UserService(GameDBContext context)
         {
             _context = context;
-
         }
 
         public async Task<bool> BanPlayer(BanPlayerRequestModel model)
@@ -50,7 +49,25 @@ namespace GameWebApi.Features.User
 
             if (result != null)
             {
+                if(await CheckBanDate(result)) return false;
+
                 if (result.IsActive) return true;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> CheckBanDate(PlayerBans result)
+        {
+            if (result.EndBanDate == DateTime.Now.Date)
+            {
+                result.IsActive = false;
+                var dbResult = _context.PlayerBans.Update(result);
+                if (dbResult.State == EntityState.Modified)
+                {
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
             }
 
             return false;
