@@ -1,18 +1,15 @@
-﻿using System.Data;
-using GameWebApi.Sql.Helpers;
-using GameWebApi.Sql.Interfaces;
-using Microsoft.Data.SqlClient;
-
-namespace GameWebApi.Features.Clan
+﻿namespace GameWebApi.Features.Clan
 {
     using Core.Enums;
-    using GameWebApi.Features.Clan.Models;
+    using Models;
     using GameWebApi.Models.DB;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using System.Data;
+    using GameWebApi.Sql.Helpers;
+    using Sql.Interfaces;
     public class ClanService : IClanService
     {
         private readonly GameDBContext _context;
@@ -246,6 +243,12 @@ namespace GameWebApi.Features.Clan
             return false;
         }
 
+#pragma warning disable 1998
+        public async Task<bool> SendInviteToClan(int playerId, int clanId)
+#pragma warning restore 1998
+        {
+            throw new NotImplementedException();
+        }
 
         private async Task<bool> CheckName(string name)
         {

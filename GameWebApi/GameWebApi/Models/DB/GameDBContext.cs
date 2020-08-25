@@ -17,6 +17,7 @@ namespace GameWebApi.Models.DB
 
         public virtual DbSet<ClanMembers> ClanMembers { get; set; }
         public virtual DbSet<Clans> Clans { get; set; }
+        public virtual DbSet<PlayerBans> PlayerBans { get; set; }
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
         public virtual DbSet<PlayerIdentity> PlayerIdentity { get; set; }
         public virtual DbSet<PlayerSalt> PlayerSalt { get; set; }
@@ -77,6 +78,25 @@ namespace GameWebApi.Models.DB
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<PlayerBans>(entity =>
+            {
+                entity.ToTable("PlayerBans", "Common");
+
+                entity.Property(e => e.BanMessage)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
+                entity.Property(e => e.BeginBanDate).HasColumnType("date");
+
+                entity.Property(e => e.EndBanDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Player)
+                    .WithMany(p => p.PlayerBans)
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlayerBans_PlayerIdentity");
+            });
+
             modelBuilder.Entity<PlayerDates>(entity =>
             {
                 entity.HasKey(e => e.PlayerId);
@@ -132,15 +152,17 @@ namespace GameWebApi.Models.DB
 
             modelBuilder.Entity<PlayerSalt>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.PlayerId);
 
                 entity.ToTable("PlayerSalt", "Common");
+
+                entity.Property(e => e.PlayerId).ValueGeneratedNever();
 
                 entity.Property(e => e.Salt).IsRequired();
 
                 entity.HasOne(d => d.Player)
-                    .WithMany()
-                    .HasForeignKey(d => d.PlayerId)
+                    .WithOne(p => p.PlayerSalt)
+                    .HasForeignKey<PlayerSalt>(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Salt_PlayerIdentity1");
             });

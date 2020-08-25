@@ -1,4 +1,5 @@
-﻿using GameWebApi.Sql.Helpers;
+﻿using GameWebApi.Features.User;
+using GameWebApi.Sql.Helpers;
 
 namespace GameWebApi.Features.Identity
 {
@@ -27,17 +28,20 @@ namespace GameWebApi.Features.Identity
         private readonly ApplicationSettings _applicationSettings;
         private readonly ISqlManager _sqlManager;
         private readonly IEncrypter _encrypter;
+        private readonly IUserService _userService;
 
         public IdentityService(
             GameDBContext ctx,
             IOptions<ApplicationSettings> applicationSettings,
             ISqlManager sqlManager,
-            IEncrypter encrypter)
+            IEncrypter encrypter,
+            IUserService userService)
         {
             _applicationSettings = applicationSettings.Value;
             _context = ctx;
             _sqlManager = sqlManager;
             _encrypter = encrypter;
+            _userService = userService;
         }
 
         public async Task<UserLoginResponse> Login(UserLoginRequest userInfo)
@@ -48,13 +52,17 @@ namespace GameWebApi.Features.Identity
                 return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
             }
 
-            var userId = await GetUserIdByLogin(userInfo.Login);
+            var userTuple = await GetUserIdByLogin(userInfo.Login);
 
-            if(userId == 0) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
+            if(userTuple.Item2 == 0) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
+
+            var isUserBanned = await _userService.CheckUserBan(userTuple.Item2);
+
+            if(isUserBanned) return new UserLoginResponse { PlayerId = userTuple.Item2, PlayerNickName = userTuple.Item1, IsBanned = true};
 
             StringBuilder sb = new StringBuilder(_encrypter.Encrypted(userInfo.Password));
 
-            var salt = await GetSalt(userId);
+            var salt = await GetSalt(userTuple.Item2);
             sb.Append(salt.Salt);
 
             var user = await GetUser(userInfo.Login, sb.ToString());
@@ -76,7 +84,7 @@ namespace GameWebApi.Features.Identity
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var encryptToken = tokenHandler.WriteToken(token);
 
-            var lastDatePassMod = await GetLastDateModifiedPassword(userId);
+            var lastDatePassMod = await GetLastDateModifiedPassword(userTuple.Item2);
 
             var ask = (DateTime.Today - lastDatePassMod).TotalDays > 90;
 
@@ -89,10 +97,10 @@ namespace GameWebApi.Features.Identity
             return dates.LastPasswordChangeDate;
         }
 
-        private async Task<int> GetUserIdByLogin(string login)
+        private async Task<Tuple<string,int>> GetUserIdByLogin(string login)
         {
             var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Login == login);
-            return user != null ? user.Id : 0;
+            return Tuple.Create(user.Nick,user.Id);
         }
 
         private async Task<PlayerSalt> GetSalt(int playerId)

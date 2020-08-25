@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GameWebApi.Features.Home;
 using GameWebApi.Features.Home.Models;
-using GameWebApi.Features.Identity;
+using GameWebApi.Features.User;
+using GameWebApi.Features.User.Model;
 
 namespace GameWebApi.Controllers
 {
@@ -13,10 +13,12 @@ namespace GameWebApi.Controllers
     {
 
         private readonly IHomeService _homeService;
+        private readonly IUserService _userService;
 
-        public HomeController(IHomeService homeService)
+        public HomeController(IHomeService homeService, IUserService userService)
         {
             this._homeService = homeService;
+            this._userService = userService;
         }
 
         [Authorize]
@@ -26,11 +28,17 @@ namespace GameWebApi.Controllers
         }
 
         [Route(nameof(GetInitialData))]
-        public async Task<InitialResponseData> GetInitialData(InitialRequestData data)
+        public async Task<InitialResponseData> GetInitialData(InitialRequestData model)
         {
-            return await _homeService.GetInitialDate(data);
+            return await _homeService.GetInitialDate(model);
         }
-        
+
+        [Route(nameof(BanPlayer))]
+        public async Task<bool> BanPlayer(BanPlayerRequestModel model)
+        {
+            return await _userService.BanPlayer(model);
+        }
+
 
     }
 }

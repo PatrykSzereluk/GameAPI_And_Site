@@ -1,4 +1,7 @@
-﻿namespace GameWebApi.Infrastructure
+﻿using GameWebApi.Features.User;
+using GameWebApi.Models;
+
+namespace GameWebApi.Infrastructure
 {
     using Features.Identity;
     using Sql.Interfaces;
@@ -21,7 +24,8 @@
                 .AddTransient<IEncrypter, Encrypter>()
                 .AddTransient<IHomeService, HomeService>()
                 .AddTransient<IRankingService, RankingService>()
-                .AddTransient<IClanService, ClanService>();
+                .AddTransient<IClanService, ClanService>()
+                .AddTransient<IUserService, UserService>();
         }
 
 

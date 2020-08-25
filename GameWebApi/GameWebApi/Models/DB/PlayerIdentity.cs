@@ -5,6 +5,11 @@ namespace GameWebApi.Models.DB
 {
     public partial class PlayerIdentity
     {
+        public PlayerIdentity()
+        {
+            PlayerBans = new HashSet<PlayerBans>();
+        }
+
         public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
@@ -14,6 +19,8 @@ namespace GameWebApi.Models.DB
 
         public virtual ClanMembers ClanMembers { get; set; }
         public virtual PlayerDates PlayerDates { get; set; }
+        public virtual PlayerSalt PlayerSalt { get; set; }
         public virtual PlayerStatistics PlayerStatistics { get; set; }
+        public virtual ICollection<PlayerBans> PlayerBans { get; set; }
     }
 }
