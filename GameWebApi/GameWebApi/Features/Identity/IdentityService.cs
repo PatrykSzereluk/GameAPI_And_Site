@@ -132,10 +132,10 @@ namespace GameWebApi.Features.Identity
 
             //var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
             var loginParam = newPlayer.Login.ToSqlParameter("Login");
-            var passwordParam = newPlayer.Login.ToSqlParameter("Password");
-            var nickNameParam = newPlayer.Login.ToSqlParameter("NickName");
-            var emailParam = newPlayer.Login.ToSqlParameter("Email");
-            var saltHashParam = newPlayer.Login.ToSqlParameter("SaltHash");
+            var passwordParam = hashPassword.ToString().ToSqlParameter("Password");
+            var nickNameParam = newPlayer.NickName.ToSqlParameter("NickName");
+            var emailParam = newPlayer.Email.ToSqlParameter("Email");
+            var saltHashParam = salt.ToSqlParameter("SaltHash");
             var retValParam = true.ToSqlParameter("ReturnValue");
            // var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
            // var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};

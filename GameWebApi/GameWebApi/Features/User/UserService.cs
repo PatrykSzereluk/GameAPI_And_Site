@@ -18,10 +18,15 @@ namespace GameWebApi.Features.User
 
         public async Task<bool> BanPlayer(BanPlayerRequestModel model)
         {
+
+            var banEntity = await _context.PlayerBans.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.IsActive);
+
+            if (banEntity != null && banEntity.IsActive) return false; // sprecyzować jaki błąd
+
             PlayerBans playerBans = new PlayerBans()
             {
                 PlayerId = model.PlayerId,
-                BanReason = model.BanReason,
+                BanReason = (byte)model.BanReason,
                 BanMessage = model.BanMessage,
                 BeginBanDate = DateTime.Now,
                 EndBanDate = model.EndBanDate,
