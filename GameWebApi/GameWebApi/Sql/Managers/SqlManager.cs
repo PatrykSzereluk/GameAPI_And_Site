@@ -1,6 +1,4 @@
-﻿
-
-namespace GameWebApi.Sql.Managers
+﻿namespace GameWebApi.Sql.Managers
 {
     using System;
     using System.Data;

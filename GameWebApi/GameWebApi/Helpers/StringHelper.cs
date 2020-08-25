@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace GameWebApi.Helpers
 {
+    using System;
+    using System.Linq;
     public static class StringHelper
     {
         public static string GenerateRandomString(this string generatedString, int length)

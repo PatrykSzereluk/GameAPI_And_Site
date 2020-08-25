@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Enums;
-
-namespace GameWebApi.Features.User.Model
+﻿namespace GameWebApi.Features.User.Model
 {
+    using System;
+    using Core.Enums;
+
     public class BanPlayerRequestModel
     {
         public int PlayerId { get; set; }

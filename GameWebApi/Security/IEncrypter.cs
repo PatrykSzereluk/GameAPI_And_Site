@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Security
+﻿namespace Security
 {
     public interface IEncrypter
     {

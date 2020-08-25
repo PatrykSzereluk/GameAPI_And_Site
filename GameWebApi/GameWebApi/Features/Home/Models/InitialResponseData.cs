@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GameWebApi.Models.DB;
-
-namespace GameWebApi.Features.Home.Models
+﻿namespace GameWebApi.Features.Home.Models
 {
+    using GameWebApi.Models.DB;
     public class InitialResponseData : PlayerStatistics
     {
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GameWebApi.Features.Ranking.Models
+﻿namespace GameWebApi.Features.Ranking.Models
 {
     public class UserRankingRequestData
     {

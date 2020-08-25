@@ -1,11 +1,10 @@
-﻿using GameWebApi.Features.User;
-using GameWebApi.Sql.Helpers;
+﻿
 
 namespace GameWebApi.Features.Identity
 {
-    using Models.DB;
+    using Models;
+    using GameWebApi.Models.DB;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using System;
@@ -15,12 +14,13 @@ namespace GameWebApi.Features.Identity
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
-    using GameWebApi.Sql.Interfaces;
-    using GameWebApi.Models.Features.Identity.Models;
+    using Sql.Interfaces;
     using System.Linq;
     using Microsoft.Data.SqlClient;
     using Security;
-    using GameWebApi.Helpers;
+    using Helpers;
+    using User;
+    using GameWebApi.Sql.Helpers;
 
     public class IdentityService : IIdentityService
     {

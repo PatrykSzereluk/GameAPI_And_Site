@@ -1,4 +1,4 @@
-﻿namespace GameWebApi.Models.Features.Identity.Models
+﻿namespace GameWebApi.Features.Identity.Models
 {
     public class UserLoginRequest
     {

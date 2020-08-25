@@ -1,11 +1,7 @@
-﻿using Core.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+﻿
 namespace GameWebApi.Features.Clan.Models
 {
+    using Core.Enums;
     public class NewMemberToClanRequestModel : BaseRequestData
     {
         public int ClanId { get; set; }

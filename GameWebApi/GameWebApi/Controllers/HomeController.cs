@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using GameWebApi.Features.Home;
-using GameWebApi.Features.Home.Models;
-using GameWebApi.Features.User;
-using GameWebApi.Features.User.Model;
-
-namespace GameWebApi.Controllers
+﻿namespace GameWebApi.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
+    using Features.Home;
+    using GameWebApi.Features.Home.Models;
+    using Features.User;
+    using Features.User.Model;
 
     public class HomeController : ApiController
     {

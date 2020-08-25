@@ -1,6 +1,4 @@
-﻿
-
-namespace GameWebApi.Sql.Interfaces
+﻿namespace GameWebApi.Sql.Interfaces
 {
     using System.Data;
     using System.Threading.Tasks;

@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using GameWebApi.Features.User;
-using GameWebApi.Features.User.Model;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GameWebApi.Controllers
+﻿namespace GameWebApi.Controllers
 {
-    public  class UserController : ApiController
+    using System.Threading.Tasks;
+    using Features.User;
+    using Features.User.Model;
+    using Microsoft.AspNetCore.Mvc;
+
+    public class UserController : ApiController
     {
         private readonly IUserService _userService;
 

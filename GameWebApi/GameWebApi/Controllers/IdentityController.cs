@@ -2,8 +2,8 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using GameWebApi.Models.Features.Identity.Models;
-    using GameWebApi.Features.Identity;
+    using GameWebApi.Features.Identity.Models;
+    using Features.Identity;
 
     public class IdentityController : ApiController
     {

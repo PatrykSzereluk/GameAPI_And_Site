@@ -1,12 +1,10 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-
-namespace GameWebApi.Controllers
+﻿namespace GameWebApi.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using GameWebApi.Features.Ranking.Models;
     using Features.Ranking;
+    using Microsoft.AspNetCore.Mvc;
 
     public class RankingController : ApiController
     {

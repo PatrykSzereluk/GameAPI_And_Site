@@ -1,7 +1,7 @@
 ﻿namespace GameWebApi.Features.Identity
 {
     using System.Threading.Tasks;
-    using GameWebApi.Models.Features.Identity.Models;
+    using Models;
 
     public interface IIdentityService
     {

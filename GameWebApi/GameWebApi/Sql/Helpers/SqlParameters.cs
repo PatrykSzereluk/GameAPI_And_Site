@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-
-namespace GameWebApi.Sql.Helpers
+﻿namespace GameWebApi.Sql.Helpers
 {
+    using System;
+    using System.Data;
+    using Microsoft.Data.SqlClient;
+
     public static class SqlParameters
     {
         public static SqlParameter ToSqlParameter(this int value, string parameterName)

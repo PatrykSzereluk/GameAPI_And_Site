@@ -1,7 +1,4 @@
-﻿using GameWebApi.Features.User;
-using GameWebApi.Models;
-
-namespace GameWebApi.Infrastructure
+﻿namespace GameWebApi.Infrastructure
 {
     using Features.Identity;
     using Sql.Interfaces;
@@ -11,8 +8,8 @@ namespace GameWebApi.Infrastructure
     using Features.Home;
     using Features.Ranking;
     using GameWebApi.Features.Clan.Models;
-    using GameWebApi.Features.Clan;
-
+    using Features.Clan;
+    using Features.User;
     public static class ConfigureServices
     {
 

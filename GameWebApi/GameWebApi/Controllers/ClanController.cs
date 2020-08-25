@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GameWebApi.Features.Clan.Models;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GameWebApi.Controllers
+﻿namespace GameWebApi.Controllers
 {
+    using System.Threading.Tasks;
+    using GameWebApi.Features.Clan.Models;
+    using Microsoft.AspNetCore.Mvc;
+
     public class ClanController : ApiController
     {
         private readonly IClanService _clanService;
