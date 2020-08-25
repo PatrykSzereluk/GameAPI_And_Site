@@ -63,6 +63,7 @@ namespace GameWebApi.Features.Identity
             StringBuilder sb = new StringBuilder(_encrypter.Encrypted(userInfo.Password));
 
             var salt = await GetSalt(userTuple.Item2);
+
             sb.Append(salt.Salt);
 
             var user = await GetUser(userInfo.Login, sb.ToString());
@@ -105,7 +106,7 @@ namespace GameWebApi.Features.Identity
 
         private async Task<PlayerSalt> GetSalt(int playerId)
         {
-            return await _context.PlayerSalt.FirstAsync(t => t.PlayerId == playerId);
+            return await _context.PlayerSalt.FirstOrDefaultAsync(t => t.PlayerId == playerId);
         }
 
         private async Task<PlayerIdentity> GetUser(string login, string password)
