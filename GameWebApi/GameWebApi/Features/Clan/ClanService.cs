@@ -84,6 +84,27 @@
                 response.IsSuccess = false;
             }
 
+            var clanStatistics = new ClanStatistics()
+            {
+                ClanId = clanEntity.Id,
+                Draws = 0,
+                Losses = 0,
+                Wins = 0
+            };
+
+            var csResult = await _context.ClanStatistics.AddAsync(clanStatistics);
+
+            if (csResult.State != EntityState.Added)
+            {
+                var leaderEntity =await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+
+                _context.ClanMembers.Remove(leaderEntity);
+                _context.Clans.Remove(clanEntity);
+                response.IsSuccess = false;
+            }
+
+            await _context.SaveChangesAsync();
+
             #endregion
             #region SqlManager
             //var result = await _sqlManager.ExecuteDataCommand("[Common].[AddNewClan]",

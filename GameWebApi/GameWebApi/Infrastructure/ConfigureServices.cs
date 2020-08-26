@@ -10,6 +10,7 @@
     using GameWebApi.Features.Clan.Models;
     using Features.Clan;
     using Features.User;
+    using Features.Ban;
     public static class ConfigureServices
     {
 
@@ -22,7 +23,8 @@
                 .AddTransient<IHomeService, HomeService>()
                 .AddTransient<IRankingService, RankingService>()
                 .AddTransient<IClanService, ClanService>()
-                .AddTransient<IUserService, UserService>();
+                .AddTransient<IUserService, UserService>()
+                .AddTransient<IBanService, BanService>();
         }
 
 
