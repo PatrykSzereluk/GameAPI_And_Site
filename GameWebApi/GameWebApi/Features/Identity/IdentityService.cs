@@ -1,5 +1,7 @@
 ﻿
 
+using GameWebApi.Features.Ban;
+
 namespace GameWebApi.Features.Identity
 {
     using Models;
@@ -28,20 +30,20 @@ namespace GameWebApi.Features.Identity
         private readonly ApplicationSettings _applicationSettings;
         private readonly ISqlManager _sqlManager;
         private readonly IEncrypter _encrypter;
-        private readonly IUserService _userService;
+        private readonly IBanService _banService;
 
         public IdentityService(
             GameDBContext ctx,
             IOptions<ApplicationSettings> applicationSettings,
             ISqlManager sqlManager,
             IEncrypter encrypter,
-            IUserService userService)
+            IBanService banService)
         {
             _applicationSettings = applicationSettings.Value;
             _context = ctx;
             _sqlManager = sqlManager;
             _encrypter = encrypter;
-            _userService = userService;
+            _banService = banService;
         }
 
         public async Task<UserLoginResponse> Login(UserLoginRequest userInfo)
@@ -56,7 +58,7 @@ namespace GameWebApi.Features.Identity
 
             if(userTuple.Item2 == 0) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
 
-            var isUserBanned = await _userService.CheckUserBan(userTuple.Item2);
+            var isUserBanned = await _banService.CheckUserBan(userTuple.Item2);
 
             if(isUserBanned) return new UserLoginResponse { PlayerId = userTuple.Item2, PlayerNickName = userTuple.Item1, IsBanned = true};
 

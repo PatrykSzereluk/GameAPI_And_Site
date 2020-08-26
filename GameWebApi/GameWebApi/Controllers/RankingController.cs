@@ -15,6 +15,7 @@
         {
             this._rankingService = rankingService;
         }
+
         [Route(nameof(GetUserRanking))]
         [HttpPost]
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)

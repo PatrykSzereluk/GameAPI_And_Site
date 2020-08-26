@@ -12,6 +12,7 @@ namespace GameWebApi.Models.DB
         public DateTime BeginBanDate { get; set; }
         public DateTime EndBanDate { get; set; }
         public bool IsActive { get; set; }
+        public bool Cancelled { get; set; }
 
         public virtual PlayerIdentity Player { get; set; }
     }

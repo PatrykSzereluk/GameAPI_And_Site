@@ -16,6 +16,7 @@ CREATE TABLE [Common].[PlayerBans](
 	[BeginBanDate] [date] NOT NULL,
 	[EndBanDate] [date] NOT NULL,
 	[IsActive] [bit] NOT NULL,
+	[Cancelled] [bit] NOT NULL
  CONSTRAINT [PK_PlayerBans] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

@@ -32,12 +32,5 @@
             return await _homeService.GetInitialDate(model);
         }
 
-        [Route(nameof(BanPlayer))]
-        public async Task<bool> BanPlayer(BanPlayerRequestModel model)
-        {
-            return await _userService.BanPlayer(model);
-        }
-
-
     }
 }
