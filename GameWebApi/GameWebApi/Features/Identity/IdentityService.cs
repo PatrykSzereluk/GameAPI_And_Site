@@ -89,7 +89,7 @@ namespace GameWebApi.Features.Identity
 
             var lastDatePassMod = await GetLastDateModifiedPassword(userTuple.Item2);
 
-            var ask = (DateTime.Today - lastDatePassMod).TotalDays > 90;
+            var ask = (DateTime.Today - lastDatePassMod).TotalDays > _applicationSettings.PasswordChangePeriod;
 
             return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken, AskAboutChangePassword = ask };
         }
