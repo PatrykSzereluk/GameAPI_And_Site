@@ -16,6 +16,7 @@ namespace GameWebApi.Models.DB
         }
 
         public virtual DbSet<ClanMembers> ClanMembers { get; set; }
+        public virtual DbSet<ClanStatistics> ClanStatistics { get; set; }
         public virtual DbSet<Clans> Clans { get; set; }
         public virtual DbSet<PlayerBans> PlayerBans { get; set; }
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
@@ -55,6 +56,21 @@ namespace GameWebApi.Models.DB
                     .HasForeignKey<ClanMembers>(d => d.PlayerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClanMembers_PlayerIdentity");
+            });
+
+            modelBuilder.Entity<ClanStatistics>(entity =>
+            {
+                entity.HasKey(e => e.ClanId);
+
+                entity.ToTable("ClanStatistics", "Common");
+
+                entity.Property(e => e.ClanId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Clan)
+                    .WithOne(p => p.ClanStatistics)
+                    .HasForeignKey<ClanStatistics>(d => d.ClanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClanStatistics_Clans");
             });
 
             modelBuilder.Entity<Clans>(entity =>

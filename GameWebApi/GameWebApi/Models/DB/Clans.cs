@@ -17,6 +17,7 @@ namespace GameWebApi.Models.DB
         public byte? AvatarId { get; set; }
         public string AvatarUrl { get; set; }
 
+        public virtual ClanStatistics ClanStatistics { get; set; }
         public virtual ICollection<ClanMembers> ClanMembers { get; set; }
     }
 }
