@@ -17,12 +17,17 @@
         }
         [Route(nameof(GetUserRanking))]
         [HttpPost]
-        public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(UserRankingRequestData rankingModel)
+        public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)
         {
             var z = Request;
             return await _rankingService.GetUserRanking(rankingModel);
         }
 
-
+        [Route(nameof(GetClanRanking))]
+        [HttpPost]
+        public async Task<IEnumerable<ClanRankingResponseModel>> GetClanRanking(RankingRequestData rankingModel)
+        {
+            return await _rankingService.GetClanRanking(rankingModel);
+        }
     }
 }

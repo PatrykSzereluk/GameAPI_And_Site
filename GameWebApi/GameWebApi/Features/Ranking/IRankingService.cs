@@ -6,6 +6,7 @@
 
     public interface IRankingService
     {
-        Task<IEnumerable<UserRankingResponseData>> GetUserRanking(UserRankingRequestData model);
+        Task<IEnumerable<UserRankingResponseData>> GetUserRanking(RankingRequestData model);
+        Task<IEnumerable<ClanRankingResponseModel>> GetClanRanking(RankingRequestData rankingModel);
     }
 }

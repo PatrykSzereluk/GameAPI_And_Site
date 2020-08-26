@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Features.Ranking
+﻿using Microsoft.Data.SqlClient;
+
+namespace GameWebApi.Features.Ranking
 {
     using Sql.Interfaces;
     using GameWebApi.Sql.Helpers;
@@ -22,17 +24,49 @@
             _sqlManager = sqlManager;
         }
 
-        public async Task<IEnumerable<UserRankingResponseData>> GetUserRanking(UserRankingRequestData rankingModel)
+
+
+        public async Task<IEnumerable<ClanRankingResponseModel>> GetClanRanking(RankingRequestData rankingModel)
         {
 
-            var takeParam = rankingModel.Take.ToSqlParameter("Take");
-            var skipParam = rankingModel.Take.ToSqlParameter("Skip");
-            var rankingCategoryParam = rankingModel.Take.ToSqlParameter("RankingCategory");
-            var orderParam = rankingModel.Take.ToSqlParameter("Order");
+            var result = await _sqlManager.ExecuteDataCommand("[Web].[GetClanRanking]", CommandType.StoredProcedure, null, GetSqlParameters(rankingModel));
 
-            var result = await _sqlManager.ExecuteDataCommand("[Web].[GetRanking]", CommandType.StoredProcedure, null, takeParam,skipParam,rankingCategoryParam,orderParam);
+            return await GetClanRankingData(result);
+        }
+
+
+
+        public async Task<IEnumerable<UserRankingResponseData>> GetUserRanking(RankingRequestData rankingModel)
+        {
+
+
+            var result = await _sqlManager.ExecuteDataCommand("[Web].[GetRanking]", CommandType.StoredProcedure, null, GetSqlParameters(rankingModel));
 
             return await GetUserRankingData(result);
+        }
+
+
+        private async Task<IEnumerable<ClanRankingResponseModel>> GetClanRankingData(TableSets data)
+        {
+            return await Task.Run(() =>
+            {
+                var result = new List<ClanRankingResponseModel>();
+                var tmpDate = data.Elements.First();
+
+                foreach (var row in tmpDate.Rows)
+                {
+                    result.Add(
+                        new ClanRankingResponseModel
+                        {
+                            Name = Convert.ToString(row.Elements[0]),
+                            Wins = Convert.ToInt32(row.Elements[1]),
+                            Losses = Convert.ToInt32(row.Elements[2]),
+                            Draws = Convert.ToInt32(row.Elements[3]),
+                            Experience = Convert.ToInt32(row.Elements[4])
+                        });
+                }
+                return result;
+            });
         }
 
         private async Task<IEnumerable<UserRankingResponseData>> GetUserRankingData(TableSets data)
@@ -62,5 +96,14 @@
             return res;
         }
 
+        private SqlParameter[] GetSqlParameters(RankingRequestData rankingModel)
+        {
+            return new[] {
+                rankingModel.Take.ToSqlParameter("Take"),
+                rankingModel.Take.ToSqlParameter("Skip"),
+                rankingModel.Take.ToSqlParameter("RankingCategory"),
+                rankingModel.Take.ToSqlParameter("Order")
+            };
+        }
     }
 }
