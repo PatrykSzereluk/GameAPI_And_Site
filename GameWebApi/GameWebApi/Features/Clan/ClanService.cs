@@ -229,15 +229,23 @@
             if (!removeMembers)
                 return false;
 
+            
+
             var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);
+            
+            var removeStatistics = await _context.ClanStatistics.FirstOrDefaultAsync(t => t.ClanId == clan.Id);
+
+            if (removeStatistics == null)
+                return false;
 
             if (clan == null)
                 return false;
 
             var leaderResult = _context.ClanMembers.Remove(leader);
+            var statsResult = _context.ClanStatistics.Remove(removeStatistics);
             var clanResult = _context.Clans.Remove(clan);
 
-            if (leaderResult.State == EntityState.Deleted && clanResult.State == EntityState.Deleted)
+            if (leaderResult.State == EntityState.Deleted && clanResult.State == EntityState.Deleted && statsResult.State == EntityState.Deleted)
             {
                 await _context.SaveChangesAsync();
                 return true;
