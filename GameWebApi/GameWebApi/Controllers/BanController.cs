@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using GameWebApi.Features.Ban;
-using GameWebApi.Features.User.Model;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GameWebApi.Controllers
+﻿namespace GameWebApi.Controllers
 {
+    using System.Threading.Tasks;
+    using Features.Ban;
+    using GameWebApi.Features.Ban.Models;
+    using Microsoft.AspNetCore.Mvc;
     public class BanController : ApiController
     {
         private readonly IBanService _banService;

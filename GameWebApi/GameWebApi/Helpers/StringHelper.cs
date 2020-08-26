@@ -1,5 +1,4 @@
-﻿
-namespace GameWebApi.Helpers
+﻿namespace GameWebApi.Helpers
 {
     using System;
     using System.Linq;

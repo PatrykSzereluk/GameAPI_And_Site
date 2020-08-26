@@ -1,4 +1,4 @@
-﻿namespace GameWebApi.Features.User.Model
+﻿namespace GameWebApi.Features.Ban.Models
 {
     using System;
     using Core.Enums;

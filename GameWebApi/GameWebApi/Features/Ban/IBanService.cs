@@ -1,7 +1,7 @@
 ﻿namespace GameWebApi.Features.Ban
 {
+    using Models;
     using System.Threading.Tasks;
-    using User.Model;
     public interface IBanService
     {
         Task<bool> CheckUserBan(int playerId);

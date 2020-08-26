@@ -2,8 +2,8 @@
 {
     using System;
     using System.Threading.Tasks;
-    using User.Model;
-    using Models.DB;
+    using Models;
+    using GameWebApi.Models.DB;
     using Microsoft.EntityFrameworkCore;
 
     public class BanService : IBanService

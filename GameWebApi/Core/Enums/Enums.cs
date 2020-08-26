@@ -19,5 +19,10 @@
         Other = 8
     }
 
+    public enum BanType
+    {
+        Full = 1,
+        Chat = 2
+    }
 
 }

@@ -1,7 +1,6 @@
 ﻿namespace GameWebApi.Features.User
 {
     using System.Text;
-    using System;
     using Security;
     using System.Threading.Tasks;
     using Model;
@@ -75,8 +74,5 @@
             }
             return false;
         }
-
-
-
     }
 }
