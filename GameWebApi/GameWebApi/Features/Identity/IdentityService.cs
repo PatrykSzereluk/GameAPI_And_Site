@@ -56,7 +56,7 @@ namespace GameWebApi.Features.Identity
 
             var userTuple = await GetUserIdByLogin(userInfo.Login);
 
-            if(userTuple.Item2 == 0) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
+            if(userTuple.Item2 == -1) return new UserLoginResponse { PlayerId = -1, PlayerNickName = userTuple.Item1 };
 
             var isUserBanned = await _banService.CheckUserBan(userTuple.Item2);
 
@@ -103,7 +103,7 @@ namespace GameWebApi.Features.Identity
         private async Task<Tuple<string,int>> GetUserIdByLogin(string login)
         {
             var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Login == login);
-            return Tuple.Create(user.Nick,user.Id);
+            return user != null ? Tuple.Create(user.Nick, user.Id) : Tuple.Create("unknown", -1);
         }
 
         private async Task<PlayerSalt> GetSalt(int playerId)
