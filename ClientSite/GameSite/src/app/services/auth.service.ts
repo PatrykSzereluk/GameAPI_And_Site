@@ -14,12 +14,20 @@ export class AuthService {
     return this.http.post<LoginResponseModel>('https://localhost:44343/Identity/Login', data);
   }
 
-  saveToken(token){
+  saveToken(token) {
     localStorage.setItem('token', token);
   }
 
-  getToken(){
+  getToken() {
     return localStorage.getItem('token');
   }
 
+  isAuthenticated(): boolean {
+
+     if (this.getToken()) {
+       return true;
+     }
+
+     return false;
+  }
 }

@@ -1,9 +1,9 @@
-export class LoginResponseModel {
+export interface LoginResponseModel {
 
-    PlayerId: number;
-    PlayerNickName: string;
-    Token: string;
-    AskAboutChangePassword: boolean;
-    IsBanned: boolean;
+    playerId: number;
+    playerNickName: string;
+    token: string;
+    askAboutChangePassword: boolean;
+    isBanned: boolean;
 
 }
