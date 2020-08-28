@@ -6,13 +6,16 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuardService } from './services/auth-guard.service';
+import { RankingComponent } from './ranking/ranking.component';
+import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RankingComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +23,15 @@ import { AuthGuardService } from './services/auth-guard.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [AuthService, AuthGuardService],
+  providers: [
+    AuthService,
+    AuthGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

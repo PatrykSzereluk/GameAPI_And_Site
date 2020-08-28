@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace GameWebApi.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -15,7 +17,7 @@
         {
             this._rankingService = rankingService;
         }
-
+        [Authorize]
         [Route(nameof(GetUserRanking))]
         [HttpPost]
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)

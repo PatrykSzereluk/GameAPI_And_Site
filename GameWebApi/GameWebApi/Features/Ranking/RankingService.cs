@@ -100,9 +100,9 @@ namespace GameWebApi.Features.Ranking
         {
             return new[] {
                 rankingModel.Take.ToSqlParameter("Take"),
-                rankingModel.Take.ToSqlParameter("Skip"),
-                rankingModel.Take.ToSqlParameter("RankingCategory"),
-                rankingModel.Take.ToSqlParameter("Order")
+                rankingModel.Skip.ToSqlParameter("Skip"),
+                rankingModel.RankingCategory.ToSqlParameter("RankingCategory"),
+                rankingModel.Order.ToSqlParameter("Order")
             };
         }
     }
