@@ -185,7 +185,11 @@
             var result = _context.ClanMembers.Update(clanMember);
 
             if (result.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
                 return true;
+            }
+                
 
             return false;
         }

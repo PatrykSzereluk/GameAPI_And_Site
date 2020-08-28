@@ -15,7 +15,7 @@
         }
 
         [Route(nameof(Register))]
-        [HttpGet]
+        [HttpPost]
         public async Task<UserRegisterResponseModel> Register(UserRegisterRequestModel model)
         {
             return await _identityService.Register(model);

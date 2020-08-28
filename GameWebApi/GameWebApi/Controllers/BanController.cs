@@ -14,12 +14,14 @@ namespace GameWebApi.Controllers
             _banService = banService;
         }
 
+        [HttpPost]
         [Route(nameof(BanPlayer))]
         public async Task<bool> BanPlayer(BanPlayerRequestModel model)
         {
             return await _banService.BanPlayer(model);
         }
 
+        [HttpPut]
         [Route(nameof(CancelBan))]
         public async Task<bool> CancelBan(BaseRequestData model)
         {
