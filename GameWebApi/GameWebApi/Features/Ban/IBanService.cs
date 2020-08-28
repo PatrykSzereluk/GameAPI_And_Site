@@ -6,6 +6,6 @@
     {
         Task<bool> CheckUserBan(int playerId);
         Task<bool> BanPlayer(BanPlayerRequestModel model);
-        Task<bool> CancelBan(BanPlayerRequestModel model);
+        Task<bool> CancelBan(int playerId);
     }
 }

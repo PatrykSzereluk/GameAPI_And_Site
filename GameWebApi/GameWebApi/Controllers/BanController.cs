@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Controllers
+﻿using GameWebApi.Features;
+
+namespace GameWebApi.Controllers
 {
     using System.Threading.Tasks;
     using Features.Ban;
@@ -12,16 +14,16 @@
             _banService = banService;
         }
 
-        [Route(nameof(BanPlayer))] // TODO: PRZENIEŚĆ DO INNEGO KONTROLERA
+        [Route(nameof(BanPlayer))]
         public async Task<bool> BanPlayer(BanPlayerRequestModel model)
         {
             return await _banService.BanPlayer(model);
         }
 
-        [Route(nameof(CancelBan))] // TODO: PRZENIEŚĆ DO INNEGO KONTROLERA
-        public async Task<bool> CancelBan(BanPlayerRequestModel model)
+        [Route(nameof(CancelBan))]
+        public async Task<bool> CancelBan(BaseRequestData model)
         {
-            return await _banService.CancelBan(model);
+            return await _banService.CancelBan(model.PlayerId);
         }
 
     }

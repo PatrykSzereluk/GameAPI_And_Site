@@ -42,15 +42,15 @@
             return false;
         }
 
-        public async Task<bool> CancelBan(BanPlayerRequestModel model)
+        public async Task<bool> CancelBan(int playerId)
         {
-            var banEntity = await _context.PlayerBans.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.IsActive);
+            var banEntity = await _context.PlayerBans.FirstOrDefaultAsync(t => t.PlayerId == playerId && t.IsActive);
             if (banEntity == null) return false;
 
             banEntity.IsActive = false;
             banEntity.Cancelled = true;
 
-            var result = await _context.PlayerBans.AddAsync(banEntity);
+            var result =  _context.PlayerBans.Update(banEntity);
 
             if (result.State == EntityState.Modified)
             {
