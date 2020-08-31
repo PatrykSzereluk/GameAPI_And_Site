@@ -1,10 +1,12 @@
 <div class="container-ranking">
-    <div *ngFor="let item of usersRanking">
-
-        <div>Place : {{item.place}}</div>
-        <div>NickName : {{item.nickName}}</div>
-        <div>Kills : {{item.kills}}</div>
-        <div>Games played : {{item.gamesPlayed}}</div>
-
-    </div>
+    <ul>
+        <li *ngFor="let item of usersRanking; let i = index">
+            <div class ="row" [ngStyle]="{'color': item.place <= 3 ? 'gold' : ''}">
+                Place : {{item.place}}
+                NickName : {{item.nickName}}
+                Kills : {{item.kills}}
+                Games played : {{item.gamesPlayed}}
+            </div>
+        </li>
+    </ul>
 </div>
