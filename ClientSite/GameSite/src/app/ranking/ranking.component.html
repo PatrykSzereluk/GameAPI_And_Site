@@ -1,13 +1,10 @@
-<div *ngFor="let item of usersRanking">
+<div class="container-ranking">
+    <div *ngFor="let item of usersRanking">
 
-    <div>{{item.place}}</div>
-    <div>{{item.nickName}}</div>
-    <div>{{item.kills}}</div>
-    <div>{{item.gamesPlayed}}</div>
+        <div>Place : {{item.place}}</div>
+        <div>NickName : {{item.nickName}}</div>
+        <div>Kills : {{item.kills}}</div>
+        <div>Games played : {{item.gamesPlayed}}</div>
 
-</div>
-
-
-<div class="container">
-    
+    </div>
 </div>

@@ -1,5 +1,6 @@
-.container{
+.container-ranking {
     width: 50%;
     height: 50%;
-    background-color: blueviolet;   
+    background-color: darkseagreen;
+    margin-left: 25%;
 }
