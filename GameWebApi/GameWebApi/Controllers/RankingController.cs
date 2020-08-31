@@ -18,7 +18,6 @@ namespace GameWebApi.Controllers
             this._rankingService = rankingService;
         }
 
-        [Authorize]
         [Route(nameof(GetUserRanking))]
         [HttpPost]
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)

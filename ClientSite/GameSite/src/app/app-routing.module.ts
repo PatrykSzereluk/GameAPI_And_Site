@@ -7,9 +7,8 @@ import { RankingComponent } from './ranking/ranking.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
-  { path: 'ranking', component: RankingComponent},
-  { path: 'register', component: LoginComponent, canActivate: [AuthGuardService]}
-  
+  { path: 'ranking', component: RankingComponent, canActivate: [AuthGuardService]} //,
+  //{ path: 'register', component: LoginComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
