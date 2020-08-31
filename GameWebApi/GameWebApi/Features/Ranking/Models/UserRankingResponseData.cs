@@ -9,6 +9,6 @@
         public int Assists { get; set; }
         public int GamesPlayed { get; set; }
         public int GamesWon { get; set; }
-        public int GameLose { get; set; }
+        public int GamesLose { get; set; }
     }
 }

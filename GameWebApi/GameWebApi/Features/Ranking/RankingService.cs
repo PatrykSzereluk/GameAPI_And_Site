@@ -88,7 +88,7 @@ namespace GameWebApi.Features.Ranking
                             Assists = Convert.ToInt32(row.Elements[4]),
                             GamesPlayed = Convert.ToInt32(row.Elements[5]),
                             GamesWon = Convert.ToInt32(row.Elements[6]),
-                            GameLose = Convert.ToInt32(row.Elements[7])
+                            GamesLose = Convert.ToInt32(row.Elements[7])
                         });
                 }
                 return result;
