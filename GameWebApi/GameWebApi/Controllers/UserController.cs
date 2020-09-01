@@ -34,7 +34,7 @@ namespace GameWebApi.Controllers
         [HttpPost]
         public async Task<bool> GetUserDetails(BaseRequestData data)
         {
-            return await _userService.ChangeNickName(data);
+            return await _userService.GetUserDetails(data);
         }
 
     }
