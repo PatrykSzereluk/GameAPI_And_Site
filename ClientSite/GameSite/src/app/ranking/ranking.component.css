@@ -1,12 +1,4 @@
-.container-ranking {
-    width: 50%;
-    height: 50%;
-    background-color: darkseagreen;
-    margin-left: 25%;
-}
 
 .row {
-    color: black;
-    padding: 10px;
-    
+    padding-left: 10px;
 }

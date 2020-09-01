@@ -1,0 +1,30 @@
+.header {
+    min-width: 100%;
+    height: 50px;
+    border: darkseagreen 1px solid;
+    text-align: center;
+}
+
+.content {
+    margin-top: 10px;
+    width: 50%;
+    background-color: darkseagreen;
+    padding-right: 0px;
+    float: left;
+    
+}
+
+.leftSide {
+    margin-top: 4px;
+    border: steelblue 2px solid;
+    width: 25%;
+    height: 500px;
+    float: left;
+}
+.rightSide {
+    margin-top: 4px;
+    border: steelblue 2px solid;
+    width: 25%;
+    float: left;
+    height: 500px;
+}

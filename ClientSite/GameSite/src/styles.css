@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+
+li {
+    color: black;
+    padding: 10px;
+    border: steelblue 2px solid;
+    list-style-type: none;
+    
+}
+
+ul {
+margin: 0;
+padding:0;
+}

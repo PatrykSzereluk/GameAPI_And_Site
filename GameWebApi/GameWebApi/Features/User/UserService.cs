@@ -48,6 +48,18 @@
             return new ChangePasswordResponseModel() { IsSuccess = false, BadPassword = false };
         }
 
+        public async Task<bool> GetUserDetails(BaseRequestData data)
+        {
+            var userExists = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == data.PlayerId);
+
+            if (userExists != null)
+            {
+
+            }
+
+            return false;
+        }
+
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)
         {
             var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);

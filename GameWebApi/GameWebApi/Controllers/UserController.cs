@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Controllers
+﻿using GameWebApi.Features;
+
+namespace GameWebApi.Controllers
 {
     using System.Threading.Tasks;
     using Features.User;
@@ -26,6 +28,13 @@
         public async Task<ChangePasswordResponseModel> ChangePassword(ChangePasswordRequestModel model)
         {
             return await _userService.ChangePassword(model);
+        }
+
+        [Route(nameof(GetUserDetails))]
+        [HttpPost]
+        public async Task<bool> GetUserDetails(BaseRequestData data)
+        {
+            return await _userService.ChangeNickName(data);
         }
 
     }

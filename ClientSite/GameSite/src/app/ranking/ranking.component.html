@@ -1,12 +1,11 @@
-<div class="container-ranking">
+
     <ul>
         <li *ngFor="let item of usersRanking; let i = index">
-            <div class ="row" [ngStyle]="{'color': item.place <= 3 ? 'gold' : ''}">
+             <div class ="row" [ngStyle]="{'color': item.place >= 4 ? 'black' : item.place == 3 ? '#dc6532' : item.place == 2 ? '#dc8432' : item.place == 1 ? '#dc9432' : ''}"> 
                 Place : {{item.place}}
                 NickName : {{item.nickName}}
                 Kills : {{item.kills}}
                 Games played : {{item.gamesPlayed}}
-            </div>
+             </div> 
         </li>
     </ul>
-</div>

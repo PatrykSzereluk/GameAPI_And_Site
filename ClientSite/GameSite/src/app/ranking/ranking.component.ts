@@ -20,7 +20,6 @@ export class RankingComponent implements OnInit {
   getRanking() {
     this.rankingService.getRanking({Take : 10, Skip : 0, RankingCategory : 1, Order : false}).subscribe( t => {
       this.usersRanking = t;
-      console.log(t);
     });
   }
 
