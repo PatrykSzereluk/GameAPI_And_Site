@@ -48,26 +48,49 @@
             return new ChangePasswordResponseModel() { IsSuccess = false, BadPassword = false };
         }
 
-        public async Task<bool> GetUserDetails(BaseRequestData data)
+        public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {
             var userExists = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == data.PlayerId);
 
             if (userExists != null)
             {
-
+                var result = new UserDetailsResponseModel();
                 var playerStats = await _context.PlayerStatistics.FirstOrDefaultAsync(t => t.PlayerId == userExists.Id);
+
+                result.Kills = playerStats.Kills;
+                result.Deaths = playerStats.Deaths;
+                result.Assists = playerStats.Assists;
+                result.GamesPlayed = playerStats.GamesPlayed;
+                result.GamesWon = playerStats.GamesWon;
+                result.GameLose = playerStats.GameLose;
+                
                 var clanMemberEntity = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == userExists.Id);
 
                 if (clanMemberEntity != null)
                 {
+                    result.Function = clanMemberEntity.Function;
+                    result.DateOfJoin = clanMemberEntity.DateOfJoin;
+
                     var clanEntity = await _context.Clans.FirstOrDefaultAsync(t => t.Id == clanMemberEntity.ClanId);
+
+                    result.AvatarId = clanEntity.AvatarId;
+                    result.Acronym = clanEntity.Acronym;
+                    result.AvatarUrl = clanEntity.AvatarUrl;
+                    result.Experience = clanEntity.Experience;
+                    result.Name = clanEntity.Name;
+
                     var clanStatsEntity = await _context.ClanStatistics.FirstOrDefaultAsync(t => t.ClanId == clanEntity.Id);
+
+                    result.Wins = clanStatsEntity.Wins;
+                    result.Losses = clanStatsEntity.Losses;
+                    result.Draws = clanStatsEntity.Draws;
+
                 }
 
-                return true;
+                return result;
             }
 
-            return false;
+            return new UserDetailsResponseModel();
         }
 
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)

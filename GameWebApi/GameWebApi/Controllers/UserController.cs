@@ -32,7 +32,7 @@ namespace GameWebApi.Controllers
 
         [Route(nameof(GetUserDetails))]
         [HttpPost]
-        public async Task<bool> GetUserDetails(BaseRequestData data)
+        public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {
             return await _userService.GetUserDetails(data);
         }
