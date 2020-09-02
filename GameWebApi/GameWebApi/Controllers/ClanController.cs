@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace GameWebApi.Controllers
 {
     using System.Threading.Tasks;
     using GameWebApi.Features.Clan.Models;
@@ -13,6 +15,7 @@
             this._clanService = clanService;
         }
 
+        [Authorize]
         [HttpPost]
         [Route(nameof(AddNewClan))]
         public async Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model)
@@ -20,6 +23,7 @@
             return await _clanService.AddNewClan(model);
         }
 
+        [Authorize]
         [HttpPost]
         [Route(nameof(AddMemberToClan))]
         public async Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model)
@@ -27,6 +31,7 @@
             return await _clanService.AddMemberToClan(model);
         }
 
+        [Authorize]
         [HttpPut]
         [Route(nameof(ModifyMemberFunction))]
         public async Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model)
@@ -34,6 +39,7 @@
             return await _clanService.ModifyMemberFunction(model);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route(nameof(RemoveMember))]
         public async Task<bool> RemoveMember(RemoveUserRequestModel model)
@@ -41,6 +47,7 @@
             return await _clanService.RemoveMember(model);  
         }
 
+        [Authorize]
         [HttpDelete]
         [Route(nameof(RemoveClan))]
         public async Task<bool> RemoveClan(RemoveClanRequestModel model)

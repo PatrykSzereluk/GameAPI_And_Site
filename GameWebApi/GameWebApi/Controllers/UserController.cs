@@ -1,4 +1,5 @@
 ﻿using GameWebApi.Features;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameWebApi.Controllers
 {
@@ -16,6 +17,7 @@ namespace GameWebApi.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [Route(nameof(ChangeNickName))]
         [HttpPost]
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)
@@ -23,6 +25,7 @@ namespace GameWebApi.Controllers
             return await _userService.ChangeNickName(model);
         }
 
+        [Authorize]
         [Route(nameof(ChangePassword))]
         [HttpPost]
         public async Task<ChangePasswordResponseModel> ChangePassword(ChangePasswordRequestModel model)

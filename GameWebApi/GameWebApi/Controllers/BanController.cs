@@ -1,4 +1,5 @@
 ﻿using GameWebApi.Features;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameWebApi.Controllers
 {
@@ -14,6 +15,7 @@ namespace GameWebApi.Controllers
             _banService = banService;
         }
 
+        [Authorize]
         [HttpPost]
         [Route(nameof(BanPlayer))]
         public async Task<bool> BanPlayer(BanPlayerRequestModel model)
@@ -21,6 +23,7 @@ namespace GameWebApi.Controllers
             return await _banService.BanPlayer(model);
         }
 
+        [Authorize]
         [HttpPut]
         [Route(nameof(CancelBan))]
         public async Task<bool> CancelBan(BaseRequestData model)

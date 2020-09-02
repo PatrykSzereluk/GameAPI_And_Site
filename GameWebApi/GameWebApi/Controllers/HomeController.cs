@@ -25,6 +25,7 @@
         {
             return Ok("Works");
         }
+        [Authorize]
         [HttpPost]
         [Route(nameof(GetInitialData))]
         public async Task<InitialResponseData> GetInitialData(InitialRequestData model)
