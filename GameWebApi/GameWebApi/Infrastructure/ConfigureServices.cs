@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Infrastructure
+﻿using GameWebApi.Features.Email;
+
+namespace GameWebApi.Infrastructure
 {
     using Features.Identity;
     using Sql.Interfaces;
@@ -24,7 +26,8 @@
                 .AddTransient<IRankingService, RankingService>()
                 .AddTransient<IClanService, ClanService>()
                 .AddTransient<IUserService, UserService>()
-                .AddTransient<IBanService, BanService>();
+                .AddTransient<IBanService, BanService>()
+                .AddTransient<IEmailService,EmailService>();
         }
 
 

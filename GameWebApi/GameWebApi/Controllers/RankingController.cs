@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using GameWebApi.Features.Email;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameWebApi.Controllers
 {
@@ -12,10 +13,12 @@ namespace GameWebApi.Controllers
     {
 
         private readonly IRankingService _rankingService;
+        private readonly IEmailService _emailService;
 
-        public RankingController(IRankingService rankingService)
+        public RankingController(IRankingService rankingService, IEmailService emailService)
         {
             this._rankingService = rankingService;
+            this._emailService = emailService;
         }
 
         [Route(nameof(GetUserRanking))]
@@ -23,6 +26,7 @@ namespace GameWebApi.Controllers
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)
         {
             var z = Request;
+            _emailService.SendEmailToUser("zczc", "xcv"); // test
             return await _rankingService.GetUserRanking(rankingModel);
         }
 
