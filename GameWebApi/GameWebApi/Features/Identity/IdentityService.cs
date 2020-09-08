@@ -1,8 +1,4 @@
-﻿
-
-using GameWebApi.Features.Ban;
-
-namespace GameWebApi.Features.Identity
+﻿namespace GameWebApi.Features.Identity
 {
     using Models;
     using GameWebApi.Models.DB;
@@ -21,8 +17,9 @@ namespace GameWebApi.Features.Identity
     using Microsoft.Data.SqlClient;
     using Security;
     using Helpers;
-    using User;
     using GameWebApi.Sql.Helpers;
+    using GameWebApi.Features.Email;
+    using GameWebApi.Features.Ban;
 
     public class IdentityService : IIdentityService
     {
@@ -31,19 +28,22 @@ namespace GameWebApi.Features.Identity
         private readonly ISqlManager _sqlManager;
         private readonly IEncrypter _encrypter;
         private readonly IBanService _banService;
+        private readonly IEmailService _emailService;
 
         public IdentityService(
             GameDBContext ctx,
             IOptions<ApplicationSettings> applicationSettings,
             ISqlManager sqlManager,
             IEncrypter encrypter,
-            IBanService banService)
+            IBanService banService,
+            IEmailService emailService)
         {
             _applicationSettings = applicationSettings.Value;
             _context = ctx;
             _sqlManager = sqlManager;
             _encrypter = encrypter;
             _banService = banService;
+            _emailService = emailService;
         }
 
         public async Task<UserLoginResponse> Login(UserLoginRequest userInfo)
@@ -90,7 +90,7 @@ namespace GameWebApi.Features.Identity
             var lastDatePassMod = await GetLastDateModifiedPassword(userTuple.Item2);
 
             var ask = (DateTime.Today - lastDatePassMod).TotalDays > _applicationSettings.PasswordChangePeriod;
-
+            // send email notification if is different ip 
             return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken, AskAboutChangePassword = ask };
         }
 
@@ -157,8 +157,11 @@ namespace GameWebApi.Features.Identity
             var id = dataSet.Elements.First().Rows.First().Elements.First();
             returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
+            // send a thank email
+            // return error code
             return returnValue;
         }
 
     }
 }
+    
