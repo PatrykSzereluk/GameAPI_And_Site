@@ -17,6 +17,12 @@
             _encrypter = encrypter;
         }
 
+        //public async Task<bool> SendNewPasswordForEmail()
+        //{
+        //    // use emailService
+        //    //
+        //}
+
         public async Task<ChangePasswordResponseModel> ChangePassword(ChangePasswordRequestModel model)
         {
             var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);

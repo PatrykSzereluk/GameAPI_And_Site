@@ -276,11 +276,17 @@
             return false;
         }
 
-#pragma warning disable 1998
         public async Task<bool> SendInviteToClan(int playerId, int clanId)
-#pragma warning restore 1998
         {
-            throw new NotImplementedException();
+            var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == playerId);
+            if (player == null) return false;
+
+            var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == clanId);
+            if (clan == null) return false;
+
+            // add data to table 
+
+            return true;
         }
 
         private async Task<bool> CheckName(string name)
