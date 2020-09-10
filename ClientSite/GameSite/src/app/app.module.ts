@@ -10,12 +10,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuardService } from './services/auth-guard.service';
 import { RankingComponent } from './ranking/ranking.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RankingComponent
+    RankingComponent,
+    EmailConfirmationComponent
   ],
   imports: [
     BrowserModule,
