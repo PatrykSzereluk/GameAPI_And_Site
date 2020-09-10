@@ -1,6 +1,7 @@
 ﻿using GameWebApi.Features.Email;
+using GameWebApi.Features.Email.Models;
+using GameWebApi.Features.Utility;
 using Microsoft.AspNetCore.Authorization;
-using NLog;
 
 namespace GameWebApi.Controllers
 {
@@ -12,10 +13,8 @@ namespace GameWebApi.Controllers
 
     public class RankingController : ApiController
     {
-
         private readonly IRankingService _rankingService;
         private readonly IEmailService _emailService;
-        private static Logger _logger = LogManager.GetLogger("loggerRole"); 
 
         public RankingController(IRankingService rankingService, IEmailService emailService)
         {
@@ -27,10 +26,9 @@ namespace GameWebApi.Controllers
         [HttpPost]
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)
         {
-            var z = Request;
-            _logger.Info("Start GetUserRanking");
-            // _emailService.SendEmailToUser("zczc", "xcv"); // test
-            _logger.Info("End GetUserRanking");
+            //SendEmailToUser(string userEmail, string message, EmailType emailType, EmailData data = null)
+            await _emailService.SendEmailToUser("asdsd","asdsaasd",EmailType.Welcome,new EmailData(){UserName = "Jakiś tam user"}); // test
+
             return await _rankingService.GetUserRanking(rankingModel);
         }
 

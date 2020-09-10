@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Features.Identity
+﻿using GameWebApi.Features.Email.Models;
+
+namespace GameWebApi.Features.Identity
 {
     using Models;
     using GameWebApi.Models.DB;
@@ -157,7 +159,7 @@
             var id = dataSet.Elements.First().Rows.First().Elements.First();
             returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
-            // send a thank email
+            await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){UserName = returnValue.NickName});
             // return error code
             return returnValue;
         }

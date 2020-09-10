@@ -24,9 +24,5 @@
     <ProjectReference Include="..\Security\Security.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Email\Models\" />
-  </ItemGroup>
-
 
 </Project>
