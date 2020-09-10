@@ -35,7 +35,7 @@ namespace GameWebApi.Features.Email
         {
             var template = await GetTemplate(emailType);
 
-            FillTemplate(template, data, emailType);
+            message = FillTemplate(template, data, emailType);
 
             if (SendEmail(userEmail, message))
             {
@@ -46,16 +46,19 @@ namespace GameWebApi.Features.Email
             return false;
         }
 
-        private void FillTemplate(string template, EmailData data, EmailType emailType)
+        private string FillTemplate(string template, EmailData data, EmailType emailType)
         {
             switch (emailType)
             {
                 case EmailType.Welcome:
                 {
-                    template = template.Replace("r-UserName", data.UserName);
+                    template = template.Replace("r-NickName", data.NickName);
+                    template = template.Replace("r-Id", data.NickName);
                     break;
                 }
             }
+
+            return template;
         }
 
 

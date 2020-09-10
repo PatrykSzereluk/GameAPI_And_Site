@@ -7,6 +7,7 @@ namespace GameWebApi.Features.Email.Models
 {
     public class EmailData
     {
-        public string UserName { get; set; }
+        public int PlayerId { get; set; }
+        public string NickName { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace GameWebApi.Controllers
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)
         {
             //SendEmailToUser(string userEmail, string message, EmailType emailType, EmailData data = null)
-            await _emailService.SendEmailToUser("asdsd","asdsaasd",EmailType.Welcome,new EmailData(){UserName = "Jakiś tam user"}); // test
+            await _emailService.SendEmailToUser("asdsd","asdsaasd",EmailType.Welcome,new EmailData(){NickName = "Jakiś tam user", PlayerId = 5}); // test
 
             return await _rankingService.GetUserRanking(rankingModel);
         }
