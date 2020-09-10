@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using GameWebApi.Features.Email.Models;
-using GameWebApi.Features.Utility.Log;
+
 
 namespace GameWebApi.Features.Email
 {
@@ -33,16 +33,16 @@ namespace GameWebApi.Features.Email
 
         public async Task<bool> SendEmailToUser(string userEmail, string message, EmailType emailType, EmailData data = null)
         {
-            var template = await GetTemplate(emailType);
+            var emailMessage = await GetMessage(emailType);
 
-            message = FillTemplate(template, data, emailType);
+            emailMessage.Definition = FillTemplate(emailMessage.Definition, data, emailType);
 
-            if (SendEmail(userEmail, message))
+            if (SendEmail(userEmail,emailMessage.Subject, emailMessage.Definition))
             {
-                Logger.GetInstance().Info($"Send email to: {userEmail} with status 1");
+             //   Logger.GetInstance().Info($"Send email to: {userEmail} with status 1");
                 return true;
             }
-            Logger.GetInstance().Info($"Send email to: {userEmail} with status 0");
+            //Logger.GetInstance().Info($"Send email to: {userEmail} with status 0");
             return false;
         }
 
@@ -62,24 +62,26 @@ namespace GameWebApi.Features.Email
         }
 
 
-        private bool SendEmail(string to, string message)
+        private bool SendEmail(string to,string subject, string message)
         {
             try
             {
                 var mailMessage = new MailMessage
                 {
                     From = new MailAddress(_applicationSettings.Email),
-                    Subject = "Subject",
+                    Subject = subject,
                     Body = message,
                     IsBodyHtml = true
                 };
-                mailMessage.To.Add(_applicationSettings.TestTo);
+                mailMessage.To.Add(_applicationSettings.MailToTest1);
+                //mailMessage.To.Add(_applicationSettings.MailToTest2);
+                //mailMessage.To.Add(_applicationSettings.MailToTest3);
 
                 _smtpClient.Send(mailMessage);
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -87,25 +89,30 @@ namespace GameWebApi.Features.Email
 
 
 
-        private async Task<string> GetTemplate(EmailType emailType)
+        private async Task<EmailMessage> GetMessage(EmailType emailType)
         {
             var templateName = "";
+            var emailMessage = new EmailMessage();
             switch (emailType)
             {
                 case EmailType.Welcome:
                 {
                     templateName = "WelcomeTemplate";
+                    emailMessage.Subject = "Welcome to the game";
+
                     break;
                 }
 
                 default:
-                    Logger.GetInstance().Warning($"Not exists emailType: {emailType}");
+                    //Logger.GetInstance().Warning($"Not exists emailType: {emailType}");
                     break;
             }
 
             var definition = await File.ReadAllTextAsync(Path.Join(Directory.GetCurrentDirectory(), "EmailTemplates", templateName + ".html"));
+            
+            emailMessage.Definition = definition;
 
-            return definition;
+            return emailMessage;
         }
 
     }

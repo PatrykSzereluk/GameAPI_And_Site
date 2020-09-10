@@ -6,6 +6,8 @@
         public string Email { get; set; }
         public string Password { get; set; }
         public int PasswordChangePeriod { get; set; }
-        public string TestTo { get; set; }
+        public string MailToTest1 { get; set; }
+        public string MailToTest2 { get; set; }
+        public string MailToTest3 { get; set; }
     }
 }

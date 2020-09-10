@@ -1,6 +1,5 @@
 ﻿using GameWebApi.Features.Email;
 using GameWebApi.Features.Email.Models;
-using GameWebApi.Features.Utility;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GameWebApi.Controllers
@@ -27,7 +26,7 @@ namespace GameWebApi.Controllers
         public async Task<IEnumerable<UserRankingResponseData>>  GetUserRanking(RankingRequestData rankingModel)
         {
             //SendEmailToUser(string userEmail, string message, EmailType emailType, EmailData data = null)
-            await _emailService.SendEmailToUser("asdsd","asdsaasd",EmailType.Welcome,new EmailData(){NickName = "Jakiś tam user", PlayerId = 5}); // test
+            await _emailService.SendEmailToUser("patziomekk@gmail.com","",EmailType.Welcome,new EmailData(){NickName = "Jakiś tam user[Test]", PlayerId = 5}); // test
 
             return await _rankingService.GetUserRanking(rankingModel);
         }
