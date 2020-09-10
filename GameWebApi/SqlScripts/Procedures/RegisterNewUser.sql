@@ -22,12 +22,14 @@ BEGIN
 		[Password],
 		[Nick],
 		[Email],
+		[EmailConfirmed],
 		[GameToken])
 	VALUES (
 		@Login,
 		@Password,
 		@NickName,
 		@Email,
+		0,
 		replace(newid(), '-', ''))
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)
