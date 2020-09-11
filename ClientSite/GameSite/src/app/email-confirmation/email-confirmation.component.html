@@ -1,1 +1,7 @@
-<p>email-confirmation works!</p>
+<div *ngIf="!withouterror"style="background-color: red;">
+    <p>Błąd, Email jest już potwierdzony</p>
+</div>
+<div *ngIf="withouterror" style="background-color: green;">
+    <p>Gratulacje, potwierdziłeś email!</p>
+</div>
+

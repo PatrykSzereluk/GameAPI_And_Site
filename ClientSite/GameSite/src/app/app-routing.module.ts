@@ -9,8 +9,8 @@ import { EmailConfirmationComponent } from './email-confirmation/email-confirmat
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'ranking', component: RankingComponent},
-  { path: 'emailconfirmation/:id', component: EmailConfirmationComponent}
-  //{ path: 'register', component: LoginComponent, canActivate: [AuthGuardService]}
+  { path: 'emailconfirmation/:id/confirm/:playerHash', component: EmailConfirmationComponent}
+  // { path: 'register', component: LoginComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
