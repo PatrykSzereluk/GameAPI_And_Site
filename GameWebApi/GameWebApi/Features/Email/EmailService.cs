@@ -1,8 +1,5 @@
-﻿using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using GameWebApi.Features.Email.Models;
-
+﻿using System.Linq;
+using GameWebApi.Models.DB;
 
 namespace GameWebApi.Features.Email
 {
@@ -10,14 +7,21 @@ namespace GameWebApi.Features.Email
     using System.Net;
     using System.Net.Mail;
     using Microsoft.Extensions.Options;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Models;
+    using Utility.Logging;
+    using Microsoft.EntityFrameworkCore;
 
     public class EmailService : IEmailService
     {
+        private readonly GameDBContext _context;
         private readonly ApplicationSettings _applicationSettings;
         private readonly SmtpClient _smtpClient;
-        public EmailService(IOptions<ApplicationSettings> applicationSettings)
+        public EmailService(IOptions<ApplicationSettings> applicationSettings, GameDBContext context)
         {
             _applicationSettings = applicationSettings.Value;
+            _context = context;
             _smtpClient = GetSmtpClient();
         }
 
@@ -36,13 +40,20 @@ namespace GameWebApi.Features.Email
             var emailMessage = await GetMessage(emailType);
 
             emailMessage.Definition = FillTemplate(emailMessage.Definition, data, emailType);
-
-            if (SendEmail(userEmail,emailMessage.Subject, emailMessage.Definition))
+            try
             {
-             //   Logger.GetInstance().Info($"Send email to: {userEmail} with status 1");
-                return true;
+                if (SendEmail(userEmail, emailMessage.Subject, emailMessage.Definition))
+                {
+                    Logger.GetInstance().Info($"Send email to: {userEmail} with status 1");
+                    return true;
+                }
             }
-            //Logger.GetInstance().Info($"Send email to: {userEmail} with status 0");
+            catch (Exception e)
+            {
+                Logger.GetInstance().Error($"Send email to: {userEmail} with status 0. {e.InnerException?.Message}");
+                return false;
+            }
+
             return false;
         }
 
@@ -74,7 +85,7 @@ namespace GameWebApi.Features.Email
                     IsBodyHtml = true
                 };
                 mailMessage.To.Add(_applicationSettings.MailToTest1);
-                //mailMessage.To.Add(_applicationSettings.MailToTest2);
+                mailMessage.To.Add(to);
                 //mailMessage.To.Add(_applicationSettings.MailToTest3);
 
                 _smtpClient.Send(mailMessage);
@@ -113,5 +124,12 @@ namespace GameWebApi.Features.Email
             return emailMessage;
         }
 
+        public async Task SendEmailToAll(string message, string subject)
+        {
+            var users = await _context.PlayerIdentity.ToListAsync();
+
+            Parallel.ForEach(users, (user) => { SendEmail(user.Email, subject, message); });
+
+        }
     }
 }

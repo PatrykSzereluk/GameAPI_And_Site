@@ -5,5 +5,6 @@
     public interface IEmailService
     {
          Task<bool> SendEmailToUser(string userEmail, string message, EmailType emailType, EmailData data = null);
+         Task SendEmailToAll(string message, string subject);
     }
 }
