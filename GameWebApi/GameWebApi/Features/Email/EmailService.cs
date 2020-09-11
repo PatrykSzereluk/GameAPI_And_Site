@@ -62,11 +62,13 @@ namespace GameWebApi.Features.Email
             switch (emailType)
             {
                 case EmailType.Welcome:
+                case EmailType.ChangePassword:
                 {
                     template = template.Replace("r-NickName", data.NickName);
                     template = template.Replace("r-Id", data.NickName);
                     break;
                 }
+
             }
 
             return template;
@@ -111,7 +113,13 @@ namespace GameWebApi.Features.Email
 
                     break;
                 }
+                case EmailType.ChangePassword:
+                {
+                    templateName = "ChangePassword";
+                    emailMessage.Subject = "Change password";
 
+                    break;
+                }
                 default:
                     //Logger.GetInstance().Warning($"Not exists emailType: {emailType}");
                     break;

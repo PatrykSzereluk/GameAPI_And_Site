@@ -8,6 +8,7 @@ namespace GameWebApi.Features.Email.Models
     public enum EmailType
     {
         None = 0,
-        Welcome = 1
+        Welcome = 1,
+        ChangePassword
     }
 }
