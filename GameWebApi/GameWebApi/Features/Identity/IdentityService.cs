@@ -1,7 +1,6 @@
-﻿using GameWebApi.Features.Email.Models;
-
-namespace GameWebApi.Features.Identity
+﻿namespace GameWebApi.Features.Identity
 {
+    using GameWebApi.Features.Email.Models;
     using Models;
     using GameWebApi.Models.DB;
     using Microsoft.EntityFrameworkCore;
@@ -20,8 +19,8 @@ namespace GameWebApi.Features.Identity
     using Security;
     using Helpers;
     using GameWebApi.Sql.Helpers;
-    using GameWebApi.Features.Email;
-    using GameWebApi.Features.Ban;
+    using Email;
+    using Ban;
 
     public class IdentityService : IIdentityService
     {
@@ -74,6 +73,8 @@ namespace GameWebApi.Features.Identity
 
             if(user == null) return new UserLoginResponse { PlayerId = -1, PlayerNickName = "unknown" };
 
+            if(user.EmailConfirmed == false) return new UserLoginResponse(){PlayerNickName = userTuple.Item1, EmailIsNotConfirmed = true};
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(this._applicationSettings.Secret);
 
@@ -125,6 +126,7 @@ namespace GameWebApi.Features.Identity
             if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.NickName || t.Email == newPlayer.Email).Result)
             {
                 returnValue.IsSuccess = false;
+                returnValue.StatusCode = 456;
                 return returnValue;
             }
 
@@ -135,17 +137,14 @@ namespace GameWebApi.Features.Identity
             string salt = _encrypter.Encrypted(generateString.GenerateRandomString(40));
             hashPassword.Append(salt);
 
-            //var loginParam = new SqlParameter("Login",SqlDbType.NVarChar){Value = newPlayer.Login};
+
             var loginParam = newPlayer.Login.ToSqlParameter("Login");
             var passwordParam = hashPassword.ToString().ToSqlParameter("Password");
             var nickNameParam = newPlayer.NickName.ToSqlParameter("NickName");
             var emailParam = newPlayer.Email.ToSqlParameter("Email");
             var saltHashParam = salt.ToSqlParameter("SaltHash");
             var retValParam = true.ToSqlParameter("ReturnValue");
-           // var passwordParam = new SqlParameter("Password", SqlDbType.NVarChar){Value = hashPassword.ToString() };
-           // var nickNameParam = new SqlParameter("NickName", SqlDbType.NVarChar){Value = newPlayer.NickName};
-           // var emailParam = new SqlParameter("Email", SqlDbType.NVarChar){Value = newPlayer.Email};
-           // var saltHashParam = new SqlParameter("SaltHash", SqlDbType.NVarChar){Value = salt};
+            var playerHashParam = newPlayer.GetHashCode().ToString().ToSqlParameter("PlayerHash");
 
             parameters.Add(loginParam);
             parameters.Add(passwordParam);
@@ -153,13 +152,14 @@ namespace GameWebApi.Features.Identity
             parameters.Add(emailParam);
             parameters.Add(saltHashParam);
             parameters.Add(retValParam);
+            parameters.Add(playerHashParam);
 
             var dataSet = await _sqlManager.ExecuteDataCommand("[Common].[RegisterNewPlayer]", CommandType.StoredProcedure,null,parameters.ToArray());
 
             var id = dataSet.Elements.First().Rows.First().Elements.First();
             returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
-            await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){NickName = returnValue.NickName, PlayerId  = returnValue.PlayerId});
+            //await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){NickName = returnValue.NickName, PlayerId  = returnValue.PlayerId});
             // return error code
             return returnValue;
         }

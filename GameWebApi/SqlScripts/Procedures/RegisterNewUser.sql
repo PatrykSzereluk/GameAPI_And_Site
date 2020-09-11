@@ -12,6 +12,7 @@ CREATE PROCEDURE [Common].[RegisterNewPlayer]
 	@NickName	  NVARCHAR(32),
 	@Email		  NVARCHAR(64),
 	@SaltHash	  NVARCHAR(MAX),
+	@PlayerHash   NVARCHAR(255),
 	@ReturnValue  bit
 AS
 BEGIN
@@ -23,6 +24,7 @@ BEGIN
 		[Nick],
 		[Email],
 		[EmailConfirmed],
+		[PlayerHash],
 		[GameToken])
 	VALUES (
 		@Login,
@@ -30,6 +32,7 @@ BEGIN
 		@NickName,
 		@Email,
 		0,
+		@PlayerHash,
 		replace(newid(), '-', ''))
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)

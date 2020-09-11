@@ -16,6 +16,7 @@ CREATE TABLE [Common].[PlayerIdentity](
 	[Nick] [varchar](32) NOT NULL,
 	[Email] [varchar](64) NOT NULL,
 	[EmailConfirmed] [BIT] NOT NULL,
+	[PlayerHash] [nvarchar](255) NOT NULL,
 	[GameToken] [varchar](max) NOT NULL
 PRIMARY KEY CLUSTERED 
 (

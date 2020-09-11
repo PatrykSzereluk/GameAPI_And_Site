@@ -24,6 +24,15 @@ namespace GameWebApi.Models.DB
         public virtual DbSet<PlayerSalt> PlayerSalt { get; set; }
         public virtual DbSet<PlayerStatistics> PlayerStatistics { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=.;Database=Test;Trusted_Connection=True;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ClanMembers>(entity =>
@@ -138,6 +147,8 @@ namespace GameWebApi.Models.DB
                     .HasMaxLength(64)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EmailConfirmed).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.GameToken)
                     .IsRequired()
                     .IsUnicode(false);
@@ -155,6 +166,8 @@ namespace GameWebApi.Models.DB
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .IsUnicode(false);
+
+                entity.Property(e => e.PlayerHash).HasMaxLength(255);
             });
 
             modelBuilder.Entity<PlayerSalt>(entity =>
