@@ -6,6 +6,8 @@
     using Model;
     using Models.DB;
     using Microsoft.EntityFrameworkCore;
+    using GameWebApi.Features.Email.Models;
+
     public class UserService : IUserService
     {
         private readonly GameDBContext _context;
@@ -99,12 +101,22 @@
             return new UserDetailsResponseModel();
         }
 
-        public async Task<bool> ConfirmUserEmail(int id, string playerHash)
+        public async Task<ConfirmEmailResponseModel> ConfirmUserEmail(int id, string playerHash)
         {
             var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == id && t.PlayerHash == playerHash);
 
-            if (user == null) return false;
-            if (user.EmailConfirmed == true) return false;
+            var response = new ConfirmEmailResponseModel(){NotFound = false, Confirmed = false, IsSuccess = false};
+
+            if (user == null) {
+                response.NotFound = true;
+                return response;
+            }
+
+            if (user.EmailConfirmed == true)
+            {
+                response.Confirmed = true;
+                return response;
+            }
 
             user.EmailConfirmed = true;
 
@@ -113,10 +125,11 @@
             if (result.State == EntityState.Modified)
             {
                 await _context.SaveChangesAsync();
-                return true;
+                response.IsSuccess = true;
+                return response;
             }
 
-            return false;
+            return response;
         }
 
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)

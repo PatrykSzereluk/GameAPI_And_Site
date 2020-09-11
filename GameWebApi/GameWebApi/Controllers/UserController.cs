@@ -43,9 +43,9 @@ namespace GameWebApi.Controllers
 
         [Route(nameof(ConfirmUserEmail))]
         [HttpPost]
-        public async Task<bool> ConfirmUserEmail(ConfirmEmailRequestModel data)
+        public async Task<ConfirmEmailResponseModel> ConfirmUserEmail(ConfirmEmailRequestModel data)
         {
-            return await _userService.ConfirmUserEmail(data.PlayerId,data.PlayerHash);
+            return await _userService.ConfirmUserEmail(data.PlayerId, data.PlayerHash);
         }
 
     }

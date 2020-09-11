@@ -1,7 +1,9 @@
-<div *ngIf="!withouterror"style="background-color: red;">
+<div *ngIf="emailConfirmModel?.confirmed" style="background-color: red;">
     <p>Błąd, Email jest już potwierdzony</p>
 </div>
-<div *ngIf="withouterror" style="background-color: green;">
+<div *ngIf="emailConfirmModel?.isSuccess" style="background-color: green;">
     <p>Gratulacje, potwierdziłeś email!</p>
 </div>
-
+<div *ngIf="emailConfirmModel?.notFound" style="background-color: green;">
+    <p>Error</p>
+</div>

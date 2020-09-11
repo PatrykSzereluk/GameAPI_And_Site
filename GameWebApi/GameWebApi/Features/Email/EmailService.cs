@@ -87,8 +87,6 @@ namespace GameWebApi.Features.Email
             }
         }
 
-
-
         private async Task<EmailMessage> GetMessage(EmailType emailType)
         {
             var templateName = "";
