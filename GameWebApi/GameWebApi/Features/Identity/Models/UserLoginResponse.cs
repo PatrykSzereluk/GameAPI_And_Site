@@ -7,5 +7,6 @@
         public string Token { get; set; }
         public bool AskAboutChangePassword { get; set; }
         public bool IsBanned { get; set; }
+        public bool EmailIsNotConfirmed { get; set; }
     }
 }

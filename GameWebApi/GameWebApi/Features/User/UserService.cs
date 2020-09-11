@@ -99,6 +99,26 @@
             return new UserDetailsResponseModel();
         }
 
+        public async Task<bool> ConfirmUserEmail(int id, string playerHash)
+        {
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == id && t.PlayerHash == playerHash);
+
+            if (user == null) return false;
+            if (user.EmailConfirmed == true) return false;
+
+            user.EmailConfirmed = true;
+
+            var result = _context.PlayerIdentity.Update(user);
+
+            if (result.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)
         {
             var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);

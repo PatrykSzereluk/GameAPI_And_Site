@@ -6,7 +6,7 @@
     {
         Task<bool> ChangeNickName(ChangeNickNameRequestModel model);
         Task<ChangePasswordResponseModel> ChangePassword(ChangePasswordRequestModel model);
-
         Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data);
+        Task<bool> ConfirmUserEmail(int id, string playerHash);
     }
 }

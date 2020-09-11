@@ -9,5 +9,6 @@
         public string MailToTest1 { get; set; }
         public string MailToTest2 { get; set; }
         public string MailToTest3 { get; set; }
+        public string EmailConfirmationAddress{ get; set; }
     }
 }

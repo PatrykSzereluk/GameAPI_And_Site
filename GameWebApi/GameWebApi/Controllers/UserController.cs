@@ -1,4 +1,5 @@
 ﻿using GameWebApi.Features;
+using GameWebApi.Features.Email.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace GameWebApi.Controllers
@@ -38,6 +39,13 @@ namespace GameWebApi.Controllers
         public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {
             return await _userService.GetUserDetails(data);
+        }
+
+        [Route(nameof(ConfirmUserEmail))]
+        [HttpPost]
+        public async Task<bool> ConfirmUserEmail(ConfirmEmailRequestModel data)
+        {
+            return await _userService.ConfirmUserEmail(data.PlayerId,data.PlayerHash);
         }
 
     }
