@@ -18,6 +18,7 @@ namespace GameWebApi.Models.DB
         public virtual DbSet<ClanMembers> ClanMembers { get; set; }
         public virtual DbSet<ClanStatistics> ClanStatistics { get; set; }
         public virtual DbSet<Clans> Clans { get; set; }
+        public virtual DbSet<InvationsPlayerToClan> InvationsPlayerToClan { get; set; }
         public virtual DbSet<PlayerBans> PlayerBans { get; set; }
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
         public virtual DbSet<PlayerIdentity> PlayerIdentity { get; set; }
@@ -83,6 +84,25 @@ namespace GameWebApi.Models.DB
                     .IsRequired()
                     .HasMaxLength(16)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<InvationsPlayerToClan>(entity =>
+            {
+                entity.ToTable("InvationsPlayerToClan", "Common");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.HasOne(d => d.Clan)
+                    .WithMany(p => p.InvationsPlayerToClan)
+                    .HasForeignKey(d => d.ClanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_InvationsPlayerToClan_Clans");
+
+                entity.HasOne(d => d.Player)
+                    .WithMany(p => p.InvationsPlayerToClan)
+                    .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_InvationsPlayerToClan_PlayerIdentity");
             });
 
             modelBuilder.Entity<PlayerBans>(entity =>

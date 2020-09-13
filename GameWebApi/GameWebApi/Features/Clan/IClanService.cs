@@ -9,6 +9,6 @@
          Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model);
          Task<bool> RemoveMember(RemoveUserRequestModel model);
          Task<bool> RemoveClan(RemoveClanRequestModel model);
-         Task<bool> SendInviteToClan(int playerId, int clanId);
+         Task<bool> SendClanInvationToUser(ClanInviteRequestModel model);
     }
 }

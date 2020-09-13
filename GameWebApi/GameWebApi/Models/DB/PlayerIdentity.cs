@@ -7,6 +7,7 @@ namespace GameWebApi.Models.DB
     {
         public PlayerIdentity()
         {
+            InvationsPlayerToClan = new HashSet<InvationsPlayerToClan>();
             PlayerBans = new HashSet<PlayerBans>();
         }
 
@@ -24,6 +25,7 @@ namespace GameWebApi.Models.DB
         public virtual PlayerDates PlayerDates { get; set; }
         public virtual PlayerSalt PlayerSalt { get; set; }
         public virtual PlayerStatistics PlayerStatistics { get; set; }
+        public virtual ICollection<InvationsPlayerToClan> InvationsPlayerToClan { get; set; }
         public virtual ICollection<PlayerBans> PlayerBans { get; set; }
     }
 }

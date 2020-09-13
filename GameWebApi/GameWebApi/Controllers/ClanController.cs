@@ -15,7 +15,7 @@ namespace GameWebApi.Controllers
             this._clanService = clanService;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [Route(nameof(AddNewClan))]
         public async Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model)
@@ -23,7 +23,7 @@ namespace GameWebApi.Controllers
             return await _clanService.AddNewClan(model);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         [Route(nameof(AddMemberToClan))]
         public async Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model)
@@ -31,7 +31,7 @@ namespace GameWebApi.Controllers
             return await _clanService.AddMemberToClan(model);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPut]
         [Route(nameof(ModifyMemberFunction))]
         public async Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model)
@@ -39,7 +39,7 @@ namespace GameWebApi.Controllers
             return await _clanService.ModifyMemberFunction(model);
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete]
         [Route(nameof(RemoveMember))]
         public async Task<bool> RemoveMember(RemoveUserRequestModel model)
@@ -47,12 +47,20 @@ namespace GameWebApi.Controllers
             return await _clanService.RemoveMember(model);  
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpDelete]
         [Route(nameof(RemoveClan))]
         public async Task<bool> RemoveClan(RemoveClanRequestModel model)
         {
             return await _clanService.RemoveClan(model);
         }
+
+        [HttpPost]
+        [Route(nameof(InvitePlayerToClan))]
+        public async Task<bool> InvitePlayerToClan(ClanInviteRequestModel model)
+        {
+            return await _clanService.SendClanInvationToUser(model);
+        }
+
     }
 }

@@ -11,6 +11,7 @@
     using GameWebApi.Sql.Helpers;
     using Sql.Interfaces;
     using GameWebApi.Features.User;
+    using GameWebApi.Features.Utility.Logging;
 
     public class ClanService : IClanService
     {
@@ -77,15 +78,27 @@
 
             var clanEntity = await _context.Clans.FirstOrDefaultAsync(t => t.Acronym == model.Acronym && t.Name == model.Name);
 
-            var isLeaderValid = await AddClanLeader(model.PlayerId, clanEntity.Id, ClanFunction.Leader);
+            bool isLeaderValid = false;
 
-            response.IsLeaderValid = isLeaderValid;
+            try
+            {
+                isLeaderValid = await AddClanLeader(model.PlayerId, clanEntity.Id, ClanFunction.Leader);
+            }
+            catch(Exception e) { Logger.GetInstance().Error(e.Message); }
+            finally
+            {
+                response.IsLeaderValid = isLeaderValid;
+
+                if (!response.IsLeaderValid)
+                {
+                    _context.Clans.Remove(clanEntity);
+                    await _context.SaveChangesAsync();
+                    response.IsSuccess = false;
+                }
+            }
 
             if (!response.IsLeaderValid)
             {
-                _context.Clans.Remove(clanEntity);
-                await _context.SaveChangesAsync();
-                response.IsSuccess = false;
                 return response;
             }
 
@@ -280,17 +293,26 @@
             return false;
         }
 
-        public async Task<bool> SendInviteToClan(int playerId, int clanId)
+        public async Task<bool> SendClanInvationToUser(ClanInviteRequestModel model)
         {
-            var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == playerId);
-            if (player == null) return false;
+            var user = await _userService.GetPlayerById(model.PlayerId);
+            var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);
 
-            var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == clanId);
-            if (clan == null) return false;
+            if (user == null || clan == null) return false;
 
-            // add data to table 
+            var inviteEntity = new InvationsPlayerToClan();
+            inviteEntity.ClanId = model.ClanId;
+            inviteEntity.PlayerId = model.PlayerId;
 
-            return true;
+            var addResult = await _context.InvationsPlayerToClan.AddAsync(inviteEntity);
+
+            if(addResult.State == EntityState.Added)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
         private async Task<bool> CheckName(string name)
