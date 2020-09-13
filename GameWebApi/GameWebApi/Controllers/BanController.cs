@@ -18,7 +18,7 @@ namespace GameWebApi.Controllers
         [Authorize]
         [HttpPost]
         [Route(nameof(BanPlayer))]
-        public async Task<bool> BanPlayer(BanPlayerRequestModel model)
+        public async Task<BanPlayerResponseModel> BanPlayer(BanPlayerRequestModel model)
         {
             return await _banService.BanPlayer(model);
         }

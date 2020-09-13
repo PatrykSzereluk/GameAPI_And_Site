@@ -18,16 +18,18 @@
         }
 
 
-        public async Task<bool> BanPlayer(BanPlayerRequestModel model)
+        public async Task<BanPlayerResponseModel> BanPlayer(BanPlayerRequestModel model)
         {
+            var response = new BanPlayerResponseModel() {IsActiveBan = false, PlayerNotFound = false };
+
             var banEntity = await _context.PlayerBans.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.IsActive);
 
-            if (banEntity != null && banEntity.IsActive) return false; // sprecyzować jaki błąd -- gracz już zbanowany
+            if (banEntity != null && banEntity.IsActive) return new BanPlayerResponseModel() { IsActiveBan = true, PlayerNotFound = false, IsSuccess = false };
 
             var userEntity = _userService.GetPlayerById(model.PlayerId);
 
             if (userEntity == null)
-                return false;
+                return new BanPlayerResponseModel() { IsActiveBan = false, PlayerNotFound = true, IsSuccess = false };
 
             PlayerBans playerBans = new PlayerBans()
             {
@@ -44,10 +46,10 @@
             if (result.State == EntityState.Added)
             {
                 await _context.SaveChangesAsync();
-                return true;
+                return new BanPlayerResponseModel() { IsActiveBan = false, PlayerNotFound = false, IsSuccess = true };
             }
 
-            return false;
+            return new BanPlayerResponseModel() { IsActiveBan = false, PlayerNotFound = false, IsSuccess = false };
         }
 
         public async Task<bool> CancelBan(int playerId)

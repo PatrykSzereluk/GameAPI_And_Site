@@ -5,7 +5,7 @@
     public interface IBanService
     {
         Task<bool> CheckUserBan(int playerId);
-        Task<bool> BanPlayer(BanPlayerRequestModel model);
+        Task<BanPlayerResponseModel> BanPlayer(BanPlayerRequestModel model);
         Task<bool> CancelBan(int playerId);
     }
 }
