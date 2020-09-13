@@ -10,14 +10,18 @@
     using System.Data;
     using GameWebApi.Sql.Helpers;
     using Sql.Interfaces;
+    using GameWebApi.Features.User;
+
     public class ClanService : IClanService
     {
         private readonly GameDBContext _context;
         private readonly ISqlManager _sqlManager;
-        public ClanService(GameDBContext context, ISqlManager sqlManager)
+        private readonly IUserService _userService;
+        public ClanService(GameDBContext context, ISqlManager sqlManager, IUserService userService)
         {
             _context = context;
             _sqlManager = sqlManager;
+            _userService = userService;
         }
 
         public async Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model)
@@ -82,6 +86,7 @@
                 _context.Clans.Remove(clanEntity);
                 await _context.SaveChangesAsync();
                 response.IsSuccess = false;
+                return response;
             }
 
             var clanStatistics = new ClanStatistics()
@@ -96,7 +101,7 @@
 
             if (csResult.State != EntityState.Added)
             {
-                var leaderEntity =await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+                var leaderEntity = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
 
                 _context.ClanMembers.Remove(leaderEntity);
                 _context.Clans.Remove(clanEntity);
@@ -137,7 +142,7 @@
             if (clan == null)
                 return false;
 
-            var members = await _context.ClanMembers.Where(t => t.ClanId == clanId && t.Function != 1).ToListAsync();
+            var members = await _context.ClanMembers.Where(t => t.ClanId == clanId && t.Function != (byte)ClanFunction.Leader).ToListAsync();
 
 
             foreach (var member in members)
@@ -193,7 +198,6 @@
 
             return false;
         }
-
 
         public async Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model)
         {

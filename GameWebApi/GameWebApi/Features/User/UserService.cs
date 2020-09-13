@@ -25,11 +25,16 @@
         //    //
         //}
 
+        public async Task<PlayerIdentity> GetPlayerById(int playerId)
+        {
+            return await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == playerId);
+        }
+
         public async Task<ChangePasswordResponseModel> ChangePassword(ChangePasswordRequestModel model)
         {
-            var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
+            var player = await GetPlayerById(model.PlayerId);
 
-            if(player == null) return new ChangePasswordResponseModel(){IsSuccess = false, BadPassword = false};
+            if (player == null) return new ChangePasswordResponseModel(){IsSuccess = false, BadPassword = false};
 
             var passwordSb = new StringBuilder();
 
@@ -58,7 +63,7 @@
 
         public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {
-            var userExists = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == data.PlayerId);
+            var userExists = await GetPlayerById(data.PlayerId);
 
             if (userExists != null)
             {
@@ -134,7 +139,7 @@
 
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)
         {
-            var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
+            var player = await GetPlayerById(model.PlayerId);
 
             if (player == null) return false;
 

@@ -5,13 +5,16 @@
     using Models;
     using GameWebApi.Models.DB;
     using Microsoft.EntityFrameworkCore;
+    using GameWebApi.Features.User;
 
     public class BanService : IBanService
     {
         private readonly GameDBContext _context;
-        public BanService(GameDBContext context)
+        private readonly IUserService _userService;
+        public BanService(GameDBContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
 
@@ -20,6 +23,11 @@
             var banEntity = await _context.PlayerBans.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.IsActive);
 
             if (banEntity != null && banEntity.IsActive) return false; // sprecyzować jaki błąd -- gracz już zbanowany
+
+            var userEntity = _userService.GetPlayerById(model.PlayerId);
+
+            if (userEntity == null)
+                return false;
 
             PlayerBans playerBans = new PlayerBans()
             {

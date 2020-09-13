@@ -159,7 +159,7 @@
             var id = dataSet.Elements.First().Rows.First().Elements.First();
             returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
-            //await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){NickName = returnValue.NickName, PlayerId  = returnValue.PlayerId});
+            await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){NickName = returnValue.NickName, PlayerId  = returnValue.PlayerId});
             // return error code
             return returnValue;
         }
