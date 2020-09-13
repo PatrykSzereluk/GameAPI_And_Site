@@ -21,6 +21,7 @@
     using GameWebApi.Sql.Helpers;
     using Email;
     using Ban;
+    using Core.Enums;
 
     public class IdentityService : IIdentityService
     {
@@ -81,7 +82,8 @@
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, Enum.GetName(typeof(RoleType), user.RoleType))
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

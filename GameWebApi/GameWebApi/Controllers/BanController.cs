@@ -1,12 +1,13 @@
-﻿using GameWebApi.Features;
-using Microsoft.AspNetCore.Authorization;
-
-namespace GameWebApi.Controllers
+﻿namespace GameWebApi.Controllers
 {
     using System.Threading.Tasks;
     using Features.Ban;
     using GameWebApi.Features.Ban.Models;
     using Microsoft.AspNetCore.Mvc;
+    using GameWebApi.Features;
+    using Microsoft.AspNetCore.Authorization;
+
+    [Authorize(Roles ="Admin")]
     public class BanController : ApiController
     {
         private readonly IBanService _banService;
@@ -15,7 +16,6 @@ namespace GameWebApi.Controllers
             _banService = banService;
         }
 
-        [Authorize]
         [HttpPost]
         [Route(nameof(BanPlayer))]
         public async Task<BanPlayerResponseModel> BanPlayer(BanPlayerRequestModel model)
@@ -23,7 +23,6 @@ namespace GameWebApi.Controllers
             return await _banService.BanPlayer(model);
         }
 
-        [Authorize]
         [HttpPut]
         [Route(nameof(CancelBan))]
         public async Task<bool> CancelBan(BaseRequestData model)

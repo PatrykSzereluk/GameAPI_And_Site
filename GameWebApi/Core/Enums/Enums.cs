@@ -25,4 +25,10 @@
         Chat = 2
     }
 
+    public enum RoleType
+    {
+        Player = 0,
+        Admin = 1
+    }
+
 }
