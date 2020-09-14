@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 2,\n\"Acronym\" : \"s\",\n\"Name\" : \"d1\",\n\"AvatarId\" : 2,\n\"AvatarURL\" : null\n}",
+							"raw": "{\n\"PlayerId\" : 2,\n\"Acronym\" : \"ss\",\n\"Name\" : \"ds1\",\n\"AvatarId\" : 2,\n\"AvatarURL\" : null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -131,7 +131,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 2,\n\"ClanId\" : 2\n}",
+							"raw": "{\n\"PlayerId\" : 2,\n\"ClanId\" : 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -160,7 +160,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 2,\n\"Acronym\" : \"s\",\n\"Name\" : \"d1\",\n\"AvatarId\" : 2,\n\"AvatarURL\" : null\n}",
+							"raw": "{\n\"PlayerId\" : 1006,\n\"ClanId\" : 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -168,7 +168,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:44343/Clan/AddNewClan",
+							"raw": "https://localhost:44343/Clan/InvitePlayerToClan",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -176,7 +176,7 @@
 							"port": "44343",
 							"path": [
 								"Clan",
-								"AddNewClan"
+								"InvitePlayerToClan"
 							]
 						}
 					},
@@ -189,7 +189,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 2,\n\"ClanId\" : 5\n}",
+							"raw": "{\n\"PlayerId\" : 1006,\n\"ClanId\" : 4\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -256,7 +256,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"Login\" : \"Ad7\",\n\"Password\" : \"x\"\n}",
+							"raw": "{\n\"Login\" : \"Ad8\",\n\"Password\" : \"asd\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
