@@ -14,8 +14,8 @@ export class EmailConfirmationComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private userService: UserService) {
 
-    this.route.params.subscribe(res => {
-      this.userService.confirmUserEmail(res.id, res.playerHash).subscribe(res1 => {
+    this.route.params.subscribe(params => {
+      this.userService.confirmUserEmail(params.id, params.playerHash).subscribe(res1 => {
         this.emailConfirmModel = res1;
       });
     });

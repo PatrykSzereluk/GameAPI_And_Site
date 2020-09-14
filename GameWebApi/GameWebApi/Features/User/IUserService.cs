@@ -12,5 +12,7 @@
         Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data);
         Task<ConfirmEmailResponseModel> ConfirmUserEmail(int id, string playerHash);
         Task<PlayerIdentity> GetPlayerById(int playerId);
+        Task<bool> ChangePasswordByEmail(ChangePasswordByEmailRequestModel model);
+        Task<bool> CanChangePasswordByEmail(ChangeUserParamRequestModel model);
     }
 }

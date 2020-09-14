@@ -43,9 +43,23 @@ namespace GameWebApi.Controllers
 
         [Route(nameof(ConfirmUserEmail))]
         [HttpPost]
-        public async Task<ConfirmEmailResponseModel> ConfirmUserEmail(ConfirmEmailRequestModel data)
+        public async Task<ConfirmEmailResponseModel> ConfirmUserEmail(ChangeUserParamRequestModel data)
         {
             return await _userService.ConfirmUserEmail(data.PlayerId, data.PlayerHash);
+        }
+
+        [Route(nameof(ChangePasswordByEmail))]
+        [HttpPost]
+        public async Task<bool> ChangePasswordByEmail(ChangePasswordByEmailRequestModel model)
+        {
+            return await _userService.ChangePasswordByEmail(model);
+        }
+
+        [Route(nameof(CanChangePasswordByEmail))]
+        [HttpPost]
+        public async Task<bool> CanChangePasswordByEmail(ChangeUserParamRequestModel model)
+        {
+            return await _userService.CanChangePasswordByEmail(model);
         }
 
     }

@@ -8,6 +8,15 @@ DROP TABLE [Common].[PlayerSalt]
 DROP TABLE [Common].[PlayerIdentity]
 
 
+ alter table common.playeridentity
+ add [PasswordChanging] bit not null default(0)
+
+
+
+
+
+
+
 IF(EXISTS(SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Common].[PlayerIdentity]') and [TYPE] = N'U'))
 DROP TABLE [Common].[PlayerIdentity]
 GO
@@ -243,6 +252,12 @@ GO
 
 ALTER TABLE [Common].[ClanStatistics] CHECK CONSTRAINT [FK_ClanStatistics_Clans]
 GO
+
+
+
+
+
+
 
 
 

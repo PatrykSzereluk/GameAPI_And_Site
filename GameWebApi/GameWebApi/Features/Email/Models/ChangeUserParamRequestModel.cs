@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameWebApi.Features.Email.Models
 {
-    public class ConfirmEmailRequestModel : BaseRequestData
+    public class ChangeUserParamRequestModel : BaseRequestData
     {
         public string PlayerHash { get; set; }
     }

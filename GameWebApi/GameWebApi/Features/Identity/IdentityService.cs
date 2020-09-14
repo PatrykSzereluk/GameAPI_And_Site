@@ -139,6 +139,7 @@
             string salt = _encrypter.Encrypted(generateString.GenerateRandomString(40));
             hashPassword.Append(salt);
 
+            var playerHash = newPlayer.GetHashCode();
 
             var loginParam = newPlayer.Login.ToSqlParameter("Login");
             var passwordParam = hashPassword.ToString().ToSqlParameter("Password");
@@ -146,7 +147,7 @@
             var emailParam = newPlayer.Email.ToSqlParameter("Email");
             var saltHashParam = salt.ToSqlParameter("SaltHash");
             var retValParam = true.ToSqlParameter("ReturnValue");
-            var playerHashParam = newPlayer.GetHashCode().ToString().ToSqlParameter("PlayerHash");
+            var playerHashParam = playerHash.ToString().ToSqlParameter("PlayerHash");
 
             parameters.Add(loginParam);
             parameters.Add(passwordParam);
@@ -161,7 +162,7 @@
             var id = dataSet.Elements.First().Rows.First().Elements.First();
             returnValue.NickName = newPlayer.NickName;
             returnValue.PlayerId = (int)id;
-            await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){NickName = returnValue.NickName, PlayerId  = returnValue.PlayerId});
+            await _emailService.SendEmailToUser(newPlayer.Email,"",EmailType.Welcome, new EmailData(){NickName = returnValue.NickName, PlayerId  = returnValue.PlayerId, PlayerHash = playerHash .ToString()});
             // return error code
             return returnValue;
         }

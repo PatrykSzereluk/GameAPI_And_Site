@@ -9,5 +9,6 @@ namespace GameWebApi.Features.Email.Models
     {
         public int PlayerId { get; set; }
         public string NickName { get; set; }
+        public string PlayerHash { get; set; }
     }
 }

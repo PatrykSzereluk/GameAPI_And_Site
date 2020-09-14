@@ -11,13 +11,15 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { RankingComponent } from './ranking/ranking.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RankingComponent,
-    EmailConfirmationComponent
+    EmailConfirmationComponent,
+    ChangePassowrdComponent
   ],
   imports: [
     BrowserModule,

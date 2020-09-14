@@ -18,7 +18,6 @@ namespace GameWebApi.Models.DB
         public virtual DbSet<ClanMembers> ClanMembers { get; set; }
         public virtual DbSet<ClanStatistics> ClanStatistics { get; set; }
         public virtual DbSet<Clans> Clans { get; set; }
-        public virtual DbSet<InvationsPlayerToClan> InvationsPlayerToClan { get; set; }
         public virtual DbSet<PlayerBans> PlayerBans { get; set; }
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
         public virtual DbSet<PlayerIdentity> PlayerIdentity { get; set; }
@@ -86,25 +85,6 @@ namespace GameWebApi.Models.DB
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<InvationsPlayerToClan>(entity =>
-            {
-                entity.ToTable("InvationsPlayerToClan", "Common");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.HasOne(d => d.Clan)
-                    .WithMany(p => p.InvationsPlayerToClan)
-                    .HasForeignKey(d => d.ClanId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_InvationsPlayerToClan_Clans");
-
-                entity.HasOne(d => d.Player)
-                    .WithMany(p => p.InvationsPlayerToClan)
-                    .HasForeignKey(d => d.PlayerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_InvationsPlayerToClan_PlayerIdentity");
-            });
-
             modelBuilder.Entity<PlayerBans>(entity =>
             {
                 entity.ToTable("PlayerBans", "Common");
@@ -158,6 +138,8 @@ namespace GameWebApi.Models.DB
                     .HasMaxLength(64)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EmailConfirmed).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.GameToken)
                     .IsRequired()
                     .IsUnicode(false);
@@ -176,9 +158,7 @@ namespace GameWebApi.Models.DB
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.PlayerHash)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.PlayerHash).HasMaxLength(255);
             });
 
             modelBuilder.Entity<PlayerSalt>(entity =>

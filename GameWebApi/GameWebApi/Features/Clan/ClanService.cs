@@ -304,13 +304,13 @@
             inviteEntity.ClanId = model.ClanId;
             inviteEntity.PlayerId = model.PlayerId;
 
-            var addResult = await _context.InvationsPlayerToClan.AddAsync(inviteEntity);
+            //var addResult = await _context.InvationsPlayerToClan.AddAsync(inviteEntity);
 
-            if(addResult.State == EntityState.Added)
-            {
-                await _context.SaveChangesAsync();
-                return true;
-            }
+            //if(addResult.State == EntityState.Added)
+            //{
+            //    await _context.SaveChangesAsync();
+            //    return true;
+            //}
 
             return false;
         }

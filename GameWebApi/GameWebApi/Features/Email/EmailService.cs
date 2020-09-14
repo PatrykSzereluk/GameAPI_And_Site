@@ -51,7 +51,7 @@ namespace GameWebApi.Features.Email
             catch (Exception e)
             {
                 Logger.GetInstance().Error($"Send email to: {userEmail} with status 0. {e.InnerException?.Message}");
-                return false;
+                throw;
             }
 
             return false;
@@ -65,10 +65,11 @@ namespace GameWebApi.Features.Email
                 case EmailType.ChangePassword:
                 {
                     template = template.Replace("r-NickName", data.NickName);
-                    template = template.Replace("r-Id", data.NickName);
+                    template = template.Replace("r-Id", data.PlayerId.ToString());
+                    template = template.Replace("r-PlayerHash", data.PlayerHash);
+                    template = template.Replace("r-AddressSite", _applicationSettings.AddressSite);
                     break;
                 }
-
             }
 
             return template;

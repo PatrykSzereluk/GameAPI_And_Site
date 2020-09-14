@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Features.User
+﻿using System;
+
+namespace GameWebApi.Features.User
 {
     using System.Text;
     using Security;
@@ -7,23 +9,20 @@
     using Models.DB;
     using Microsoft.EntityFrameworkCore;
     using GameWebApi.Features.Email.Models;
+    using Email;
 
     public class UserService : IUserService
     {
         private readonly GameDBContext _context;
         private readonly IEncrypter _encrypter;
+        private readonly IEmailService _emailService;
 
-        public UserService(GameDBContext context, IEncrypter encrypter)
+        public UserService(GameDBContext context, IEncrypter encrypter, IEmailService emailService)
         {
             _context = context;
             _encrypter = encrypter;
+            _emailService = emailService;
         }
-
-        //public async Task<bool> SendNewPasswordForEmail()
-        //{
-        //    // use emailService
-        //    //
-        //}
 
         public async Task<PlayerIdentity> GetPlayerById(int playerId)
         {
@@ -60,6 +59,36 @@
 
             return new ChangePasswordResponseModel() { IsSuccess = false, BadPassword = false };
         }
+
+        public async Task<bool> CanChangePasswordByEmail(ChangeUserParamRequestModel model)
+        {
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t =>
+                t.Id == model.PlayerId && model.PlayerHash == t.PlayerHash);
+
+            if (user == null) return false;
+
+            return user.PasswordChanging;
+        }
+
+        public async Task<bool> ChangePasswordByEmail(ChangePasswordByEmailRequestModel model)
+        {
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Email == model.Email);
+
+            if (user == null) return false;
+
+            user.PasswordChanging = true;
+
+            var addResult = _context.PlayerIdentity.Update(user);
+
+            if (addResult.State != EntityState.Modified) return false;
+
+            await _context.SaveChangesAsync();
+
+            await _emailService.SendEmailToUser(model.Email, "", EmailType.ChangePassword, new EmailData() {NickName = user.Nick, PlayerHash = user.PlayerHash, PlayerId = user.Id });
+
+            return true;
+        }
+
 
         public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {

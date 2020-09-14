@@ -19,5 +19,10 @@ export class UserService {
      {PlayerId: Number.parseInt(id, 0), PlayerHash: playerHash });
   }
 
+  canChangePasswordByEmail(id, playerHash): Observable<boolean> {
+    return this.http.post<boolean>('https://localhost:44343/User/CanChangePasswordByEmail',
+     {PlayerId: Number.parseInt(id, 0), PlayerHash: playerHash });
+  }
+
 }
 
