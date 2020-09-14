@@ -1,10 +1,13 @@
-<div *ngIf="!isAllowed" style="background-color: red;">
-    <p>Błąd, Email jest już potwierdzony</p>
+<div *ngIf="!isAllowedPasswordChange" style="background-color: red;">
+    <p>Page not exists</p>
+</div>
+
+<div *ngIf="isSuccess" style="background-color: green;">
+    <p>Password changed</p>
 </div>
 
 
-
-<div *ngIf="isAllowed">
+<div *ngIf="isAllowedPasswordChange && !isSuccess">
     <div class="container-fluid">
         <div class="row">
         <div class="col-lg-4"></div>
@@ -24,7 +27,9 @@
                     This field is required
                    </div>
                 </div>
-                
+                <div *ngIf="samePasswordError" class="alert alert-danger">
+                    Both password must be the same
+                </div>
                 <button type="submit" class="btn btn-primary">Change password</button>
               </form>
           </div>

@@ -48,11 +48,11 @@ namespace GameWebApi.Controllers
             return await _userService.ConfirmUserEmail(data.PlayerId, data.PlayerHash);
         }
 
-        [Route(nameof(ChangePasswordByEmail))]
+        [Route(nameof(ChangePasswordByEmailFirstStep))]
         [HttpPost]
-        public async Task<bool> ChangePasswordByEmail(ChangePasswordByEmailRequestModel model)
+        public async Task<bool> ChangePasswordByEmailFirstStep(ChangePasswordByEmailRequestModel model)
         {
-            return await _userService.ChangePasswordByEmail(model);
+            return await _userService.ChangePasswordByEmailFirstStep(model);
         }
 
         [Route(nameof(CanChangePasswordByEmail))]
@@ -62,5 +62,11 @@ namespace GameWebApi.Controllers
             return await _userService.CanChangePasswordByEmail(model);
         }
 
+        [Route(nameof(ChangePasswordByEmailSecondStep))]
+        [HttpPost]
+        public async Task<bool> ChangePasswordByEmailSecondStep(ChangePasswordSStepRequestModel model)
+        {
+            return await _userService.ChangePasswordByEmailSecondStep(model);
+        }
     }
 }

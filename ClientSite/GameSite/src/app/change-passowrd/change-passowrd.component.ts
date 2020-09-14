@@ -10,10 +10,17 @@ import { UserService } from '../services/user.service';
 })
 export class ChangePassowrdComponent implements OnInit {
 
-  isAllowed: boolean;
+  isAllowedPasswordChange: boolean;
   changePasswordForm: FormGroup;
-  
+  playerId: number;
+  playerHash: string;
+  isSuccess: boolean;
+  message: string;
+  samePasswordError: boolean;
+
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
+
+    this.isSuccess = false;
 
     this.changePasswordForm = this.fb.group({
       password : ['', Validators.required],
@@ -21,8 +28,10 @@ export class ChangePassowrdComponent implements OnInit {
     });
 
     this.route.params.subscribe(params => {
+      this.playerId = params.id;
+      this.playerHash = params.playerHash;
       this.userService.canChangePasswordByEmail(params.id, params.playerHash).subscribe(result => {
-        this.isAllowed = result;
+        this.isAllowedPasswordChange = result;
       });
     });
    }
@@ -40,9 +49,12 @@ export class ChangePassowrdComponent implements OnInit {
 
   change() {
     if (this.Password.value === this.ConfirmPassword.value) {
-      // Send Password
+      this.userService.changePasswordByEmailSecondStep(this.playerId, this.playerHash, this.Password.value).subscribe(result => {
+        this.isSuccess = result;
+        this.samePasswordError = false;
+      });
     } else {
-      //
+      this.samePasswordError = true;
     }
   }
 }

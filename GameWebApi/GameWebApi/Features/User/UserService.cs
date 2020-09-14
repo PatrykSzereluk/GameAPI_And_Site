@@ -70,7 +70,7 @@ namespace GameWebApi.Features.User
             return user.PasswordChanging;
         }
 
-        public async Task<bool> ChangePasswordByEmail(ChangePasswordByEmailRequestModel model)
+        public async Task<bool> ChangePasswordByEmailFirstStep(ChangePasswordByEmailRequestModel model)
         {
             var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Email == model.Email);
 
@@ -89,6 +89,34 @@ namespace GameWebApi.Features.User
             return true;
         }
 
+        public async Task<bool> ChangePasswordByEmailSecondStep(ChangePasswordSStepRequestModel model)
+        {
+            var player = await _context.PlayerIdentity.FirstOrDefaultAsync(t =>
+                t.Id == model.PlayerId && model.PlayerHash == t.PlayerHash);
+
+            if (player == null) return false;
+            if (player.PasswordChanging == false) return false;
+
+            var passwordSb = new StringBuilder();
+
+            passwordSb.Append(_encrypter.Encrypted(model.Password));
+
+            var salt = await _context.PlayerSalt.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+
+            passwordSb.Append(salt.Salt);
+
+            player.Password = passwordSb.ToString();
+            player.PasswordChanging = false;
+
+            var dbResult = _context.PlayerIdentity.Update(player);
+            if (dbResult.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
 
         public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {
