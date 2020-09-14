@@ -8,6 +8,7 @@ namespace GameWebApi.Models.DB
         public Clans()
         {
             ClanMembers = new HashSet<ClanMembers>();
+            InvationsPlayerToClan = new HashSet<InvationsPlayerToClan>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace GameWebApi.Models.DB
 
         public virtual ClanStatistics ClanStatistics { get; set; }
         public virtual ICollection<ClanMembers> ClanMembers { get; set; }
+        public virtual ICollection<InvationsPlayerToClan> InvationsPlayerToClan { get; set; }
     }
 }

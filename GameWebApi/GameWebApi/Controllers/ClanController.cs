@@ -59,7 +59,7 @@ namespace GameWebApi.Controllers
         [Route(nameof(InvitePlayerToClan))]
         public async Task<bool> InvitePlayerToClan(ClanInviteRequestModel model)
         {
-            return await _clanService.SendClanInvationToUser(model);
+            return await _clanService.SendClanInvitationToUser(model);
         }
 
     }

@@ -10,8 +10,9 @@
     using System.Data;
     using GameWebApi.Sql.Helpers;
     using Sql.Interfaces;
-    using GameWebApi.Features.User;
-    using GameWebApi.Features.Utility.Logging;
+    using User;
+    using Utility.Logging;
+    using System.Collections.Generic;
 
     public class ClanService : IClanService
     {
@@ -250,8 +251,6 @@
             if (!removeMembers)
                 return false;
 
-            
-
             var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);
             
             var removeStatistics = await _context.ClanStatistics.FirstOrDefaultAsync(t => t.ClanId == clan.Id);
@@ -261,6 +260,11 @@
 
             if (clan == null)
                 return false;
+
+            var invitations = await _context.InvationsPlayerToClan.Where(t => t.ClanId == model.ClanId).ToListAsync();
+
+            if(invitations != null)
+                 _context.InvationsPlayerToClan.RemoveRange(invitations);
 
             var leaderResult = _context.ClanMembers.Remove(leader);
             var statsResult = _context.ClanStatistics.Remove(removeStatistics);
@@ -293,7 +297,27 @@
             return false;
         }
 
-        public async Task<bool> SendClanInvationToUser(ClanInviteRequestModel model)
+        public async Task<bool> DeleteInvitation(ClanInviteRequestModel model)
+        {
+            var invitation = await 
+                _context.InvationsPlayerToClan.FirstOrDefaultAsync(t =>
+                    t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
+
+            if (invitation == null) return false;
+
+            var deleteResult = _context.InvationsPlayerToClan.Remove(invitation);
+
+            if (deleteResult.State == EntityState.Deleted)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return true;
+        }
+
+
+        public async Task<bool> SendClanInvitationToPlayer(ClanInviteRequestModel model)
         {
             var user = await _userService.GetPlayerById(model.PlayerId);
             var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);
@@ -304,13 +328,13 @@
             inviteEntity.ClanId = model.ClanId;
             inviteEntity.PlayerId = model.PlayerId;
 
-            //var addResult = await _context.InvationsPlayerToClan.AddAsync(inviteEntity);
+            var addResult = await _context.InvationsPlayerToClan.AddAsync(inviteEntity);
 
-            //if(addResult.State == EntityState.Added)
-            //{
-            //    await _context.SaveChangesAsync();
-            //    return true;
-            //}
+            if (addResult.State == EntityState.Added)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
 
             return false;
         }
@@ -333,5 +357,9 @@
             return result != null;
         }
 
+        public async Task<IEnumerable<InvationsPlayerToClan>> GetInvitationList(BaseRequestData model)
+        {
+            return await _context.InvationsPlayerToClan.Where(t => t.PlayerId == model.PlayerId).ToListAsync();
+        }
     }
 }
