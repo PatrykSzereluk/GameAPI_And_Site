@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Collections.Generic;
+using GameWebApi.Features;
+using GameWebApi.Models.DB;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameWebApi.Controllers
 {
@@ -59,8 +62,21 @@ namespace GameWebApi.Controllers
         [Route(nameof(InvitePlayerToClan))]
         public async Task<bool> InvitePlayerToClan(ClanInviteRequestModel model)
         {
-            return await _clanService.SendClanInvitationToUser(model);
+            return await _clanService.SendClanInvitationToPlayer(model);
         }
 
+        [HttpGet]
+        [Route(nameof(GetInvitationList))]
+        public async Task<IEnumerable<InvationsPlayerToClan>> GetInvitationList(BaseRequestData model)
+        {
+            return await _clanService.GetInvitationList(model);
+        }
+
+        [HttpDelete]
+        [Route(nameof(DeleteInvitation))]
+        public async Task<bool> DeleteInvitation(ClanInviteRequestModel model)
+        {
+            return await _clanService.DeleteInvitation(model);
+        }
     }
 }

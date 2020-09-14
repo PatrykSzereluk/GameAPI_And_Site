@@ -324,9 +324,9 @@
 
             if (user == null || clan == null) return false;
 
-            var inviteEntity = new InvationsPlayerToClan();
-            inviteEntity.ClanId = model.ClanId;
-            inviteEntity.PlayerId = model.PlayerId;
+            if (await CheckIfExistsInvitation(model)) return false;
+
+            var inviteEntity = new InvationsPlayerToClan {ClanId = model.ClanId, PlayerId = model.PlayerId};
 
             var addResult = await _context.InvationsPlayerToClan.AddAsync(inviteEntity);
 
@@ -337,6 +337,13 @@
             }
 
             return false;
+        }
+
+        private async Task<bool> CheckIfExistsInvitation(ClanInviteRequestModel model)
+        {
+            return await 
+                _context.InvationsPlayerToClan.AnyAsync(t =>
+                    t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
         }
 
         private async Task<bool> CheckName(string name)
