@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using GameWebApi.Features;
-using GameWebApi.Models.DB;
-using Microsoft.AspNetCore.Authorization;
+﻿
 
 namespace GameWebApi.Controllers
 {
     using System.Threading.Tasks;
     using GameWebApi.Features.Clan.Models;
     using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using Features;
+    using Features.Clan;
+    using Models.DB;
 
     public class ClanController : ApiController
     {
@@ -55,7 +56,7 @@ namespace GameWebApi.Controllers
         [Route(nameof(RemoveClan))]
         public async Task<bool> RemoveClan(RemoveClanRequestModel model)
         {
-            return await _clanService.RemoveClan(model);
+            return await _clanService.RemoveClan(model, true);
         }
 
         [HttpPost]

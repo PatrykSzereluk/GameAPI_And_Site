@@ -68,5 +68,12 @@ namespace GameWebApi.Controllers
         {
             return await _userService.ChangePasswordByEmailSecondStep(model);
         }
+
+        [HttpDelete]
+        [Route(nameof(DeletePlayerAccount))]
+        public async Task<bool> DeletePlayerAccount(BaseRequestData model)
+        {
+            return await _userService.DeletePlayerAccount(model);
+        }
     }
 }

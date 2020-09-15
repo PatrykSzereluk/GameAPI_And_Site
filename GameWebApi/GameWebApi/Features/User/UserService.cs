@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace GameWebApi.Features.User
 {
@@ -10,18 +10,23 @@ namespace GameWebApi.Features.User
     using Microsoft.EntityFrameworkCore;
     using GameWebApi.Features.Email.Models;
     using Email;
+    using Core.Enums;
+    using Clan;
+    using GameWebApi.Features.Clan.Models;
 
     public class UserService : IUserService
     {
         private readonly GameDBContext _context;
         private readonly IEncrypter _encrypter;
         private readonly IEmailService _emailService;
+        private readonly IClanService _clanService;
 
-        public UserService(GameDBContext context, IEncrypter encrypter, IEmailService emailService)
+        public UserService(GameDBContext context, IEncrypter encrypter, IEmailService emailService, IClanService clanService)
         {
             _context = context;
             _encrypter = encrypter;
             _emailService = emailService;
+            _clanService = clanService;
         }
 
         public async Task<PlayerIdentity> GetPlayerById(int playerId)
@@ -110,6 +115,50 @@ namespace GameWebApi.Features.User
 
             var dbResult = _context.PlayerIdentity.Update(player);
             if (dbResult.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeletePlayerAccount(BaseRequestData model)
+        {
+            var playerEntity = await GetPlayerById(model.PlayerId);
+
+            if (playerEntity == null) return false;
+
+            var clanMemberEntity = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+
+            if (clanMemberEntity.Function == (byte) ClanFunction.Leader)
+            {
+                var deleteClanResult = await _clanService.RemoveClan(new RemoveClanRequestModel()
+                    {ClanId = clanMemberEntity.ClanId, PlayerId = model.PlayerId }, true);
+            }
+
+            var playerStatisticsEntity = await _context.PlayerStatistics.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+            var playerSaltEntity = await _context.PlayerSalt.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+            var playerBansEntity = await _context.PlayerBans.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+            var playerDatesEntity = await _context.PlayerDates.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+
+            EntityEntry<PlayerBans> deleteResultBansEntity = null;
+
+            if (playerBansEntity != null)
+            {
+                deleteResultBansEntity = _context.PlayerBans.Remove(playerBansEntity);
+            }
+
+            var deleteResultPlayerStatistics = _context.PlayerStatistics.Remove(playerStatisticsEntity);
+            var deleteResultDatesEntity = _context.PlayerDates.Remove(playerDatesEntity);
+            var deleteResultPlayerSalt = _context.PlayerSalt.Remove(playerSaltEntity);
+            var deleteResultPlayerEntity = _context.PlayerIdentity.Remove(playerEntity);
+
+            if (deleteResultPlayerStatistics.State == EntityState.Deleted &&
+                deleteResultDatesEntity.State == EntityState.Deleted &&
+                deleteResultPlayerSalt.State == EntityState.Deleted &&
+                deleteResultPlayerEntity.State == EntityState.Deleted && 
+                (deleteResultBansEntity == null || (deleteResultBansEntity != null && deleteResultBansEntity.State == EntityState.Deleted)))
             {
                 await _context.SaveChangesAsync();
                 return true;

@@ -18,12 +18,11 @@
     {
         private readonly GameDBContext _context;
         private readonly ISqlManager _sqlManager;
-        private readonly IUserService _userService;
-        public ClanService(GameDBContext context, ISqlManager sqlManager, IUserService userService)
+
+        public ClanService(GameDBContext context, ISqlManager sqlManager)
         {
             _context = context;
             _sqlManager = sqlManager;
-            _userService = userService;
         }
 
         public async Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model)
@@ -158,10 +157,9 @@
 
             var members = await _context.ClanMembers.Where(t => t.ClanId == clanId && t.Function != (byte)ClanFunction.Leader).ToListAsync();
 
-
             foreach (var member in members)
             {
-                var result = _context.ClanMembers.Remove(member);
+                var result = _context.ClanMembers.Remove(member); // I need result object, RemoveRange is void
 
                 if (result.State != EntityState.Deleted)
                 {
@@ -169,7 +167,7 @@
                 }
             }
 
-            if(forceRemove)
+            if (forceRemove)
                 await _context.SaveChangesAsync();
 
             return true;
@@ -239,14 +237,14 @@
             return response;
         }
 
-        public async Task<bool> RemoveClan(RemoveClanRequestModel model)
+        public async Task<bool> RemoveClan(RemoveClanRequestModel model, bool lateDelete)
         {
             var leader = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
 
             if(leader == null)
                 return false;
 
-            var removeMembers = await RemoveAllClanMembers(model.ClanId,false);
+            var removeMembers = await RemoveAllClanMembers(model.ClanId, !lateDelete);
 
             if (!removeMembers)
                 return false;
@@ -272,7 +270,8 @@
 
             if (leaderResult.State == EntityState.Deleted && clanResult.State == EntityState.Deleted && statsResult.State == EntityState.Deleted)
             {
-                await _context.SaveChangesAsync();
+                if(!lateDelete)
+                    await _context.SaveChangesAsync();
                 return true;
             }
 
@@ -319,7 +318,8 @@
 
         public async Task<bool> SendClanInvitationToPlayer(ClanInviteRequestModel model)
         {
-            var user = await _userService.GetPlayerById(model.PlayerId);
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
+
             var clan = await _context.Clans.FirstOrDefaultAsync(t => t.Id == model.ClanId);
 
             if (user == null || clan == null) return false;

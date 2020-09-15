@@ -24,7 +24,7 @@ export class UserService {
      {PlayerId: Number.parseInt(id, 0), PlayerHash: playerHash });
   }
 
-  changePasswordByEmailSecondStep(id,playerHash, newPassword): Observable<boolean> {
+  changePasswordByEmailSecondStep(id, playerHash, newPassword): Observable<boolean> {
     return this.http.post<boolean>('https://localhost:44343/User/ChangePasswordByEmailSecondStep',
      {PlayerId: Number.parseInt(id, 0), PlayerHash: playerHash, Password: newPassword });
   }

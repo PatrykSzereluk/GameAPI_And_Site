@@ -15,5 +15,6 @@
         Task<bool> ChangePasswordByEmailFirstStep(ChangePasswordByEmailRequestModel model);
         Task<bool> CanChangePasswordByEmail(ChangeUserParamRequestModel model);
         Task<bool> ChangePasswordByEmailSecondStep(ChangePasswordSStepRequestModel model);
+        Task<bool> DeletePlayerAccount(BaseRequestData model);
     }
 }
