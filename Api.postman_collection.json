@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 2,\n\"Acronym\" : \"ss\",\n\"Name\" : \"ds1\",\n\"AvatarId\" : 2,\n\"AvatarURL\" : null\n}",
+							"raw": "{\n\"PlayerId\" : 3,\n\"Acronym\" : \"ss\",\n\"Name\" : \"ds1\",\n\"AvatarId\" : 2,\n\"AvatarURL\" : null\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 1,\n\"ClanId\" : 3,\n\"ClanFunction\" : 3\n}",
+							"raw": "{\n\"PlayerId\" : 5,\n\"ClanId\" : 7,\n\"ClanFunction\" : 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -160,7 +160,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 1006,\n\"ClanId\" : 4\n}",
+							"raw": "{\n\"PlayerId\" : 1005,\n\"ClanId\" : 7\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -285,7 +285,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"Login\" : \"Ad8\",\r\n\"Password\" : \"x\",\r\n\"NickName\" : \"nick56155346\",\r\n\"Email\" : \"g@gmail.com\"\r\n}",
+							"raw": "{\r\n\"Login\" : \"Adkd3f8\",\r\n\"Password\" : \"x\",\r\n\"NickName\" : \"nidk3cfk56155346\",\r\n\"Email\" : \"gfg@kdgmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -547,6 +547,35 @@
 							"path": [
 								"User",
 								"CanChangePasswordByEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeletePlayerAccount",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PlayerId\" : 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44343/User/DeletePlayerAccount",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"User",
+								"DeletePlayerAccount"
 							]
 						}
 					},

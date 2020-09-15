@@ -130,11 +130,19 @@ namespace GameWebApi.Features.User
             if (playerEntity == null) return false;
 
             var clanMemberEntity = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
+            bool deleteClanResult = false;
 
-            if (clanMemberEntity.Function == (byte) ClanFunction.Leader)
+            if (clanMemberEntity != null)
             {
-                var deleteClanResult = await _clanService.RemoveClan(new RemoveClanRequestModel()
-                    {ClanId = clanMemberEntity.ClanId, PlayerId = model.PlayerId }, true);
+                if (clanMemberEntity.Function == (byte) ClanFunction.Leader)
+                {
+                    deleteClanResult = await _clanService.RemoveClan(new RemoveClanRequestModel()
+                        { ClanId = clanMemberEntity.ClanId, PlayerId = model.PlayerId }, true);
+                }
+                else
+                {
+                    deleteClanResult = await _clanService.RemoveMember(new RemoveUserRequestModel(){ ClanId = clanMemberEntity.ClanId, PlayerId = model.PlayerId }, true);
+                }
             }
 
             var playerStatisticsEntity = await _context.PlayerStatistics.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId);
@@ -158,7 +166,8 @@ namespace GameWebApi.Features.User
                 deleteResultDatesEntity.State == EntityState.Deleted &&
                 deleteResultPlayerSalt.State == EntityState.Deleted &&
                 deleteResultPlayerEntity.State == EntityState.Deleted && 
-                (deleteResultBansEntity == null || (deleteResultBansEntity != null && deleteResultBansEntity.State == EntityState.Deleted)))
+                (deleteResultBansEntity == null ||  deleteResultBansEntity.State == EntityState.Deleted) &&
+                ((clanMemberEntity != null && deleteClanResult) || clanMemberEntity == null))
             {
                 await _context.SaveChangesAsync();
                 return true;

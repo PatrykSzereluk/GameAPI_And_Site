@@ -48,7 +48,7 @@ namespace GameWebApi.Controllers
         [Route(nameof(RemoveMember))]
         public async Task<bool> RemoveMember(RemoveUserRequestModel model)
         {
-            return await _clanService.RemoveMember(model);  
+            return await _clanService.RemoveMember(model, false);  
         }
 
         //[Authorize]

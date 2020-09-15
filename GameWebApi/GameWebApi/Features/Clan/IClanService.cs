@@ -9,7 +9,7 @@
          Task<NewClanResponseModel> AddNewClan(NewClanRequestModel model);
          Task<NewMemberToClanResponseModel> AddMemberToClan(NewMemberToClanRequestModel model);
          Task<bool> ModifyMemberFunction(ModifyMemberRequestModel model);
-         Task<bool> RemoveMember(RemoveUserRequestModel model);
+         Task<bool> RemoveMember(RemoveUserRequestModel model, bool lateDelete);
          Task<bool> RemoveClan(RemoveClanRequestModel model, bool lateDelete);
          Task<bool> SendClanInvitationToPlayer(ClanInviteRequestModel model);
          Task<IEnumerable<InvationsPlayerToClan>> GetInvitationList(BaseRequestData model);

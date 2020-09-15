@@ -278,7 +278,7 @@
             return false;
         }
 
-        public async Task<bool> RemoveMember(RemoveUserRequestModel model)
+        public async Task<bool> RemoveMember(RemoveUserRequestModel model, bool lateDelete)
         {
             var clanMember = await _context.ClanMembers.FirstOrDefaultAsync(t => t.PlayerId == model.PlayerId && t.ClanId == model.ClanId);
 
@@ -289,7 +289,8 @@
 
             if (result.State == EntityState.Deleted)
             {
-                await _context.SaveChangesAsync();
+                if(!lateDelete)
+                    await _context.SaveChangesAsync();
                 return true;
             }
 

@@ -95,13 +95,11 @@ namespace GameWebApi.Models.DB
                 entity.HasOne(d => d.Clan)
                     .WithMany(p => p.InvationsPlayerToClan)
                     .HasForeignKey(d => d.ClanId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvationsPlayerToClan_Clans");
 
                 entity.HasOne(d => d.Player)
                     .WithMany(p => p.InvationsPlayerToClan)
                     .HasForeignKey(d => d.PlayerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvationsPlayerToClan_PlayerIdentity");
             });
 

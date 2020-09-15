@@ -20,6 +20,7 @@ PRIMARY KEY CLUSTERED
 GO
 ALTER TABLE [Common].[InvationsPlayerToClan]  WITH CHECK ADD  CONSTRAINT [FK_InvationsPlayerToClan_Clans] FOREIGN KEY([ClanId])
 REFERENCES [Common].[Clans] ([ID])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [Common].[InvationsPlayerToClan] CHECK CONSTRAINT [FK_InvationsPlayerToClan_Clans]
@@ -27,6 +28,7 @@ GO
 
 ALTER TABLE [Common].[InvationsPlayerToClan]  WITH CHECK ADD  CONSTRAINT [FK_InvationsPlayerToClan_PlayerIdentity] FOREIGN KEY([PlayerId])
 REFERENCES [Common].[PlayerIdentity] ([ID])
+ON DELETE CASCADE
 GO
 
 ALTER TABLE [Common].[InvationsPlayerToClan] CHECK CONSTRAINT [FK_InvationsPlayerToClan_PlayerIdentity]
