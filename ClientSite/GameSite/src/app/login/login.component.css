@@ -3,3 +3,12 @@ form{
     padding:10% 15%;
     margin-top: 20%;
 }
+
+@media screen and (max-width: 992px) {
+    form {
+        margin-top: 10%;
+      margin-left: 33%;
+      margin-right: 33%;
+      padding: 5%;
+    }
+  }

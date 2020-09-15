@@ -12,6 +12,7 @@ import { RankingComponent } from './ranking/ranking.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.compo
     LoginComponent,
     RankingComponent,
     EmailConfirmationComponent,
-    ChangePassowrdComponent
+    ChangePassowrdComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
