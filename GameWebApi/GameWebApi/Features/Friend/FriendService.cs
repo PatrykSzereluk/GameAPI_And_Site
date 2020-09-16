@@ -39,6 +39,8 @@ namespace GameWebApi.Features.Friend
 
         public async Task<bool> AddNewFriend(FriendBaseRequestModel model)
         {
+            if (model.FriendId == model.PlayerId) return false;
+
             var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
 
             if (user == null) return false;
