@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace GameWebApi.Controllers
 {
     using System.Threading.Tasks;
     using Features;
@@ -13,9 +15,25 @@
             _friendService = friendService;
         }
 
+        [HttpGet]
+        [Route(nameof(GetFriends))]
         public async Task<IEnumerable<FriendResponseModel>> GetFriends(BaseRequestData data)
         {
             return await _friendService.GetFriends(data);
+        }
+
+        [HttpPost]
+        [Route(nameof(AddNewFriend))]
+        public async Task<bool> AddNewFriend(FriendBaseRequestModel data)
+        {
+            return await _friendService.AddNewFriend(data);
+        }
+
+        [HttpPost]
+        [Route(nameof(DeleteFriend))]
+        public async Task<bool> DeleteFriend(FriendBaseRequestModel data)
+        {
+            return await _friendService.DeleteFriend(data);
         }
     }
 }

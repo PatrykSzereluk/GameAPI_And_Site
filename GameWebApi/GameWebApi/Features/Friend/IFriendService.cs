@@ -9,7 +9,7 @@ namespace GameWebApi.Features.Friend
     public interface IFriendService
     {
         Task<IEnumerable<FriendResponseModel>> GetFriends(BaseRequestData data);
-        Task<bool> AddNewFriend(BaseRequestData model);
-        Task<bool> DeleteFriend(BaseRequestData model);
+        Task<bool> AddNewFriend(FriendBaseRequestModel model);
+        Task<bool> DeleteFriend(FriendBaseRequestModel model);
     }
 }

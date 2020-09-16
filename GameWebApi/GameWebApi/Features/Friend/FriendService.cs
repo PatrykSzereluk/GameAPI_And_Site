@@ -37,14 +37,48 @@ namespace GameWebApi.Features.Friend
             return responseFriends;
         }
 
-        public Task<bool> AddNewFriend(FriendBaseRequestModel model)
+        public async Task<bool> AddNewFriend(FriendBaseRequestModel model)
         {
-            throw new System.NotImplementedException();
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
+
+            if (user == null) return false;
+
+            if (await _context.Friends.AnyAsync(t => t.Id == model.PlayerId && t.FriendPlayerId == model.FriendId))
+                return false;
+
+            var friendEntity = new Friends() {FriendPlayerId = model.FriendId, OwnerPlayerId = model.PlayerId};
+
+            var addResult = await _context.Friends.AddAsync(friendEntity);
+
+            if (addResult.State == EntityState.Added)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
-        public Task<bool> DeleteFriend(BaseRequestData model)
+        public async Task<bool> DeleteFriend(FriendBaseRequestModel model)
         {
-            throw new System.NotImplementedException();
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
+
+            if (user == null) return false;
+
+            var friendEntity = await _context.Friends.FirstOrDefaultAsync(t =>
+                t.FriendPlayerId == model.FriendId && t.OwnerPlayerId == model.PlayerId);
+
+            if (friendEntity == null) return false;
+
+            var deleteResult = _context.Friends.Remove(friendEntity);
+
+            if (deleteResult.State == EntityState.Deleted)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
     }
 }
