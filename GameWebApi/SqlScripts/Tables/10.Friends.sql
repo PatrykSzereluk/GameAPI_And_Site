@@ -7,7 +7,7 @@ GO
 CREATE TABLE [Common].[Friends](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[OwnerPlayerId] [int] NOT NULL,
-	[FriendPlayerId] [int] NOT NULL,
+	[FriendId] [int] NOT NULL,
  CONSTRAINT [PK_Friends] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

@@ -36,5 +36,15 @@ namespace GameWebApi.Features.Friend
             }
             return responseFriends;
         }
+
+        public Task<bool> AddNewFriend(FriendBaseRequestModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> DeleteFriend(BaseRequestData model)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
