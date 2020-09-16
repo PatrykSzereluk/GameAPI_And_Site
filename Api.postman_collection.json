@@ -559,7 +559,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 6\n}",
+							"raw": "{\n\"PlayerId\" : 1007\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -640,6 +640,102 @@
 							"path": [
 								"Ban",
 								"CancelBan"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Friend",
+			"item": [
+				{
+					"name": "GetFriends",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PlayerId\" : 1007\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44343/Friend/GetFriends",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"Friend",
+								"GetFriends"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddNewFriend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PlayerId\" : 1007,\n\"FriendId\" : 1009\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44343/Friend/AddNewFriend",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"Friend",
+								"AddNewFriend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFriend",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PlayerId\" : 1007,\n\"FriendId\" : 1008\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44343/Friend/DeleteFriend",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"Friend",
+								"DeleteFriend"
 							]
 						}
 					},

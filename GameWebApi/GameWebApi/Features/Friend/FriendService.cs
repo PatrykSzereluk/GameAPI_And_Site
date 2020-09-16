@@ -82,5 +82,10 @@ namespace GameWebApi.Features.Friend
 
             return false;
         }
+
+        public Task<bool> DeleteRangeFriend(FriendBaseRequestModel model)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

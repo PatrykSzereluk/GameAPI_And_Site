@@ -29,7 +29,7 @@ namespace GameWebApi.Controllers
             return await _friendService.AddNewFriend(data);
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route(nameof(DeleteFriend))]
         public async Task<bool> DeleteFriend(FriendBaseRequestModel data)
         {
