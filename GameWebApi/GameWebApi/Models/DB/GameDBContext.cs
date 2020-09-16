@@ -18,6 +18,7 @@ namespace GameWebApi.Models.DB
         public virtual DbSet<ClanMembers> ClanMembers { get; set; }
         public virtual DbSet<ClanStatistics> ClanStatistics { get; set; }
         public virtual DbSet<Clans> Clans { get; set; }
+        public virtual DbSet<Friends> Friends { get; set; }
         public virtual DbSet<InvationsPlayerToClan> InvationsPlayerToClan { get; set; }
         public virtual DbSet<PlayerBans> PlayerBans { get; set; }
         public virtual DbSet<PlayerDates> PlayerDates { get; set; }
@@ -84,6 +85,16 @@ namespace GameWebApi.Models.DB
                     .IsRequired()
                     .HasMaxLength(16)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Friends>(entity =>
+            {
+                entity.ToTable("Friends", "Common");
+
+                entity.HasOne(d => d.OwnerPlayer)
+                    .WithMany(p => p.Friends)
+                    .HasForeignKey(d => d.OwnerPlayerId)
+                    .HasConstraintName("FK_Friends_PlayerIdentity");
             });
 
             modelBuilder.Entity<InvationsPlayerToClan>(entity =>

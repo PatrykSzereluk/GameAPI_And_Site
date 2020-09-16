@@ -1,6 +1,4 @@
-﻿using GameWebApi.Features.Email;
-
-namespace GameWebApi.Infrastructure
+﻿namespace GameWebApi.Infrastructure
 {
     using Features.Identity;
     using Sql.Interfaces;
@@ -9,10 +7,12 @@ namespace GameWebApi.Infrastructure
     using Security;
     using Features.Home;
     using Features.Ranking;
-    using GameWebApi.Features.Clan.Models;
+    using Features.Ban;
+    using Features.Email;
+    using Features.Friend;
     using Features.Clan;
     using Features.User;
-    using Features.Ban;
+
     public static class ConfigureServices
     {
 
@@ -27,7 +27,8 @@ namespace GameWebApi.Infrastructure
                 .AddTransient<IClanService, ClanService>()
                 .AddTransient<IUserService, UserService>()
                 .AddTransient<IBanService, BanService>()
-                .AddTransient<IEmailService,EmailService>();
+                .AddTransient<IEmailService,EmailService>()
+                .AddTransient<IFriendService, FriendService>();
         }
 
 

@@ -1,5 +1,5 @@
-﻿IF(EXISTS(SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Common].[InvationsPlayerToClan]') and [TYPE] = N'U'))
-DROP TABLE [Common].[InvationsPlayerToClan]
+﻿IF(EXISTS(SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[Common].[InvitationsPlayerToClan]') and [TYPE] = N'U'))
+DROP TABLE [Common].[InvitationsPlayerToClan]
 GO
 
 SET ANSI_NULLS ON
@@ -8,7 +8,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [Common].[InvationsPlayerToClan](
+CREATE TABLE [Common].[InvitationsPlayerToClan](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[PlayerId] [int] NOT NULL,
 	[ClanId] [int] NOT NULL
