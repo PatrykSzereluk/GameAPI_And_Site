@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace GameWebApi.Controllers
 {
@@ -35,5 +38,38 @@ namespace GameWebApi.Controllers
         {
             return await _friendService.DeleteFriend(data);
         }
+
+        [HttpPost, RequestSizeLimit(6000000)]
+        public IActionResult UploadImage()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine(Directory.GetCurrentDirectory(), "image");
+
+                if (file.Length > 0)
+                {
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim().ToString();
+                    var fullPath = Path.Combine(folderName, fileName);
+
+                    using var stream = new FileStream(fullPath, FileMode.Create);
+
+                    file.CopyTo(stream);
+
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+                    
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error {ex}");
+            }
+        }
+
     }
 }

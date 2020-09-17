@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.FileProviders;
+
 namespace GameWebApi
 {
     using System.Text;
@@ -11,6 +15,7 @@ namespace GameWebApi
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
     using Infrastructure;
+    using System.IO;
 
     public class Startup
     {
@@ -53,6 +58,14 @@ namespace GameWebApi
                     };
                 });
 
+            // for upload files
+            services.Configure<FormOptions>(opt =>
+            {
+                opt.ValueLengthLimit = 6000000;
+                opt.MultipartBodyLengthLimit = 6000000;
+                opt.MemoryBufferThreshold = 6000000;
+            });
+
             services.AddControllers();
         }
 
@@ -75,6 +88,14 @@ namespace GameWebApi
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            // for upload files
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"@images")),
+                RequestPath = new PathString("/images")
+            });
 
             app.UseEndpoints(endpoints =>
             {
