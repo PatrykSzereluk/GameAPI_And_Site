@@ -13,6 +13,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { UserService } from './services/user.service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RankingComponent,
     EmailConfirmationComponent,
     ChangePassowrdComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   providers: [
     AuthService,
     AuthGuardService,
+    UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

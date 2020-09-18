@@ -6,11 +6,13 @@ import { RankingComponent } from './ranking/ranking.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
+  { path: 'home', component: HomeComponent},
   { path: 'ranking', component: RankingComponent},
   { path: 'emailconfirmation/:id/confirm/:playerHash', component: EmailConfirmationComponent},
   { path: 'changepassword/:id/change/:playerHash', component: ChangePassowrdComponent},

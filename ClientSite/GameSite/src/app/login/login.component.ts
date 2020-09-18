@@ -1,6 +1,7 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EventEmitter } from 'events';
 import { AuthService } from '../services/auth.service';
 
@@ -12,56 +13,28 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  loginError = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private http: HttpClient) {
+
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       login : ['', Validators.required],
       password : ['', Validators.required]
     });
   }
 
-  myForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    file: new FormControl('', [Validators.required]),
-    fileSource: new FormControl('', [Validators.required])
-  });
-
-  get f() {
-    return this.myForm.controls;
-  }
-
-  onFileChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.myForm.patchValue({
-        fileSource: file
-      });
-    }
-  }
-
-  submit() {
-    const formData = new FormData();
-    formData.append('file', this.myForm.get('fileSource').value);
-
-    this.http.post('https://localhost:44343/Friend/UploadImage', formData)
-      .subscribe(res => {
-        console.log(res);
-        alert('Uploaded Successfully.');
-      });
-  }
-
-
-
-
-
-
-
   ngOnInit(): void {
   }
 
   login() {
     this.authService.login(this.loginForm.value).subscribe(data => {
-      this.authService.saveToken(data.token);
+      if (data.playerId !== -1) {
+        this.loginError = false;
+        this.authService.saveToken(data.token);
+        this.router.navigate(['home']);
+      } else {
+        this.loginError = true;
+      }
     });
   }
 
@@ -73,4 +46,34 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
+
+  // myForm = new FormGroup({
+  //   name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+  //   file: new FormControl('', [Validators.required]),
+  //   fileSource: new FormControl('', [Validators.required])
+  // });
+
+  // get f() {
+  //   return this.myForm.controls;
+  // }
+
+  // onFileChange(event) {
+  //   if (event.target.files.length > 0) {
+  //     const file = event.target.files[0];
+  //     this.myForm.patchValue({
+  //       fileSource: file
+  //     });
+  //   }
+  // }
+
+  // submit() {
+  //   const formData = new FormData();
+  //   formData.append('file', this.myForm.get('fileSource').value);
+
+  //   this.http.post('https://localhost:44343/Friend/UploadImage', formData)
+  //     .subscribe(res => {
+  //       console.log(res);
+  //       alert('Uploaded Successfully.');
+  //     });
+  // }
 }

@@ -20,12 +20,14 @@
             
             <!-- <input type="file" #file placeholder="choose ile" (change)="uploadFile(file.file)" style="display: none;">
             <button type="button" class="btn btn-success" (click)="file.click()">Upload file</button> -->
-
-
+            <div *ngIf="loginError" class="alert alert-danger">
+              User or password is invalid
+             </div>
+        
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <form [formGroup]="myForm" (ngSubmit)="submit()">
+        <!-- <form [formGroup]="myForm" (ngSubmit)="submit()">
   
           <div class="form-group">
               <label for="name">Name</label>
@@ -54,7 +56,7 @@
           </div>
                 
           <button class="btn btn-primary" type="submit">Submit</button>
-      </form>
+      </form> -->
 
       </div>
       <div class="col-lg-4"></div>

@@ -2,16 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginResponseModel } from '../Models/Identity/loginResponseModel';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private controllerUrl = environment.apiUrl + 'Identity/';
+
   constructor(private http: HttpClient) { }
 
   login(data): Observable<LoginResponseModel> {
-    return this.http.post<LoginResponseModel>('https://localhost:44343/Identity/Login', data);
+    return this.http.post<LoginResponseModel>(this.controllerUrl + 'Login', data);
   }
 
   saveToken(token) {
