@@ -40,12 +40,13 @@ namespace GameWebApi.Controllers
         }
 
         [HttpPost, RequestSizeLimit(6000000)]
+        [Route(nameof(UploadImage))]
         public IActionResult UploadImage()
         {
             try
             {
                 var file = Request.Form.Files[0];
-                var folderName = Path.Combine(Directory.GetCurrentDirectory(), "image");
+                var folderName = Path.Combine(Directory.GetCurrentDirectory(), "images");
 
                 if (file.Length > 0)
                 {
