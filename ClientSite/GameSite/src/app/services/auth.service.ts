@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginResponseModel } from '../Models/Identity/loginResponseModel';
 import { environment } from './../../environments/environment';
+import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,11 @@ export class AuthService {
 
   isAuthenticated(): boolean {
 
-     if (this.getToken()) {
+    let token = this.getToken();
+
+
+
+     if (this.getToken() && token !== 'null') {
        return true;
      }
 

@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
-  { path: 'home', component: HomeComponent},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
   { path: 'ranking', component: RankingComponent},
   { path: 'emailconfirmation/:id/confirm/:playerHash', component: EmailConfirmationComponent},
   { path: 'changepassword/:id/change/:playerHash', component: ChangePassowrdComponent},

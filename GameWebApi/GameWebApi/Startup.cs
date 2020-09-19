@@ -16,6 +16,7 @@ namespace GameWebApi
     using Microsoft.IdentityModel.Tokens;
     using Infrastructure;
     using System.IO;
+    using System;
 
     public class Startup
     {
@@ -91,16 +92,28 @@ namespace GameWebApi
 
             // for upload files
             app.UseStaticFiles();
+
+            ChceckOrCreateResourcesDirectory();
+
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"images")),
-                RequestPath = new PathString("/images")
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
+                RequestPath = new PathString("/Resources")
             });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void ChceckOrCreateResourcesDirectory()
+        {
+            if (Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), Statics.ResourcesDirectory, Statics.AvatarsDirectory)))
+                return;
+
+            Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), Statics.ResourcesDirectory, Statics.AvatarsDirectory));
+            
         }
     }
 }
