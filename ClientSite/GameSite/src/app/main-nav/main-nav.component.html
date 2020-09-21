@@ -15,6 +15,7 @@
       <a routerLink="ranking">Ranking</a>
       <a routerLink="support">Support</a>
       <a routerLink="download">Download</a>
+      <a (click)="Logout()" *ngIf="IsAuthenticate()">Logout</a>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LoginResponseModel } from '../Models/Identity/loginResponseModel';
 import { environment } from './../../environments/environment';
-import { ITS_JUST_ANGULAR } from '@angular/core/src/r3_symbols';
-import { isNull } from '@angular/compiler/src/output/output_ast';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class AuthService {
 
   private controllerUrl = environment.apiUrl + 'Identity/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(data): Observable<LoginResponseModel> {
     return this.http.post<LoginResponseModel>(this.controllerUrl + 'Login', data);
@@ -25,6 +24,11 @@ export class AuthService {
 
   getToken() {
     return localStorage.getItem('token');
+  }
+
+  logout() {
+   localStorage.removeItem('token');
+   this.router.navigate(['login']);
   }
 
   isAuthenticated(): boolean {
