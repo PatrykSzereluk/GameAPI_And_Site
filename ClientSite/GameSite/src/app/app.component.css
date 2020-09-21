@@ -6,6 +6,8 @@
     border: white 1px solid;
     color:white;
     margin-left: 5%;
+    width: 140px;
+    text-align: center;
 }
 
 .nav-li:hover {
@@ -38,7 +40,9 @@
 .nav-li-download {
     border: white 1px solid;
     color:white;
-    margin-left: 250%;
+    margin-left: 90%;
+    width: 140px;
+    text-align: center;
 }
 
 .nav-li-download:hover {
@@ -53,4 +57,8 @@
 
 .button-nav:hover {
     color: rgb(201, 153, 20);
+}
+
+.nav-link {
+    text-decoration: none;
 }

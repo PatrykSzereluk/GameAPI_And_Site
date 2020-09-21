@@ -6,21 +6,36 @@
         Game site
     </a> 
     <ul class="nav-ul" style="margin-left: 15%;">
-        <li class="nav-li">
-            Home
-        </li>
-        <li class="nav-li">
-            Ranking
-        </li>
-        <li class="nav-li">
-            Events
-        </li>
-        <li class="nav-li">
-            Support
-        </li>
-        <li class="nav-li-download" *ngIf="isAuthenticate">
-            Download
-        </li>
+        <a class="nav-link" href = "/home">
+            <li class="nav-li">
+                Home
+            </li>
+        </a>
+        <a class="nav-link" href = "/ranking">
+            <li class="nav-li">
+                Ranking
+            </li>
+        </a>
+        <a class="nav-link" href = "/events">
+            <li class="nav-li">
+                Events
+            </li>
+        </a>
+        <a class="nav-link" href = "/support">
+            <li class="nav-li">
+                Support
+            </li>
+        </a>
+        <a class="nav-link" href = "/login">
+            <li class="nav-li" *ngIf="!isAuthenticate">
+                Login
+            </li>
+        </a>
+        <a class="nav-link" href = "/download">
+            <li class="nav-li-download" *ngIf="true">
+                Download
+            </li>
+        </a>
     </ul>
 </nav>
 
