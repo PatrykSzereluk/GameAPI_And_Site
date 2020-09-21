@@ -8,7 +8,7 @@
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <img src="https://image.freepik.com/darmowe-ikony/b-czarny-kwadrat_318-10138.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-      <span>GameSite</span>
+      <span style="padding-left: 10px;">GameSite</span>
       <span class="spacer"></span>
       <a routerLink="home">Home</a>
       <a routerLink="events">Events</a>
@@ -16,6 +16,8 @@
       <a routerLink="support">Support</a>
       <a routerLink="download">Download</a>
       <a (click)="Logout()" *ngIf="IsAuthenticate()">Logout</a>
+      <a (click)="Logout()" *ngIf="!IsAuthenticate()">Login</a> 
+      
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>
