@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ApplicationRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ref: ApplicationRef) {this.Refresh(); }
 
   ngOnInit(): void {
   }
-
+  
+  Refresh() {
+    this.ref.tick();
+ }
 }

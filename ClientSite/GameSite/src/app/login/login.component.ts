@@ -1,8 +1,6 @@
-import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EventEmitter } from 'events';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -45,8 +43,6 @@ export class LoginComponent implements OnInit {
   get Password() {
     return this.loginForm.get('password');
   }
-
-
   // myForm = new FormGroup({
   //   name: new FormControl('', [Validators.required, Validators.minLength(3)]),
   //   file: new FormControl('', [Validators.required]),

@@ -1,9 +1,25 @@
-<nav class="navbar-mine navbar-sticky-mine navbar-dark-mine">
-    <a class="navbar-brand" style="color: white;" href="/home">
-        <img src="https://image.freepik.com/darmowe-ikony/b-czarny-kwadrat_318-10138.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-        Game site
-    </a> 
+
+<app-main-nav> 
+    <router-outlet></router-outlet>
+
+    <footer class="footer navbar-dark-mine">
+        <span>Patryk Szereluk &#169; 2020 Strona używa Cookies</span>
+    </footer> 
+
+</app-main-nav>
+
+
+
+
+<!-- <nav class="navbar-mine navbar-sticky-mine navbar-dark-mine">
+
     <ul class="nav-ul" style="margin-left: 15%;">
+        <a class="navbar-brand" style="color: white;" href="/home">
+            <li class="nav-li-logo">
+            <img src="https://image.freepik.com/darmowe-ikony/b-czarny-kwadrat_318-10138.jpg" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
+            Game site
+        </li>
+        </a> 
         <a class="nav-link" href = "/home">
             <li class="nav-li">
                 Home
@@ -24,23 +40,21 @@
                 Support
             </li>
         </a>
-        <a class="nav-link" href = "/login">
-            <li class="nav-li" *ngIf="!isAuthenticate">
+        <a class="nav-link" href = "/login" *ngIf="!isAuthenticate">
+            <li class="nav-li">
                 Login
             </li>
         </a>
-        <a class="nav-link" href = "/download">
-            <li class="nav-li-download" *ngIf="isAuthenticate">
+        <a class="nav-link" href = "/download" *ngIf="isAuthenticate">
+            <li class="nav-li">
                 Download
             </li>
         </a>
     </ul>
 </nav>
+-->
 
 <div class="content">
-    <router-outlet></router-outlet>
+    
 </div>
 
-<footer class="footer navbar-dark-mine">
-    <span>Patryk Szereluk &#169; 2020 Strona używa Cookies</span>
-</footer>
