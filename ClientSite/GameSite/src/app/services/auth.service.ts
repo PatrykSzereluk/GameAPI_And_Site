@@ -29,14 +29,12 @@ export class AuthService {
 
   isAuthenticated(): boolean {
 
-    let token = this.getToken();
+    const token = this.getToken();
 
-
-
-     if (this.getToken() && token !== 'null') {
+    if (this.getToken() && token !== 'null') {
        return true;
-     }
+    }
 
-     return false;
+    return false;
   }
 }
