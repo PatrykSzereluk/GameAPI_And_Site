@@ -83,9 +83,21 @@ namespace GameWebApi.Features.Friend
             return false;
         }
 
-        public Task<bool> DeleteRangeFriend(FriendBaseRequestModel model)
+        public async Task<bool> DeleteRangeFriend(DeleteRangeFriendRequestModel model)
         {
-            throw new System.NotImplementedException();
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Id == model.PlayerId);
+
+            if (user == null) return false;
+
+            var friendsEntity = await _context.Friends.Where(t => model.FriendIds.Contains(t.FriendPlayerId) && t.OwnerPlayerId == model.PlayerId).ToListAsync();
+
+            if (friendsEntity == null) return false;
+
+            _context.RemoveRange(friendsEntity);
+
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

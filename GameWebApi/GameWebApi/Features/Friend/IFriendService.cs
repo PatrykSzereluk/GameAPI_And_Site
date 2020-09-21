@@ -11,7 +11,7 @@ namespace GameWebApi.Features.Friend
         Task<IEnumerable<FriendResponseModel>> GetFriends(BaseRequestData data);
         Task<bool> AddNewFriend(FriendBaseRequestModel model);
         Task<bool> DeleteFriend(FriendBaseRequestModel model);
-
-        Task<bool> DeleteRangeFriend(FriendBaseRequestModel model);
+        
+        Task<bool> DeleteRangeFriend(DeleteRangeFriendRequestModel model);
     }
 }
