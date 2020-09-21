@@ -21,10 +21,13 @@
             <!-- <input type="file" #file placeholder="choose ile" (change)="uploadFile(file.file)" style="display: none;">
             <button type="button" class="btn btn-success" (click)="file.click()">Upload file</button> -->
             <div *ngIf="loginError" class="alert alert-danger">
-              User or password is invalid
+              User or password is invalid. <a href="/forgotPassword">Forgot password ?</a>
              </div>
         
             <button type="submit" class="btn btn-primary">Submit</button>
+            <br/>
+            <br/>
+            <a href="/register">Register new account</a>
         </form>
 
         <!-- <form [formGroup]="myForm" (ngSubmit)="submit()">
