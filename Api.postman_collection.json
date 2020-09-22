@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c0329c2d-cf3b-40ec-92ad-64148c3ceaf9",
+		"_postman_id": "09f2d1f9-d774-492c-aed7-9f6b79811f3e",
 		"name": "Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -661,7 +661,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 1007\n}",
+							"raw": "{\n\"PlayerId\" : 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -690,7 +690,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"PlayerId\" : 1007,\n\"FriendId\" : 1009\n}",
+							"raw": "{\n\"PlayerId\" : 1,\n\"FriendId\" : 5\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -740,6 +740,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "DeleteRangeFriend",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PlayerId\" : 1,\n\"FriendIds\" : [2,3,4]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44343/Friend/DeleteRangeFriend",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"Friend",
+								"DeleteRangeFriend"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -749,7 +785,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "29cf5d7c-ab94-4952-9834-8348b22d3fb5",
+				"id": "bacb288e-1fce-4c51-b155-0d8da52c87dc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -759,7 +795,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "1b4ad954-fe42-4ffa-8315-ef56df866243",
+				"id": "c4c7e53a-76f8-4fa2-9c2d-c2417e1495a4",
 				"type": "text/javascript",
 				"exec": [
 					""
