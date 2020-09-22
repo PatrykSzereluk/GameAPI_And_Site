@@ -40,10 +40,8 @@ export class UserService {
     return this.http.post<boolean>(this.controllerUrl + 'CheckNickNameExists', {nickName: nickNameParam});
   }
 
-  CheckEmail(emailParam: string): Observable<boolean> {
+  checkEmail(emailParam: string): Observable<boolean> {
     return this.http.post<boolean>(this.controllerUrl + 'CheckEmailExists', {email: emailParam});
   }
-
-  
 }
 

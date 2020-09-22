@@ -1,7 +1,9 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from '../Models/Session/Session';
 import { IdentityService } from '../services/identity.service';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,11 @@ export class LoginComponent implements OnInit {
   loginError = false;
 
 
-  constructor(private fb: FormBuilder, private identityService: IdentityService, private router: Router) {
+  constructor(
+     private fb: FormBuilder,
+     private identityService: IdentityService,
+     private router: Router,
+     private sessionService: SessionService) {
     this.loginForm = this.fb.group({
       login : ['', Validators.required],
       password : ['', Validators.required]
@@ -29,6 +35,10 @@ export class LoginComponent implements OnInit {
       if (data.playerId !== -1) {
         this.loginError = false;
         this.identityService.saveToken(data.token);
+        const user = new User();
+        user.playerId = data.playerId;
+        user.nickName = data.playerNickName;
+        this.sessionService.SetNewSeesion(user, data.token);
         this.router.navigate(['home']);
       } else {
         this.loginError = true;

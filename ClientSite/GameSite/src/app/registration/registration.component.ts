@@ -4,6 +4,7 @@ import { UserRegisterRequestModel } from '../Models/Identity/UserRegister';
 import { Router } from '@angular/router';
 import { IdentityService } from '../services/identity.service';
 import { UserService } from '../services/user.service';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +21,9 @@ export class RegistrationComponent implements OnInit {
   nickNameError = false;
   emailError = false;
 
-  constructor(private fb: FormBuilder, private authService: IdentityService, private router: Router, private userService: UserService) {
+  constructor(private fb: FormBuilder,
+              private authService: IdentityService,
+              private userService: UserService) {
     this.registerForm = this.fb.group({
       login : ['', Validators.required],
       nickName: ['', Validators.required],
@@ -55,8 +58,8 @@ export class RegistrationComponent implements OnInit {
       if (loginRes === true) {
         this.userService.checkNickName(registerData.NickName).subscribe(nickNameRes => {
           if (nickNameRes === true) {
-            this.userService.CheckEmail(registerData.Email).subscribe(emailRes => {
-              if(emailRes === true){
+            this.userService.checkEmail(registerData.Email).subscribe(emailRes => {
+              if (emailRes === true) {
                 this.authService.register(registerData).subscribe( res => {
                   if (!res.isSuccess) {
                     if (res.statusCode === 456 || res.playerId === -1) {
