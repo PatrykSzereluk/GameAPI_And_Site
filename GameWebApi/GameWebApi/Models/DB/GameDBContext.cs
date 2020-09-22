@@ -106,11 +106,13 @@ namespace GameWebApi.Models.DB
                 entity.HasOne(d => d.Clan)
                     .WithMany(p => p.InvationsPlayerToClan)
                     .HasForeignKey(d => d.ClanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvationsPlayerToClan_Clans");
 
                 entity.HasOne(d => d.Player)
                     .WithMany(p => p.InvationsPlayerToClan)
                     .HasForeignKey(d => d.PlayerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvationsPlayerToClan_PlayerIdentity");
             });
 
@@ -167,8 +169,6 @@ namespace GameWebApi.Models.DB
                     .HasMaxLength(64)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EmailConfirmed).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.GameToken)
                     .IsRequired()
                     .IsUnicode(false);
@@ -187,7 +187,9 @@ namespace GameWebApi.Models.DB
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.PlayerHash).HasMaxLength(255);
+                entity.Property(e => e.PlayerHash)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<PlayerSalt>(entity =>

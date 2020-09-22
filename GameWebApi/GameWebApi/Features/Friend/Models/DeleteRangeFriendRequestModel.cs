@@ -7,6 +7,6 @@ namespace GameWebApi.Features.Friend.Models
 {
     public class DeleteRangeFriendRequestModel: BaseRequestData
     {
-        public List<int> FriendIds { get; set; }
+        public IEnumerable<int> FriendIds { get; set; }
     }
 }

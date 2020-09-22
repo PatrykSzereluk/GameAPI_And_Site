@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace GameWebApi.Features.Friend
 {
     using GameWebApi.Models.DB;
+    using Microsoft.AspNetCore.Mvc;
 
     public class FriendService : IFriendService
     {
@@ -19,7 +20,7 @@ namespace GameWebApi.Features.Friend
 
         public async Task<IEnumerable<FriendResponseModel>> GetFriends(BaseRequestData data)
         {
-            var friendIds = await _context.Friends.Where(t => t.OwnerPlayerId == data.PlayerId).Select(t => t.FriendPlayerId).ToListAsync();
+            var friendIds = await _context.Friends.Where(t => t.OwnerPlayerId == data.PlayerId).Select(t => t.FriendId).ToListAsync();
 
             var friends = await _context.PlayerIdentity.Where(t => friendIds.Contains(t.Id)).ToListAsync();
 
@@ -45,10 +46,10 @@ namespace GameWebApi.Features.Friend
 
             if (user == null) return false;
 
-            if (await _context.Friends.AnyAsync(t => t.Id == model.PlayerId && t.FriendPlayerId == model.FriendId))
+            if (await _context.Friends.AnyAsync(t => t.Id == model.PlayerId && t.FriendId == model.FriendId))
                 return false;
 
-            var friendEntity = new Friends() {FriendPlayerId = model.FriendId, OwnerPlayerId = model.PlayerId};
+            var friendEntity = new Friends() {FriendId = model.FriendId, OwnerPlayerId = model.PlayerId};
 
             var addResult = await _context.Friends.AddAsync(friendEntity);
 
@@ -68,7 +69,7 @@ namespace GameWebApi.Features.Friend
             if (user == null) return false;
 
             var friendEntity = await _context.Friends.FirstOrDefaultAsync(t =>
-                t.FriendPlayerId == model.FriendId && t.OwnerPlayerId == model.PlayerId);
+                t.FriendId == model.FriendId && t.OwnerPlayerId == model.PlayerId);
 
             if (friendEntity == null) return false;
 
@@ -89,7 +90,7 @@ namespace GameWebApi.Features.Friend
 
             if (user == null) return false;
 
-            var friendsEntity = await _context.Friends.Where(t => model.FriendIds.Contains(t.FriendPlayerId) && t.OwnerPlayerId == model.PlayerId).ToListAsync();
+            var friendsEntity = await _context.Friends.Where(t => model.FriendIds.Contains(t.FriendId) && t.OwnerPlayerId == model.PlayerId).ToListAsync();
 
             if (friendsEntity == null) return false;
 

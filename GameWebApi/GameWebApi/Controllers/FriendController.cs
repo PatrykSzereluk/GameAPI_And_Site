@@ -39,6 +39,13 @@ namespace GameWebApi.Controllers
             return await _friendService.DeleteFriend(data);
         }
 
+        [HttpDelete]
+        [Route(nameof(DeleteRangeFriend))]
+        public async Task<bool> DeleteRangeFriend([FromBody] DeleteRangeFriendRequestModel data)
+        {
+            return await _friendService.DeleteRangeFriend(data);
+        }
+
         [HttpPost, RequestSizeLimit(6000000)]
         [Route(nameof(UploadImage))]
         public IActionResult UploadImage()

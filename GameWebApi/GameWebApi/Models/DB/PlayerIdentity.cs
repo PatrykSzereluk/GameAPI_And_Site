@@ -17,9 +17,9 @@ namespace GameWebApi.Models.DB
         public string Password { get; set; }
         public string Nick { get; set; }
         public string Email { get; set; }
-        public string GameToken { get; set; }
-        public bool? EmailConfirmed { get; set; }
+        public bool EmailConfirmed { get; set; }
         public string PlayerHash { get; set; }
+        public string GameToken { get; set; }
         public byte RoleType { get; set; }
         public bool PasswordChanging { get; set; }
 

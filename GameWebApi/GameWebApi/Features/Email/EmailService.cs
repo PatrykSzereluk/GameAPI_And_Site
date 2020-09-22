@@ -95,9 +95,9 @@ namespace GameWebApi.Features.Email
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw;
+                throw; // create specific exception
             }
         }
 

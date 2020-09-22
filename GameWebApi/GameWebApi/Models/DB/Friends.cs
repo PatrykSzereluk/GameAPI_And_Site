@@ -7,7 +7,7 @@ namespace GameWebApi.Models.DB
     {
         public int Id { get; set; }
         public int OwnerPlayerId { get; set; }
-        public int FriendPlayerId { get; set; }
+        public int FriendId { get; set; }
 
         public virtual PlayerIdentity OwnerPlayer { get; set; }
     }
