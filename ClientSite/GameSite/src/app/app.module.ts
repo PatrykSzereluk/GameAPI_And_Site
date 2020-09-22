@@ -23,6 +23,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatListModule } from '@angular/material/list';
     ChangePassowrdComponent,
     PageNotFoundComponent,
     HomeComponent,
-    MainNavComponent
+    MainNavComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,

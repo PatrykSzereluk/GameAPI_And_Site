@@ -7,17 +7,19 @@ import { EmailConfirmationComponent } from './email-confirmation/email-confirmat
 import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
+import { RegistrationComponent } from './registration/registration.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegistrationComponent},
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
   { path: 'ranking', component: RankingComponent},
   { path: 'emailconfirmation/:id/confirm/:playerHash', component: EmailConfirmationComponent},
   { path: 'changepassword/:id/change/:playerHash', component: ChangePassowrdComponent},
   { path: '**', component: PageNotFoundComponent }
-  // { path: 'register', component: LoginComponent, canActivate: [AuthGuardService]}
+
 ];
 
 @NgModule({
