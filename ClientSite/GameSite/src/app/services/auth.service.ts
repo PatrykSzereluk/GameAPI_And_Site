@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { LoginResponseModel } from '../Models/Identity/loginResponseModel';
 import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
+import { UserRegisterRequestModel, UserRegisterResponseModel } from '../Models/Identity/UserRegister';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class AuthService {
 
   login(data): Observable<LoginResponseModel> {
     return this.http.post<LoginResponseModel>(this.controllerUrl + 'Login', data);
+  }
+
+  register(data: UserRegisterRequestModel): Observable<UserRegisterResponseModel> {
+    return this.http.post<UserRegisterResponseModel>(this.controllerUrl + 'Register', data);
   }
 
   saveToken(token) {

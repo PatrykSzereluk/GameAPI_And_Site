@@ -40,8 +40,8 @@
               </div>
             <!-- <input type="file" #file placeholder="choose ile" (change)="uploadFile(file.file)" style="display: none;">
             <button type="button" class="btn btn-success" (click)="file.click()">Upload file</button> -->
-            <div *ngIf="false" class="alert alert-danger">
-              User or password is invalid. <a routerLink="forgotPassword">Forgot password ?</a>
+            <div *ngIf="registerResponseError" class="alert alert-danger">
+              Login, password or email is invalid
              </div>
         
             <button type="submit" class="btn btn-primary">Register</button>

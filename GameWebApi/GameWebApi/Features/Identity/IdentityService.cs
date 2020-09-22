@@ -123,7 +123,7 @@
 
         public async Task<UserRegisterResponseModel> Register(UserRegisterRequestModel newPlayer)
         {
-            UserRegisterResponseModel returnValue = new UserRegisterResponseModel {IsSuccess = true};
+            UserRegisterResponseModel returnValue = new UserRegisterResponseModel {IsSuccess = true, PlayerId = -1};
 
             if (_context.PlayerIdentity.AnyAsync(t => t.Login == newPlayer.Login || t.Nick == newPlayer.NickName || t.Email == newPlayer.Email).Result)
             {
