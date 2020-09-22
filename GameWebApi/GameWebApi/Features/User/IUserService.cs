@@ -16,5 +16,8 @@
         Task<bool> CanChangePasswordByEmail(ChangeUserParamRequestModel model);
         Task<bool> ChangePasswordByEmailSecondStep(ChangePasswordSStepRequestModel model);
         Task<bool> DeletePlayerAccount(BaseRequestData model);
+        Task<bool> CheckEmail(CheckEmailRequestModel model);
+        Task<bool> CheckLogin(CheckLoginRequestModel model);
+        Task<bool> CheckNickName(CheckNickNameRequestModel model);
     }
 }

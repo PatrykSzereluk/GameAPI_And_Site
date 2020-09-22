@@ -31,5 +31,19 @@ export class UserService {
     return this.http.post<boolean>(this.controllerUrl + 'ChangePasswordByEmailSecondStep',
      {PlayerId: Number.parseInt(id, 0), PlayerHash: playerHash, Password: newPassword });
   }
+
+  checkLogin(loginParam: string): Observable<boolean> {
+    return this.http.post<boolean>(this.controllerUrl + 'CheckLoginExists', {login: loginParam});
+  }
+
+  checkNickName(nickNameParam: string): Observable<boolean> {
+    return this.http.post<boolean>(this.controllerUrl + 'CheckNickNameExists', {nickName: nickNameParam});
+  }
+
+  CheckEmail(emailParam: string): Observable<boolean> {
+    return this.http.post<boolean>(this.controllerUrl + 'CheckEmailExists', {email: emailParam});
+  }
+
+  
 }
 

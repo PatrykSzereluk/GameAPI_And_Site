@@ -75,5 +75,26 @@ namespace GameWebApi.Controllers
         {
             return await _userService.DeletePlayerAccount(model);
         }
+
+        [HttpPost]
+        [Route(nameof(CheckLoginExists))]
+        public async Task<bool> CheckLoginExists(CheckLoginRequestModel model)
+        {
+            return await _userService.CheckLogin(model);
+        }
+
+        [HttpPost]
+        [Route(nameof(CheckNickNameExists))]
+        public async Task<bool> CheckNickNameExists(CheckNickNameRequestModel model)
+        {
+            return await _userService.CheckNickName(model);
+        }
+
+        [HttpPost]
+        [Route(nameof(CheckEmailExists))]
+        public async Task<bool> CheckEmailExists(CheckEmailRequestModel model)
+        {
+            return await _userService.CheckEmail(model);
+        }
     }
 }

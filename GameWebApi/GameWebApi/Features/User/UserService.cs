@@ -176,6 +176,34 @@ namespace GameWebApi.Features.User
             return false;
         }
 
+        public async Task<bool> CheckLogin(CheckLoginRequestModel model)
+        {
+            var login = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Login == model.Login);
+
+            if (login != null) return false;
+
+            return true;
+
+        }
+
+        public async Task<bool> CheckNickName(CheckNickNameRequestModel model)
+        {
+            var nickName = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Nick == model.NickName);
+
+            if (nickName != null) return false;
+
+            return true;
+        }
+
+        public async Task<bool> CheckEmail(CheckEmailRequestModel model)
+        {
+            var email = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Email == model.Email);
+
+            if (email != null) return false;
+
+            return true;
+        }
+
         public async Task<UserDetailsResponseModel> GetUserDetails(BaseRequestData data)
         {
             var userExists = await GetPlayerById(data.PlayerId);
@@ -251,6 +279,7 @@ namespace GameWebApi.Features.User
 
             return response;
         }
+
 
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)
         {

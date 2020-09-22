@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
 import { UserRegisterRequestModel } from '../Models/Identity/UserRegister';
 import { Router } from '@angular/router';
+import { IdentityService } from '../services/identity.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,11 +12,15 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
+  hideForm = false;
   registerForm: FormGroup;
   registerResponseError = false;
   passwordError = false;
+  loginError = false;
+  nickNameError = false;
+  emailError = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: IdentityService, private router: Router, private userService: UserService) {
     this.registerForm = this.fb.group({
       login : ['', Validators.required],
       nickName: ['', Validators.required],
@@ -30,6 +35,9 @@ export class RegistrationComponent implements OnInit {
 
   register() {
     this.passwordError = false;
+    this.loginError = false;
+    this.nickNameError = false;
+    this.emailError = false;
 
     if (!this.checkPassword()) {
       this.passwordError = true;
@@ -43,14 +51,31 @@ export class RegistrationComponent implements OnInit {
     registerData.Password = this.Password.value;
     registerData.Email = this.Email.value;
 
-    this.authService.register(registerData).subscribe( res => {
-
-      if (!res.isSuccess) {
-        if (res.statusCode === 456 || res.playerId === -1) {
-          this.registerResponseError = true;
-        }
+    this.userService.checkLogin(registerData.Login).subscribe(loginRes => {
+      if (loginRes === true) {
+        this.userService.checkNickName(registerData.NickName).subscribe(nickNameRes => {
+          if (nickNameRes === true) {
+            this.userService.CheckEmail(registerData.Email).subscribe(emailRes => {
+              if(emailRes === true){
+                this.authService.register(registerData).subscribe( res => {
+                  if (!res.isSuccess) {
+                    if (res.statusCode === 456 || res.playerId === -1) {
+                      this.registerResponseError = true;
+                    }
+                  } else {
+                    this.hideForm = true; // OK
+                  }
+                });
+              } else {
+                this.emailError = true;
+              }
+            });
+          } else {
+            this.nickNameError = true;
+          }
+        });
       } else {
-        this.router.navigate(['home']);
+        this.loginError = true;
       }
     });
   }

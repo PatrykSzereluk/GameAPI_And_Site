@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
+import { IdentityService } from '../services/identity.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -17,14 +17,14 @@ export class MainNavComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private auth: AuthService) {}
+  constructor(private breakpointObserver: BreakpointObserver, private identityService: IdentityService) {}
 
   IsAuthenticate(): boolean {
-    return this.auth.isAuthenticated();
+    return this.identityService.isAuthenticated();
   }
 
   Logout() {
-    this.auth.logout();
+    this.identityService.logout();
     // delete userInformation from browser
   }
 

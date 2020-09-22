@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from './services/auth.service';
+import { IdentityService } from './services/identity.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuardService } from './services/auth-guard.service';
 import { RankingComponent } from './ranking/ranking.component';
@@ -51,7 +51,7 @@ import { RegistrationComponent } from './registration/registration.component';
     MatListModule
   ],
   providers: [
-    AuthService,
+    IdentityService,
     AuthGuardService,
     UserService,
     {

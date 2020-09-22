@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { IdentityService } from './services/identity.service';
 import {ApplicationRef } from '@angular/core';
 
 @Component({
@@ -12,8 +12,8 @@ export class AppComponent {
   title = 'GameSite';
   isAuthenticate = false;
 
-  constructor(private auth: AuthService, private ref: ApplicationRef) {
-    this.isAuthenticate = auth.isAuthenticated();
+  constructor(private identityService: IdentityService, private ref: ApplicationRef) {
+    this.isAuthenticate = identityService.isAuthenticated();
   }
 
   Refresh() {
@@ -21,7 +21,7 @@ export class AppComponent {
  }
 
  isAuth(): boolean {
-   return this.auth.isAuthenticated();
+   return this.identityService.isAuthenticated();
  }
 
 }
