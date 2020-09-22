@@ -96,7 +96,7 @@
 
             var ask = (DateTime.Today - lastDatePassMod).TotalDays > _applicationSettings.PasswordChangePeriod;
             // send email notification if is different ip 
-            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken, AskAboutChangePassword = ask };
+            return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken,GameToken = user.GameToken, AskAboutChangePassword = ask };
         }
 
         private async Task<DateTime> GetLastDateModifiedPassword(int playerId)

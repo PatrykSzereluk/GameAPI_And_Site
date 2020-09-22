@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         const user = new User();
         user.playerId = data.playerId;
         user.nickName = data.playerNickName;
-        this.sessionService.SetNewSeesion(user, data.token);
+        this.sessionService.SetNewSeesion(user, data.token, data.gameToken);
         this.router.navigate(['home']);
       } else {
         this.loginError = true;

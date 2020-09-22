@@ -12,9 +12,10 @@ export class SessionService {
     this.session = new Session();
   }
 
-  SetNewSeesion(user: User, token: string) {
+  SetNewSeesion(user: User, token: string, gameToken: string) {
     this.session.user = user;
     this.session.token = token;
+    this.session.gameToken = gameToken;
   }
 
   GetCurrentUser(): User {
