@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Components/login/login.component';
 import { AuthGuardService } from './services/auth-guard.service';
-import { RankingComponent } from './ranking/ranking.component';
-import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
-import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { HomeComponent } from './home/home.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { RankingComponent } from './Components/ranking/ranking.component';
+import { EmailConfirmationComponent } from './Components/email-confirmation/email-confirmation.component';
+import { ChangePassowrdComponent } from './Components/change-passowrd/change-passowrd.component';
+import { PageNotFoundComponent } from './Components/page-not-found/page-not-found.component';
+import { HomeComponent } from './Components/home/home.component';
+import { RegistrationComponent } from './Components/registration/registration.component';
 
 
 const routes: Routes = [

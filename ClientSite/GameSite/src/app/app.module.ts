@@ -3,27 +3,27 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './Components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IdentityService } from './services/identity.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuardService } from './services/auth-guard.service';
-import { RankingComponent } from './ranking/ranking.component';
+import { RankingComponent } from './Components/ranking/ranking.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
-import { ChangePassowrdComponent } from './change-passowrd/change-passowrd.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { EmailConfirmationComponent } from './Components/email-confirmation/email-confirmation.component';
+import { ChangePassowrdComponent } from './Components/change-passowrd/change-passowrd.component';
+import { PageNotFoundComponent } from './Components/page-not-found/page-not-found.component';
 import { UserService } from './services/user.service';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './Components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { MainNavComponent } from './main-nav/main-nav.component';
+import { MainNavComponent } from './Components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationComponent } from './Components/registration/registration.component';
 
 @NgModule({
   declarations: [

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../services/user.service';
-import { EmailConfirmationResponseModel } from '../Models/Email/EmailConfirmationResponseModel';
+import { EmailConfirmationResponseModel } from '../../Models/Email/EmailConfirmationResponseModel';
+import { UserService } from '../../services/user.service';
+
+
 
 @Component({
   selector: 'app-email-confirmation',

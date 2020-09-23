@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserRegisterRequestModel } from '../Models/Identity/UserRegister';
+import { UserRegisterRequestModel } from '../../Models/Identity/UserRegister';
 import { Router } from '@angular/router';
-import { IdentityService } from '../services/identity.service';
-import { UserService } from '../services/user.service';
-import { SessionService } from '../services/session.service';
+import { IdentityService } from '../../services/identity.service';
+import { UserService } from '../../services/user.service';
+import { SessionService } from '../../services/session.service';
 
 @Component({
   selector: 'app-registration',
