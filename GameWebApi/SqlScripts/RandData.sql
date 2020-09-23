@@ -4,7 +4,7 @@ WHILE @i < 1000
 BEGIN
     SET @i = @i + 1
 	declare @nick nvarchar(32) = (select 'nick' + cast(@i as nvarchar))
-  exec common.RegisterNewPlayer 'elo2','pass1',@nick,'em1','sa', 0
+  exec common.RegisterNewPlayer 'elo2','pass1',@nick,'em1','sa', 0, 0--return value, 0 dont display value, condition for fast create users
 END
 
 
