@@ -22,4 +22,7 @@ export class SessionService {
     return this.session.user;
   }
 
+  GetToken(): string {
+    return this.session.token;
+  }
 }
