@@ -5,18 +5,16 @@
             <div class="col-header"></div>
             <div class="col-header">
                 
-                <div class="buttonContainer">
-                    <div class="center-ranking-buttons">
-                        <button mat-button class="button-ranking">
-                            By K/D
-                        </button>
-                            <button mat-button class="button-ranking">
-                            By Kills
-                        </button>
-                        <button mat-button class="button-ranking">
-                            By Games Played
-                        </button>
-                    </div>
+                <div class="flex-ranking-container">
+                    <button mat-button class="button-ranking">
+                        By K/D
+                    </button>
+                    <button mat-button class="button-ranking">
+                        By Kills
+                    </button>
+                    <button mat-button class="button-ranking">
+                        By Games Played
+                    </button>
                 </div>
             </div>
             <div class="col-header"></div>
@@ -61,5 +59,22 @@
             </div>
             <div class="col-side-ranking"></div>
         </div>
-</div>
+    </div>
+
+    <div class="container-ranking">
+        <div class="row-ranking">
+            <div class="col-header"></div>
+            <div class="col-header">
+                
+                <div class="flex-ranking-container">
+                    <!-- <mat-icon class="ranking-icon" >expand_more</mat-icon>
+                    <mat-icon class="ranking-icon">expand_less</mat-icon> -->
+                    <button (click)="getRanking('more')" class="mdc-icon-button ranking-icon material-icons" >expand_more</button>
+                    <button (click)="getRanking('less')" class="mdc-icon-button ranking-icon material-icons" *ngIf="currentPage > 0">expand_less</button>
+                </div>
+            </div>
+            <div class="col-header"></div>
+        </div>
+    </div>
+
 </div>

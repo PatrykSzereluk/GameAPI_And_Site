@@ -48,7 +48,7 @@
     border-bottom: firebrick 1px dotted;
 }
 
-.buttonContainer {
+.flex-ranking-container {
     margin: auto;
     display: flex;
     justify-content: center;
@@ -56,4 +56,8 @@
 
 .button-ranking {
     font-size: 1.8em;
+}
+
+.ranking-icon {
+    cursor: pointer;
 }
