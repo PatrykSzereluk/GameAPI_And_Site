@@ -1,19 +1,3 @@
-
-li {
-    color: black;
-    padding: 10px;
-    border: steelblue 2px solid;
-    list-style-type: none;
-    
-}
-
-ul {
-margin: 0;
-padding:0;
-}
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -3,6 +3,7 @@ export interface UserRanking {
     nickName: string;
     kills: number;
     deaths: number;
+    kd: number;
     assists: number;
     gamesPlayed: number;
     gamesWon: number;

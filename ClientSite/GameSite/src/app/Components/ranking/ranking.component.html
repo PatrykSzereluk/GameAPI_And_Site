@@ -1,11 +1,65 @@
+<div class="content"> 
 
-    <ul>
-        <li *ngFor="let item of usersRanking; let i = index">
-             <div class ="row" [ngStyle]="{'color': item.place >= 4 ? 'black' : item.place == 3 ? '#dc6532' : item.place == 2 ? '#dc8432' : item.place == 1 ? '#dc9432' : ''}"> 
-                Place : {{item.place}}
-                NickName : {{item.nickName}}
-                Kills : {{item.kills}}
-                Games played : {{item.gamesPlayed}}
-             </div> 
-        </li>
-    </ul>
+    <div class="container-ranking">
+        <div class="row-ranking">
+            <div class="col-header"></div>
+            <div class="col-header">
+                
+                <div class="buttonContainer">
+                    <div class="center-ranking-buttons">
+                        <button mat-button class="button-ranking">
+                            By K/D
+                        </button>
+                            <button mat-button class="button-ranking">
+                            By Kills
+                        </button>
+                        <button mat-button class="button-ranking">
+                            By Games Played
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-header"></div>
+        </div>
+    </div>
+
+    <div class="container-ranking" style="margin-top: 2%;">
+        <div class="row-ranking">
+            <div class="col-side-ranking"></div>
+            <div class="col-ranking">
+
+                <table class="ranking-table">
+                    <tr class="ranking-header-table">
+                        <th>Place</th>
+                        <th>Nickname</th>
+                        <th>Kills</th>
+                        <th>K/D</th>
+                        <th>Game played</th>
+                        <th>Clan</th>
+                    </tr>
+                    <tr class="ranking-row-table" *ngFor="let item of usersRanking">
+                        <td>{{item.place}}</td>
+                        <td>{{item.nickName}}</td>
+                        <td>{{item.kills}}</td>
+                        <td>{{item.kd}}</td>
+                        <td>{{item.gamesPlayed}}</td>
+                        <td>Nie zdefiniowano</td>
+                    </tr>
+                </table>
+
+
+                <!-- <ul>
+                    <li *ngFor="let item of usersRanking">
+                        <div class ="row-ranking-table" [ngStyle]="{'color': item.place >= 4 ? 'black' : item.place == 3 ? '#dc6532' : item.place == 2 ? '#dc8432' : item.place == 1 ? '#dc9432' : ''}"> 
+                            Place : {{item.place}}
+                            NickName : {{item.nickName}}
+                            Kills : {{item.kills}}
+                            Games played : {{item.gamesPlayed}}
+                        </div> 
+                    </li>
+                </ul> -->
+            </div>
+            <div class="col-side-ranking"></div>
+        </div>
+</div>
+</div>

@@ -18,18 +18,18 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-ALTER TABLE [Common].[InvationsPlayerToClan]  WITH CHECK ADD  CONSTRAINT [FK_InvationsPlayerToClan_Clans] FOREIGN KEY([ClanId])
+ALTER TABLE [Common].[InvitationsPlayerToClan]  WITH CHECK ADD  CONSTRAINT [FK_InvitationsPlayerToClan_Clans] FOREIGN KEY([ClanId])
 REFERENCES [Common].[Clans] ([ID])
 ON DELETE CASCADE
 GO
 
-ALTER TABLE [Common].[InvationsPlayerToClan] CHECK CONSTRAINT [FK_InvationsPlayerToClan_Clans]
+ALTER TABLE [Common].[InvitationsPlayerToClan] CHECK CONSTRAINT [FK_InvitationsPlayerToClan_Clans]
 GO
 
-ALTER TABLE [Common].[InvationsPlayerToClan]  WITH CHECK ADD  CONSTRAINT [FK_InvationsPlayerToClan_PlayerIdentity] FOREIGN KEY([PlayerId])
+ALTER TABLE [Common].[InvitationsPlayerToClan]  WITH CHECK ADD  CONSTRAINT [FK_InvitationsPlayerToClan_PlayerIdentity] FOREIGN KEY([PlayerId])
 REFERENCES [Common].[PlayerIdentity] ([ID])
 ON DELETE CASCADE
 GO
 
-ALTER TABLE [Common].[InvationsPlayerToClan] CHECK CONSTRAINT [FK_InvationsPlayerToClan_PlayerIdentity]
+ALTER TABLE [Common].[InvitationsPlayerToClan] CHECK CONSTRAINT [FK_InvitationsPlayerToClan_PlayerIdentity]
 GO

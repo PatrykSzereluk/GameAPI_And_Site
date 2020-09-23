@@ -1,4 +1,6 @@
-﻿DROP TABLE [Common].[PlayerBans]
+﻿DROP TABLE [Common].[Friends]
+DROP TABLE [Common].[InvationsPlayerToClan]
+DROP TABLE [Common].[PlayerBans]
 DROP TABLE [Common].[ClanStatistics]
 DROP TABLE [Common].[ClanMembers]
 DROP TABLE [Common].[Clans]	

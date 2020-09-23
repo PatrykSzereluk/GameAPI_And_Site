@@ -1,0 +1,59 @@
+.content {
+    margin-top: 1%;
+}
+
+.container-ranking {
+    width: 100%;
+}
+
+.row-ranking {
+    display: flex;
+}
+
+.col-side-ranking {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+
+.col-ranking {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+.row-ranking-table {
+    color: black;
+    padding: 10px;
+    border: steelblue 2px solid;
+    list-style-type: none;
+    
+}
+
+.col-header {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+
+.ranking-table {
+    width: 100%;
+}
+
+.ranking-header-table {
+    border-bottom: steelblue 1px dotted;
+    font-size: 1.5em;
+    height: 50px;
+}
+
+.ranking-row-table {
+    height: 40px;
+    border-bottom: firebrick 1px dotted;
+}
+
+.buttonContainer {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.button-ranking {
+    font-size: 1.8em;
+}

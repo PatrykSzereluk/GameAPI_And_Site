@@ -11,7 +11,7 @@ END
 						-- ADDED STATISTICS
 Set @i = 0
 
-WHILE @i <= 1000
+WHILE @i <= 50
 BEGIN
     SET @i = @i + 1
 	update Common.PlayerStatistics set

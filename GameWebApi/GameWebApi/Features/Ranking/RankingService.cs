@@ -85,10 +85,11 @@ namespace GameWebApi.Features.Ranking
                             NickName = Convert.ToString(row.Elements[1]),
                             Kills = Convert.ToInt32(row.Elements[2]),
                             Deaths = Convert.ToInt32(row.Elements[3]),
-                            Assists = Convert.ToInt32(row.Elements[4]),
-                            GamesPlayed = Convert.ToInt32(row.Elements[5]),
-                            GamesWon = Convert.ToInt32(row.Elements[6]),
-                            GamesLose = Convert.ToInt32(row.Elements[7])
+                            KD = Convert.ToDouble(row.Elements[4]),
+                            Assists = Convert.ToInt32(row.Elements[5]),
+                            GamesPlayed = Convert.ToInt32(row.Elements[6]),
+                            GamesWon = Convert.ToInt32(row.Elements[7]),
+                            GamesLose = Convert.ToInt32(row.Elements[8])
                         });
                 }
                 return result;

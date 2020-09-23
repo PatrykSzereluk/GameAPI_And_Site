@@ -25,7 +25,10 @@ BEGIN
 		[Email],
 		[EmailConfirmed],
 		[PlayerHash],
-		[GameToken])
+		[GameToken],
+		[PasswordSeciurity],
+		[RoleType],
+		[PasswordChanging])
 	VALUES (
 		@Login,
 		@Password,
@@ -33,7 +36,10 @@ BEGIN
 		@Email,
 		0,
 		@PlayerHash,
-		replace(newid(), '-', ''))
+		replace(newid(), '-', ''),
+		0,
+		0,
+		0)
 
 	DECLARE @CurrentUserId INT = (SELECT @@identity)
 
