@@ -54,6 +54,8 @@ namespace GameWebApi.Features.User
 
             player.Password = newPassword;
 
+            player.PlayerHash = player.GetHashCode().ToString();
+
             var dbResult = _context.PlayerIdentity.Update(player);
 
             if (dbResult.State == EntityState.Modified)
@@ -71,8 +73,19 @@ namespace GameWebApi.Features.User
                 t.Id == model.PlayerId && model.PlayerHash == t.PlayerHash);
 
             if (user == null) return false;
+            if (user.PasswordChanging == false) return false;
 
-            return user.PasswordChanging;
+            user.PasswordChanging = false;
+            user.PasswordSeciurity = true;
+            var dbResult = _context.PlayerIdentity.Update(user);
+
+            if (dbResult.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> ChangePasswordByEmailFirstStep(ChangePasswordByEmailRequestModel model)
@@ -100,9 +113,10 @@ namespace GameWebApi.Features.User
                 t.Id == model.PlayerId && model.PlayerHash == t.PlayerHash);
 
             if (player == null) return false;
-            if (player.PasswordChanging == false) return false;
-
+            if (player.PasswordSeciurity == false) return false;
             var passwordSb = new StringBuilder();
+
+            player.PasswordSeciurity = false;
 
             passwordSb.Append(_encrypter.Encrypted(model.Password));
 
@@ -112,6 +126,8 @@ namespace GameWebApi.Features.User
 
             player.Password = passwordSb.ToString();
             player.PasswordChanging = false;
+
+            player.PlayerHash = player.GetHashCode().ToString();
 
             var dbResult = _context.PlayerIdentity.Update(player);
             if (dbResult.State == EntityState.Modified)
@@ -280,7 +296,6 @@ namespace GameWebApi.Features.User
             return response;
         }
 
-
         public async Task<bool> ChangeNickName(ChangeNickNameRequestModel model)
         {
             var player = await GetPlayerById(model.PlayerId);
@@ -298,6 +313,8 @@ namespace GameWebApi.Features.User
                 player.Nick = model.NewNickName;
 
                 var dbResult = _context.PlayerIdentity.Update(player);
+
+                player.PlayerHash = player.GetHashCode().ToString();
 
                 if (dbResult.State == EntityState.Modified)
                 {

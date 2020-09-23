@@ -24,6 +24,10 @@ export class IdentityService {
     return this.http.post<UserRegisterResponseModel>(this.controllerUrl + 'Register', data);
   }
 
+  changePassword(data: string): Observable<boolean> {
+    return this.http.post<boolean>(this.controllerUrl + 'ChangePassword', {Email: data});
+  }
+
   saveToken(token) {
     localStorage.setItem('token', token);
   }

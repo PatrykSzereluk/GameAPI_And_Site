@@ -19,7 +19,8 @@ CREATE TABLE [Common].[PlayerIdentity](
 	[PlayerHash] [nvarchar](255) NOT NULL,
 	[RoleType] [tinyint] not null,
 	[PasswordChanging] [bit] not null,
-	[GameToken] [varchar](max) NOT NULL
+	[GameToken] [varchar](max) NOT NULL,
+	[PasswordSeciurity] [bit] not null
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

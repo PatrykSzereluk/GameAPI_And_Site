@@ -24,6 +24,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RegistrationComponent } from './Components/registration/registration.component';
+import { PasswordForgottenComponent } from './Components/password-forgotten/password-forgotten.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RegistrationComponent } from './Components/registration/registration.co
     PageNotFoundComponent,
     HomeComponent,
     MainNavComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    PasswordForgottenComponent
   ],
   imports: [
     BrowserModule,

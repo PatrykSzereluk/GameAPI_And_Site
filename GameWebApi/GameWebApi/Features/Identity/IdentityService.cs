@@ -99,6 +99,29 @@
             return new UserLoginResponse { PlayerId = user.Id, PlayerNickName = user.Nick, Token = encryptToken,GameToken = user.GameToken, AskAboutChangePassword = ask };
         }
 
+        public async Task<bool> ChangePassword(ChangePasswordRequestModel model)
+        {
+            var user = await _context.PlayerIdentity.FirstOrDefaultAsync(t => t.Email == model.Email);
+
+            if(user == null) return false;
+
+            user.PasswordChanging = true;
+
+            var dbResult = _context.PlayerIdentity.Update(user);
+
+            if (dbResult.State == EntityState.Modified)
+            {
+                await _context.SaveChangesAsync();
+
+                await _emailService.SendEmailToUser(user.Email, "", EmailType.ChangePassword,
+                    new EmailData() { NickName = user.Nick, PlayerHash = user.PlayerHash, PlayerId = user.Id });
+
+                return true;
+            }
+
+            return false;
+        }
+
         private async Task<DateTime> GetLastDateModifiedPassword(int playerId)
         {
             var dates = await _context.PlayerDates.FirstOrDefaultAsync(t => t.PlayerId == playerId);

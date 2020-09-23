@@ -1,4 +1,6 @@
-﻿namespace GameWebApi.Features.Identity
+﻿using GameWebApi.Features.User.Model;
+
+namespace GameWebApi.Features.Identity
 {
     using System.Threading.Tasks;
     using Models;
@@ -9,5 +11,6 @@
 
         Task<UserLoginResponse> Login(UserLoginRequest userInfo);
 
+        Task<bool> ChangePassword(ChangePasswordRequestModel model);
     }
 }

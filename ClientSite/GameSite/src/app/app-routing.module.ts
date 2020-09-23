@@ -8,6 +8,7 @@ import { ChangePassowrdComponent } from './Components/change-passowrd/change-pas
 import { PageNotFoundComponent } from './Components/page-not-found/page-not-found.component';
 import { HomeComponent } from './Components/home/home.component';
 import { RegistrationComponent } from './Components/registration/registration.component';
+import { PasswordForgottenComponent } from './Components/password-forgotten/password-forgotten.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'ranking', component: RankingComponent},
   { path: 'emailconfirmation/:id/confirm/:playerHash', component: EmailConfirmationComponent},
   { path: 'changepassword/:id/change/:playerHash', component: ChangePassowrdComponent},
+  { path: 'forgotPassword', component: PasswordForgottenComponent},
   { path: '**', component: PageNotFoundComponent }
 
 ];

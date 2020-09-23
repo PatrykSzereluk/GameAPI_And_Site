@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class ChangePassowrdComponent implements OnInit {
   message: string;
   samePasswordError: boolean;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private userService: UserService, private router: Router) {
 
     this.isSuccess = false;
 
@@ -32,6 +32,11 @@ export class ChangePassowrdComponent implements OnInit {
       this.playerHash = params.playerHash;
       this.userService.canChangePasswordByEmail(params.id, params.playerHash).subscribe(result => {
         this.isAllowedPasswordChange = result;
+
+        if (this.isAllowedPasswordChange === false) {
+          router.navigate(['PageNotFound']);
+        }
+
       });
     });
    }
