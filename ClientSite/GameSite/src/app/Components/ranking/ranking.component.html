@@ -6,13 +6,13 @@
             <div class="col-header">
                 
                 <div class="flex-ranking-container">
-                    <button mat-button class="button-ranking">
-                        By K/D
-                    </button>
-                    <button mat-button class="button-ranking">
+                    <button mat-button class="button-ranking" (click)="rankingBy(1)">
                         By Kills
                     </button>
-                    <button mat-button class="button-ranking">
+                    <button mat-button class="button-ranking" (click)="rankingBy(2)">
+                        By K/D
+                    </button>
+                    <button mat-button class="button-ranking" (click)="rankingBy(3)">
                         By Games Played
                     </button>
                 </div>
@@ -32,7 +32,8 @@
                         <th>Nickname</th>
                         <th>Kills</th>
                         <th>K/D</th>
-                        <th>Game played</th>
+                        <th>Games played</th>
+                        <th>Games won</th>
                         <th>Clan</th>
                     </tr>
                     <tr class="ranking-row-table" *ngFor="let item of usersRanking">
@@ -41,6 +42,7 @@
                         <td>{{item.kills}}</td>
                         <td>{{item.kd}}</td>
                         <td>{{item.gamesPlayed}}</td>
+                        <td>{{item.gamesWon}}</td>
                         <td>Nie zdefiniowano</td>
                     </tr>
                 </table>
@@ -61,7 +63,7 @@
         </div>
     </div>
 
-    <div class="container-ranking">
+    <div class="container-ranking" style="margin-top: 1%;">
         <div class="row-ranking">
             <div class="col-header"></div>
             <div class="col-header">
@@ -69,8 +71,8 @@
                 <div class="flex-ranking-container">
                     <!-- <mat-icon class="ranking-icon" >expand_more</mat-icon>
                     <mat-icon class="ranking-icon">expand_less</mat-icon> -->
-                    <button (click)="getRanking('more')" class="mdc-icon-button ranking-icon material-icons" >expand_more</button>
-                    <button (click)="getRanking('less')" class="mdc-icon-button ranking-icon material-icons" *ngIf="currentPage > 0">expand_less</button>
+                    <button (click)="getRanking('more')" class="mdc-icon-button ranking-icon material-icons" *ngIf="canUseMoreButton()">expand_more</button>
+                    <button (click)="getRanking('less')" class="mdc-icon-button ranking-icon material-icons" *ngIf="canUseLessButton()">expand_less</button>
                 </div>
             </div>
             <div class="col-header"></div>

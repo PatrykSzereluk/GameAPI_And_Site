@@ -25,7 +25,9 @@ BEGIN
 			   [PI].Nick,
 			   [PS].Kills, 
 			   [PS].Deaths,
-			   CAST(CAST([PS].Kills AS float)/CAST([PS].Deaths AS float) as decimal(38,2)) as ''KD'', --err divide by zero
+			   CASE WHEN [PS].Kills = 0 OR [PS].Deaths = 0 THEN 0 
+			   ELSE CAST(CAST([PS].Kills AS float)/CAST([PS].Deaths AS float) as decimal(38,2))
+			   END as ''KD'',
 			   [PS].Assists, 
 			   [PS].GamesPlayed, 
 			   [PS].GamesWon, 
@@ -38,7 +40,7 @@ BEGIN
 	WHERE Place > [_SKIP_]'
 	
 	IF(@RankingCategory = 2)
-		SET @Sql = REPLACE(@Sql,'[_CATEGORY_]', 'CAST(CAST([PS].Kills AS float)/CAST([PS].Deaths AS float) as decimal(38,2))')
+		SET @Sql = REPLACE(@Sql,'[_CATEGORY_]', 'CASE WHEN [PS].Kills = 0 OR [PS].Deaths = 0 THEN 0 ELSE CAST(CAST([PS].Kills AS float)/CAST([PS].Deaths AS float) as decimal(38,2)) END')
 	ELSE IF(@RankingCategory = 3)
 		SET @Sql = REPLACE(@Sql,'[_CATEGORY_]', '[PS].GamesPlayed')
 	ELSE
@@ -58,5 +60,5 @@ BEGIN
 END
 GO
 
---exec [Web].[GetRanking] 3,3,1,0
+--exec [Web].[GetRanking] 10,0,2,0
 

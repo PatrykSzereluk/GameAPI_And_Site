@@ -10,17 +10,18 @@ import { UserRanking } from '../../Models/Identity/UserRanking';
 export class RankingComponent implements OnInit {
 
   currentPage = 0;
-
+  rowsOnPage = 10;
+  currentCategory = 1;
   constructor(private rankingService: RankingService) { }
 
   usersRanking: Array<UserRanking>;
 
   ngOnInit(): void {
-    this.getRankingData(2,0);
+    this.getRankingData(this.rowsOnPage, 0, 1);
   }
 
-  getRankingData(take: number, skip: number) {
-    this.rankingService.getRanking({Take : take, Skip : skip, RankingCategory : 1, Order : false}).subscribe( t => {
+  getRankingData(take: number, skip: number, category: number) {
+    this.rankingService.getRanking({Take : take, Skip : skip, RankingCategory : category, Order : false}).subscribe( t => {
       this.usersRanking = t;
     });
   }
@@ -31,7 +32,42 @@ export class RankingComponent implements OnInit {
     } else {
       this.currentPage--;
     }
-    this.getRankingData(2, 2 * this.currentPage);
+    this.getRankingData(this.rowsOnPage, this.rowsOnPage * this.currentPage, this.currentCategory);
+  }
+
+  canUseLessButton() {
+
+    if (this.usersRanking === null) {
+       return false;
+      }
+
+    if (this.currentPage > 0) {
+      return true;
+    }
+  }
+
+  canUseMoreButton() {
+    if (this.usersRanking === null) {
+      return false;
+     }
+
+    if (this.usersRanking.length < this.rowsOnPage) {
+       return false;
+     }
+
+    return true;
+  }
+
+  rankingBy(category: number) {
+
+    if (category === this.currentCategory) {
+      return;
+    }
+
+    this.currentCategory = category;
+    this.currentPage = 0;
+
+    this.getRankingData(this.rowsOnPage, this.rowsOnPage * this.currentPage, this.currentCategory);
   }
 
 }
