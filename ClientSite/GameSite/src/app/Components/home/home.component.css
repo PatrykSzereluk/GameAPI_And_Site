@@ -1,0 +1,25 @@
+.home-main-container {
+    width: 100%;
+}
+
+.home-container-flex {
+    display: flex;
+}
+
+.home-side-column {
+    flex: 0 0 25%;
+    width: 25%;
+}
+
+.home-main-column {
+    flex: 0 0 49%;
+    width: 49%;
+}
+
+.profile-statistics-container {
+    border: blue 1px solid;
+}
+
+.row {
+    padding-left: 10%;
+}
