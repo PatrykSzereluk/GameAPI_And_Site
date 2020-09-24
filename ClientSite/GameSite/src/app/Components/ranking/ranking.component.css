@@ -11,13 +11,13 @@
 }
 
 .col-side-ranking {
-    flex: 0 0 25%;
-    max-width: 25%;
+    flex: 0 0 20%;
+    max-width: 20%;
 }
 
 .col-ranking {
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 0 0 60%;
+    max-width: 60%;
 }
 
 .row-ranking-table {
@@ -60,4 +60,12 @@
 
 .ranking-icon {
     cursor: pointer;
+}
+
+.ranking-link {
+    font-weight: bold;
+}
+
+.ranking-link:hover {
+    text-decoration: underline;
 }

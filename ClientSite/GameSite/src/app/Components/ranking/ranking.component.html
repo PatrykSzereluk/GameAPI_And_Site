@@ -38,12 +38,13 @@
                     </tr>
                     <tr class="ranking-row-table" *ngFor="let item of usersRanking">
                         <td>{{item.place}}</td>
-                        <td>{{item.nickName}}</td>
+                        <td routerLink="/users/{{item.nickName}}" class="ranking-link">{{item.nickName}}</td>
                         <td>{{item.kills}}</td>
                         <td>{{item.kd}}</td>
                         <td>{{item.gamesPlayed}}</td>
                         <td>{{item.gamesWon}}</td>
-                        <td>Nie zdefiniowano</td>
+                        <td *ngIf="item.clanName === '-'">{{item.clanName}}</td>
+                        <td routerLink="/clans/{{item.clanName}}" *ngIf="item.clanName !== '-'" class="ranking-link">{{item.clanName}}</td>
                     </tr>
                 </table>
 
@@ -71,7 +72,7 @@
                 <div class="flex-ranking-container">
                     <!-- <mat-icon class="ranking-icon" >expand_more</mat-icon>
                     <mat-icon class="ranking-icon">expand_less</mat-icon> -->
-                    <button (click)="getRanking('more')" class="mdc-icon-button ranking-icon material-icons" *ngIf="canUseMoreButton()">expand_more</button>
+                    <button (click)="getRanking('more')" class="mdc-icon-button ranking-icon material-icons" *ngIf="canUseMoreButton()" style="margin-right: 10px;">expand_more</button>
                     <button (click)="getRanking('less')" class="mdc-icon-button ranking-icon material-icons" *ngIf="canUseLessButton()">expand_less</button>
                 </div>
             </div>

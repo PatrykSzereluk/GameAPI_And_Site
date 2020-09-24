@@ -23,17 +23,17 @@ BEGIN
 		SELECT 
 			   ROW_NUMBER() OVER ( ORDER BY [_CATEGORY_] [_ORDER_]) AS ''Place'',
 			   [PI].Nick,
-			   [PS].Kills, 
-			   [PS].Deaths,
+			   [PS].Kills,
 			   CASE WHEN [PS].Kills = 0 OR [PS].Deaths = 0 THEN 0 
 			   ELSE CAST(CAST([PS].Kills AS float)/CAST([PS].Deaths AS float) as decimal(38,2))
 			   END as ''KD'',
-			   [PS].Assists, 
 			   [PS].GamesPlayed, 
-			   [PS].GamesWon, 
-			   [PS].GameLose 
+			   [PS].GamesWon,
+			   [C].Name as ''ClanName''
 		FROM Common.PlayerIdentity [PI]
 		LEFT JOIN Common.PlayerStatistics [PS] ON [PI].ID = [PS].PlayerId
+		LEFT JOIN Common.ClanMembers [CM] ON [CM].PlayerId = [PI].ID
+		LEFT JOIN Common.Clans [C] ON [CM].ClanId = [C].Id
 	)
 	SELECT TOP [_TAKE_] *
 	FROM DATA
